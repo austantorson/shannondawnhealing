@@ -416,23 +416,29 @@
 
   /* ====== FAQ ====== */
   #faq { background: white; }
-  .faq-list { max-width: 800px; }
+  .faq-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .faq-list { max-width: 100%; width: 100%; }
   .faq-item {
     border-bottom: 1px solid rgba(201,181,168,0.3);
     padding: 1.5rem 0; cursor: pointer;
   }
   .faq-q {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: flex-start;
     font-size: 0.95rem; font-weight: 400; color: var(--charcoal);
     line-height: 1.5; gap: 1rem;
   }
-  .faq-q span { font-size: 1.3rem; color: var(--taupe); transition: transform 0.3s; flex-shrink: 0; }
-  .faq-item.open .faq-q span { transform: rotate(45deg); }
+  .faq-q > span:first-child { flex: 1; }
+  .faq-q > span:last-child { font-size: 1.3rem; color: var(--taupe); transition: transform 0.3s; flex-shrink: 0; margin-top: 2px; }
+  .faq-item.open .faq-q > span:last-child { transform: rotate(45deg); }
   .faq-a {
     font-size: 0.88rem; line-height: 1.85; color: #6b5c56;
     max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s;
   }
   .faq-item.open .faq-a { max-height: 300px; padding-top: 1rem; }
+  @media (max-width: 768px) {
+    .faq-layout { grid-template-columns: 1fr !important; gap: 2.5rem; }
+    .faq-list { max-width: 100%; }
+  }
 
   /* ====== CTA BANNER ====== */
   .cta-banner {
@@ -480,16 +486,92 @@
   .footer-links a:hover { color: var(--rose); }
   .social-links { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
   .social-link {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none; font-size: 0.8rem; color: rgba(255,255,255,0.5);
-    transition: all 0.3s;
+    font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.55);
+    text-decoration: none; transition: color 0.3s; font-weight: 300;
   }
-  .social-link:hover { background: var(--rose-deep); border-color: var(--rose-deep); color: white; }
-  .footer-bottom { font-size: 0.72rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .social-link:hover { color: var(--rose); }
 
-  /* ====== ADMIN LOGIN MODAL ====== */
+  /* ====== CONTACT FORM ====== */
+  #contact { background: var(--linen); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+  .contact-left { position: sticky; top: 100px; }
+  .contact-left .section-h2 { margin-bottom: 1rem; }
+  .contact-left p { font-size: 0.95rem; line-height: 1.85; color: #6b5c56; margin-bottom: 1.5rem; }
+  .contact-promise {
+    background: white; border-radius: 20px; padding: 1.8rem;
+    border: 1px solid rgba(201,181,168,0.2);
+  }
+  .contact-promise-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 0.8rem 0; border-bottom: 1px solid rgba(201,181,168,0.15);
+  }
+  .contact-promise-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-promise-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+  .contact-promise-text strong { display: block; font-size: 0.82rem; color: var(--charcoal); font-weight: 500; margin-bottom: 0.2rem; }
+  .contact-promise-text span { font-size: 0.78rem; color: #6b5c56; line-height: 1.5; }
+  .contact-form-wrap {
+    background: white; border-radius: 28px; padding: 3rem;
+    border: 1px solid rgba(201,181,168,0.2);
+    box-shadow: 0 8px 40px rgba(44,37,34,0.06);
+  }
+  .contact-form-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400;
+    color: var(--charcoal); margin-bottom: 0.4rem;
+  }
+  .contact-form-sub { font-size: 0.82rem; color: var(--taupe); margin-bottom: 2rem; }
+  .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .cf-field { margin-bottom: 1rem; }
+  .cf-field label {
+    display: block; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--taupe); margin-bottom: 0.45rem;
+  }
+  .cf-field input, .cf-field textarea, .cf-field select {
+    width: 100%; padding: 0.9rem 1.1rem;
+    border: 1.5px solid rgba(201,181,168,0.35);
+    border-radius: 12px; font-family: 'Jost', sans-serif; font-size: 0.88rem;
+    color: var(--charcoal); background: var(--blush);
+    outline: none; transition: border-color 0.3s, background 0.3s;
+    appearance: none;
+  }
+  .cf-field input:focus, .cf-field textarea:focus, .cf-field select:focus {
+    border-color: var(--rose-deep); background: white;
+    box-shadow: 0 0 0 3px rgba(232,168,168,0.12);
+  }
+  .cf-field textarea { min-height: 110px; resize: vertical; }
+  .cf-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23c9b5a8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; cursor: pointer; }
+  .cf-consent { display: flex; align-items: flex-start; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .cf-consent input[type="checkbox"] {
+    width: 18px; height: 18px; border: 1.5px solid rgba(201,181,168,0.5);
+    border-radius: 5px; background: var(--blush); flex-shrink: 0;
+    cursor: pointer; accent-color: var(--rose-deep); margin-top: 2px;
+  }
+  .cf-consent label { font-size: 0.78rem; color: #6b5c56; line-height: 1.6; cursor: pointer; }
+  .cf-submit {
+    width: 100%; padding: 1.1rem 2rem;
+    background: linear-gradient(135deg, var(--charcoal) 0%, #3d2f2b 100%);
+    color: white; border: none; border-radius: 40px;
+    font-family: 'Jost', sans-serif; font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  }
+  .cf-submit:hover { background: linear-gradient(135deg, var(--taupe) 0%, var(--rose-deep) 100%); transform: translateY(-2px); box-shadow: 0 12px 35px rgba(44,37,34,0.18); }
+  .cf-success {
+    display: none; text-align: center; padding: 3rem 2rem;
+  }
+  .cf-success.show { display: block; }
+  .cf-success-icon { font-size: 3rem; margin-bottom: 1rem; }
+  .cf-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .cf-success p { font-size: 0.9rem; color: #6b5c56; line-height: 1.7; }
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-left { position: static; }
+    .cf-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .contact-form-wrap { padding: 2rem 1.5rem; }
+  }
+
+  .footer-bottom { font-size: 0.72rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
   .modal-overlay {
     position: fixed; inset: 0; z-index: 9999;
     background: rgba(26,18,16,0.7); backdrop-filter: blur(8px);
@@ -715,6 +797,7 @@
     <li><a href="#how">How it Works</a></li>
     <li><a href="#reviews">Reviews</a></li>
     <li><a href="#faq">FAQs</a></li>
+    <li><a href="#contact">Contact</a></li>
     <li><a href="#pricing" class="nav-cta">Join</a></li>
   </ul>
   <div style="display:flex;gap:0.8rem;align-items:center;">
@@ -918,7 +1001,7 @@
           <li>Daily moments to pause, breathe & reset</li>
           <li>27-Page Emotional Regulation Workbook</li>
         </ul>
-        <a href="#" class="btn-primary">Get the Toolkit</a>
+        <a href="#" id="p1-btn" class="btn-primary">Get the Toolkit</a>
         <div class="cancel-note">No contracts · cancel anytime</div>
       </div>
       <div class="pricing-card reveal reveal-delay-1">
@@ -933,7 +1016,7 @@
           <li>Heart-healing meditations & journal prompts</li>
           <li>27-Page Emotional Regulation Workbook</li>
         </ul>
-        <a href="#" class="btn-primary">Begin Gently</a>
+        <a href="#" id="p2-btn" class="btn-primary">Begin Gently</a>
         <div class="cancel-note">No contracts · cancel anytime</div>
       </div>
       <div class="pricing-card featured reveal reveal-delay-2">
@@ -949,7 +1032,7 @@
           <li>Reclaim yourself — structured healing</li>
           <li>27-Page Emotional Regulation Workbook</li>
         </ul>
-        <a href="#" class="btn-primary">Get Support Now</a>
+        <a href="#" id="p3-btn" class="btn-primary">Get Support Now</a>
         <div class="cancel-note">No contracts · cancel anytime</div>
       </div>
       <div class="pricing-card reveal reveal-delay-3">
@@ -963,7 +1046,7 @@
           <li>Custom healing plan & follow-up support</li>
           <li>Priority access & direct messaging</li>
         </ul>
-        <a href="#" class="btn-primary">Schedule Your Call</a>
+        <a href="#" id="p4-btn" class="btn-primary">Schedule Your Call</a>
         <div class="cancel-note">No contracts · cancel anytime</div>
       </div>
     </div>
@@ -1049,7 +1132,7 @@
 <!-- ======== FAQ ======== -->
 <section id="faq">
   <div class="section-inner">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;" class="faq-layout">
+    <div class="faq-layout">
       <div class="reveal">
         <div class="section-tag">Got Questions</div>
         <h2 class="section-h2" id="faq-h2">Frequently Asked <em>Questions</em></h2>
@@ -1092,7 +1175,127 @@
   </div>
 </section>
 
-<!-- ======== CTA BANNER ======== -->
+<!-- ======== CONTACT FORM ======== -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-left reveal">
+        <div class="section-tag">Get In Touch</div>
+        <h2 class="section-h2">Ready to Begin <em>Your Healing?</em></h2>
+        <p>Whether you have questions about a program, want to know if coaching is right for you, or simply need someone to talk to — Shannon's team is here and ready to respond within 24 hours.</p>
+        <div class="contact-promise">
+          <div class="contact-promise-item">
+            <div class="contact-promise-icon">💌</div>
+            <div class="contact-promise-text">
+              <strong>Response Within 24 Hours</strong>
+              <span>Shannon and her team personally read every message</span>
+            </div>
+          </div>
+          <div class="contact-promise-item">
+            <div class="contact-promise-icon">🔒</div>
+            <div class="contact-promise-text">
+              <strong>Private & Confidential</strong>
+              <span>Your story is safe here — always treated with care</span>
+            </div>
+          </div>
+          <div class="contact-promise-item">
+            <div class="contact-promise-icon">🌸</div>
+            <div class="contact-promise-text">
+              <strong>No Pressure, Ever</strong>
+              <span>Just a gentle, honest conversation about what you need</span>
+            </div>
+          </div>
+          <div class="contact-promise-item">
+            <div class="contact-promise-icon">✦</div>
+            <div class="contact-promise-text">
+              <strong>Risk-Free Guarantee</strong>
+              <span>Full refund within 24 hours of purchase, no questions asked</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-wrap reveal reveal-delay-1">
+        <div id="contactFormInner">
+          <div class="contact-form-title">Send Shannon a Message</div>
+          <div class="contact-form-sub">Fill in your details below and we'll be in touch soon ✦</div>
+          <div class="cf-row">
+            <div class="cf-field">
+              <label>First Name *</label>
+              <input type="text" id="cf-fname" placeholder="Your first name" required>
+            </div>
+            <div class="cf-field">
+              <label>Last Name *</label>
+              <input type="text" id="cf-lname" placeholder="Your last name" required>
+            </div>
+          </div>
+          <div class="cf-field">
+            <label>Email Address *</label>
+            <input type="email" id="cf-email" placeholder="you@example.com" required>
+          </div>
+          <div class="cf-field">
+            <label>Phone Number</label>
+            <input type="tel" id="cf-phone" placeholder="+1 (555) 000-0000">
+          </div>
+          <div class="cf-field">
+            <label>I'm Interested In *</label>
+            <select id="cf-interest" required>
+              <option value="" disabled selected>Select a program or inquiry...</option>
+              <option>Emotional Emergency Toolkit — $7</option>
+              <option>7-Day Heart Reset — $25</option>
+              <option>Rise Above Heartbreak Journey — $299</option>
+              <option>Journey + Weekly Coaching — $999</option>
+              <option>General Question / Not Sure Yet</option>
+              <option>Press / Collaboration Inquiry</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label>Where Are You Right Now?</label>
+            <select id="cf-stage">
+              <option value="" disabled selected>What best describes your situation...</option>
+              <option>Recent breakup or separation</option>
+              <option>Going through a divorce</option>
+              <option>Divorced and still struggling</option>
+              <option>Co-parenting challenges</option>
+              <option>Rebuilding after loss of relationship</option>
+              <option>Supporting someone else through heartbreak</option>
+            </select>
+          </div>
+          <div class="cf-field">
+            <label>Your Message</label>
+            <textarea id="cf-message" placeholder="Share a little about what you're going through or what you'd like to know... You're in a safe space here 🌸"></textarea>
+          </div>
+          <div class="cf-field">
+            <label>How Did You Find Shannon?</label>
+            <select id="cf-source">
+              <option value="" disabled selected>Choose one...</option>
+              <option>Instagram</option>
+              <option>Facebook</option>
+              <option>YouTube Shorts</option>
+              <option>Pinterest</option>
+              <option>Google Search</option>
+              <option>Friend or Family Referral</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="cf-consent">
+            <input type="checkbox" id="cf-consent-check" required>
+            <label for="cf-consent-check">I agree to be contacted by Shannon Dawn Healing and understand my information will be treated with complete privacy and care. I can unsubscribe at any time.</label>
+          </div>
+          <button class="cf-submit" onclick="submitContactForm()">
+            Send My Message ✦
+          </button>
+        </div>
+        <div class="cf-success" id="cfSuccess">
+          <div class="cf-success-icon">🌸</div>
+          <h3>Your message was sent!</h3>
+          <p>Thank you for reaching out. Shannon or a member of her team will respond to you within 24 hours.<br><br>In the meantime, take a gentle breath — you've already taken the first step. 💛</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <div class="cta-banner" id="ctaBanner">
   <h2 id="cta-h2">Ready to Take the First <em>Gentle Step?</em></h2>
   <p id="cta-sub">You're not alone — and you don't have to do this by yourself.</p>
@@ -1107,11 +1310,13 @@
         <span class="footer-logo">Shannon Dawn Healing</span>
         <p id="footer-desc">I support women healing from heartbreak by helping them gently reconnect with their nervous system, their bodies, and their inner wisdom.</p>
         <div class="social-links">
-          <a href="#" class="social-link" title="Instagram">𝕀</a>
-          <a href="#" class="social-link" title="Facebook">𝔽</a>
-          <a href="#" class="social-link" title="YouTube">▶</a>
-          <a href="#" class="social-link" title="Pinterest">𝕻</a>
-          <a href="#" class="social-link" title="TikTok">♫</a>
+          <a href="#" id="social-ig-link" class="social-link" target="_blank" rel="noopener">Instagram</a>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <a href="#" id="social-fb-link" class="social-link" target="_blank" rel="noopener">Facebook</a>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <a href="#" id="social-yt-link" class="social-link" target="_blank" rel="noopener">YouTube</a>
+          <span style="color:rgba(255,255,255,0.2);">·</span>
+          <a href="#" id="social-pin-link" class="social-link" target="_blank" rel="noopener">Pinterest</a>
         </div>
       </div>
       <div class="footer-links">
@@ -1200,6 +1405,7 @@
         <button class="cms-nav-item" onclick="showSection('cms-reviews',this)"><span>⭐</span><span>Reviews</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-faq',this)"><span>❓</span><span>FAQ</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-cta',this)"><span>🎯</span><span>CTA Banner</span></button>
+        <button class="cms-nav-item" onclick="showSection('cms-contact',this)"><span>📩</span><span>Contact Form</span></button>
       </div>
       <div class="cms-nav-group">
         <span class="cms-nav-label">Settings</span>
@@ -1379,6 +1585,7 @@
               <div class="cms-field"><label>Price (number only)</label><input type="number" id="cms-p1-price" value="7" oninput="liveUpdate('p1-price',this.value)"></div>
             </div>
             <div class="cms-field"><label>Price Note</label><input type="text" id="cms-p1-note" value="One-time payment · Instant access" oninput="liveUpdate('p1-note',this.value)"></div>
+            <div class="cms-field"><label>Button Link / URL</label><input type="url" id="cms-p1-link" placeholder="https://your-checkout-link.com" oninput="updatePricingLink('p1-btn',this.value)"></div>
           </div>
           <div class="cms-card">
             <div class="cms-card-title">Plan 2 — Heart Reset</div>
@@ -1387,6 +1594,7 @@
               <div class="cms-field"><label>Price</label><input type="number" id="cms-p2-price" value="25" oninput="liveUpdate('p2-price',this.value)"></div>
             </div>
             <div class="cms-field"><label>Price Note</label><input type="text" id="cms-p2-note" value="One-time payment · Full 7 days" oninput="liveUpdate('p2-note',this.value)"></div>
+            <div class="cms-field"><label>Button Link / URL</label><input type="url" id="cms-p2-link" placeholder="https://your-checkout-link.com" oninput="updatePricingLink('p2-btn',this.value)"></div>
           </div>
           <div class="cms-card">
             <div class="cms-card-title">Plan 3 — Journey (Featured)</div>
@@ -1395,6 +1603,7 @@
               <div class="cms-field"><label>Price</label><input type="number" id="cms-p3-price" value="299" oninput="liveUpdate('p3-price',this.value)"></div>
             </div>
             <div class="cms-field"><label>Price Note</label><input type="text" id="cms-p3-note" value="Full 8-week program" oninput="liveUpdate('p3-note',this.value)"></div>
+            <div class="cms-field"><label>Button Link / URL</label><input type="url" id="cms-p3-link" placeholder="https://your-checkout-link.com" oninput="updatePricingLink('p3-btn',this.value)"></div>
           </div>
           <div class="cms-card">
             <div class="cms-card-title">Plan 4 — Journey + Coaching</div>
@@ -1403,6 +1612,7 @@
               <div class="cms-field"><label>Price</label><input type="number" id="cms-p4-price" value="999" oninput="liveUpdate('p4-price',this.value)"></div>
             </div>
             <div class="cms-field"><label>Price Note</label><input type="text" id="cms-p4-note" value="Premium · Limited availability" oninput="liveUpdate('p4-note',this.value)"></div>
+            <div class="cms-field"><label>Button Link / URL</label><input type="url" id="cms-p4-link" placeholder="https://your-checkout-link.com" oninput="updatePricingLink('p4-btn',this.value)"></div>
           </div>
         </div>
       </div>
@@ -1498,6 +1708,20 @@
         </div>
       </div>
 
+      <!-- CONTACT -->
+      <div class="cms-section" id="cms-contact">
+        <div class="cms-section-title">Contact Form</div>
+        <div class="cms-section-desc">Edit the contact form heading, subheading, and section text.</div>
+        <div class="cms-card">
+          <div class="cms-card-title">📩 Contact Section</div>
+          <div class="cms-field"><label>Section Headline</label><input type="text" value="Ready to Begin Your Healing?" oninput="liveUpdateHTML('contact-h2-el','Ready to Begin <em>'+this.value+'</em>')"></div>
+          <div class="cms-field"><label>Left Column Description</label><textarea rows="3">Whether you have questions about a program, want to know if coaching is right for you, or simply need someone to talk to — Shannon's team is here and ready to respond within 24 hours.</textarea></div>
+          <div class="cms-field"><label>Form Title</label><input type="text" value="Send Shannon a Message" oninput="liveUpdate('cf-form-title',this.value)"></div>
+          <div class="cms-field"><label>Form Subtitle</label><input type="text" value="Fill in your details below and we'll be in touch soon ✦" oninput="liveUpdate('cf-form-sub',this.value)"></div>
+          <div class="cms-field"><label>Success Message</label><textarea rows="3">Thank you for reaching out. Shannon or a member of her team will respond to you within 24 hours. In the meantime, take a gentle breath — you've already taken the first step.</textarea></div>
+        </div>
+      </div>
+
       <!-- IMAGES -->
       <div class="cms-section" id="cms-media">
         <div class="cms-section-title">Image Library</div>
@@ -1540,12 +1764,12 @@
           <div class="cms-field">
             <label>Social Links</label>
             <div class="cms-row">
-              <input type="url" placeholder="Instagram URL" id="social-ig">
-              <input type="url" placeholder="Facebook URL" id="social-fb">
+              <div class="cms-field"><label>Instagram URL</label><input type="url" id="social-ig" placeholder="https://instagram.com/yourhandle" oninput="updateSocialLink('social-ig-link',this.value)"></div>
+              <div class="cms-field"><label>Facebook URL</label><input type="url" id="social-fb" placeholder="https://facebook.com/yourpage" oninput="updateSocialLink('social-fb-link',this.value)"></div>
             </div>
             <div class="cms-row" style="margin-top:0.8rem;">
-              <input type="url" placeholder="YouTube URL" id="social-yt">
-              <input type="url" placeholder="Pinterest URL" id="social-pin">
+              <div class="cms-field"><label>YouTube URL</label><input type="url" id="social-yt" placeholder="https://youtube.com/@yourchannel" oninput="updateSocialLink('social-yt-link',this.value)"></div>
+              <div class="cms-field"><label>Pinterest URL</label><input type="url" id="social-pin" placeholder="https://pinterest.com/yourprofile" oninput="updateSocialLink('social-pin-link',this.value)"></div>
             </div>
           </div>
         </div>
@@ -1652,6 +1876,18 @@ function liveUpdateHTML(id, val) {
   if (el) el.innerHTML = val;
 }
 
+// ======== PRICING LINKS ========
+function updatePricingLink(btnId, url) {
+  const btn = document.getElementById(btnId);
+  if (btn && url) { btn.href = url; btn.target = '_blank'; }
+}
+
+// ======== SOCIAL LINKS ========
+function updateSocialLink(linkId, url) {
+  const el = document.getElementById(linkId);
+  if (el && url) { el.href = url; el.target = '_blank'; }
+}
+
 // ======== SAVE ========
 function saveAll() { showToast('✓ All changes saved!'); }
 function showToast(msg) {
@@ -1707,6 +1943,20 @@ function toggleFaq(el) {
   item.classList.toggle('open');
 }
 
+// ======== CONTACT FORM ========
+function submitContactForm() {
+  const fname = document.getElementById('cf-fname').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const interest = document.getElementById('cf-interest').value;
+  const consent = document.getElementById('cf-consent-check').checked;
+  if (!fname || !email || !interest || !consent) {
+    alert('Please fill in all required fields and check the consent box to continue.');
+    return;
+  }
+  document.getElementById('contactFormInner').style.display = 'none';
+  document.getElementById('cfSuccess').classList.add('show');
+}
+
 // ======== NAV SCROLL ========
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
@@ -1723,16 +1973,8 @@ function closeMobileMenu() { document.getElementById('mobileMenu').style.display
 const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 revealEls.forEach(el => observer.observe(el));
-
-// FAQ layout responsive
-function fixFaqLayout() {
-  const fl = document.querySelector('.faq-layout');
-  if (fl) fl.style.gridTemplateColumns = window.innerWidth < 768 ? '1fr' : '1fr 1fr';
-}
-fixFaqLayout();
-window.addEventListener('resize', fixFaqLayout);
 </script>
 </body>
 </html>
