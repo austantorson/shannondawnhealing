@@ -1387,8 +1387,9 @@
       <div class="cms-badge">Admin</div>
     </div>
     <div class="cms-header-right">
-      <button class="cms-btn cms-btn-preview" onclick="previewSite()">👁 Preview Site</button>
-      <button class="cms-btn cms-btn-save" onclick="saveAll()">💾 Save Changes</button>
+      <button class="cms-btn cms-btn-preview" onclick="previewSite()">👁 Preview</button>
+      <button class="cms-btn cms-btn-save" onclick="saveAll()">💾 Save</button>
+      <button class="cms-btn" style="background:#c9a882;color:white;font-weight:500;" onclick="exportSite()">⬇ Export & Download</button>
       <button class="cms-btn cms-btn-logout" onclick="logout()">Sign Out</button>
     </div>
   </div>
@@ -1412,6 +1413,10 @@
         <button class="cms-nav-item" onclick="showSection('cms-media',this)"><span>🖼</span><span>Images</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-footer',this)"><span>📬</span><span>Footer</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-settings',this)"><span>⚙️</span><span>Site Settings</span></button>
+      </div>
+      <div class="cms-nav-group">
+        <span class="cms-nav-label">Help</span>
+        <button class="cms-nav-item" onclick="showSection('cms-guide',this)" style="color:#c9a882;font-weight:500;"><span>📖</span><span>How to Publish</span></button>
       </div>
     </div>
 
@@ -1824,6 +1829,206 @@
         </div>
       </div>
 
+      <!-- HOW TO PUBLISH GUIDE -->
+      <div class="cms-section" id="cms-guide">
+        <div class="cms-section-title">📖 How to Publish Your Site</div>
+        <div class="cms-section-desc">Follow this guide every time you make updates and want them to go live on all devices worldwide.</div>
+
+        <!-- WHY PANEL -->
+        <div class="cms-card" style="background:linear-gradient(135deg,#fdf0f0,#faf7f4);border-color:rgba(232,168,168,0.3);">
+          <div class="cms-card-title" style="color:#a05050;">💡 Why Do I Need to Export & Upload?</div>
+          <p style="font-size:0.88rem;line-height:1.8;color:#6b5c56;margin-bottom:0.8rem;">
+            Changes you make here in the Admin CMS are saved to <strong>this browser on this computer only.</strong> Think of it like editing a Word document — until you save it and send it, no one else can see your changes.
+          </p>
+          <p style="font-size:0.88rem;line-height:1.8;color:#6b5c56;">
+            <strong>GitHub is the real website.</strong> It's what every phone, tablet, and browser in the world loads when someone visits Shannon's URL. To push your changes out to everyone, you need to Export the updated file and upload it to GitHub. The steps below show you exactly how.
+          </p>
+        </div>
+
+        <!-- STEP BY STEP -->
+        <div class="cms-card">
+          <div class="cms-card-title">🚀 Step-by-Step: Publishing Updates to GitHub</div>
+
+          <div style="display:flex;flex-direction:column;gap:1rem;margin-top:0.5rem;">
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">1</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Make Your Changes in the CMS</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Update any text, images, links, social URLs, or pricing in the sections on the left sidebar. Every change auto-saves to this browser as you type — you'll see it update live on the page behind the panel.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">2</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Click 💾 Save</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Press the <strong>Save</strong> button in the top bar to make sure every field is committed to storage. You'll see a green confirmation toast at the bottom of the screen.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:#c9a882;color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">3</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Click ⬇ Export & Download</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">This is the most important step. Clicking <strong>Export & Download</strong> bakes all your saved changes — text, images, links — into a brand new file called <code style="background:rgba(201,181,168,0.2);padding:1px 5px;border-radius:4px;">index.html</code> and downloads it to your computer. This is the file you will upload to GitHub.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">4</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Go to GitHub.com and Open Your Repository</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Open a new browser tab and go to <strong>github.com</strong>. Log in and click on your repository (e.g. <em>shannon-dawn-healing</em>). You'll see your files listed including the current <code style="background:rgba(201,181,168,0.2);padding:1px 5px;border-radius:4px;">index.html</code>.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">5</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Click index.html → Then the Pencil ✏️ Edit Icon</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Click on <code style="background:rgba(201,181,168,0.2);padding:1px 5px;border-radius:4px;">index.html</code> in your repository file list. On the next screen, look for the <strong>pencil icon ✏️</strong> in the top right corner of the file preview and click it to open the editor.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">6</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Select All the Old Code and Delete It</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Click anywhere inside the code editor area. Then press <strong>Ctrl + A</strong> (Windows) or <strong>Cmd + A</strong> (Mac) to select all the existing code. Press <strong>Delete</strong> or <strong>Backspace</strong> to remove it. The editor should now be completely empty.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">7</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Open the Exported File and Copy All Its Contents</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Find the <code style="background:rgba(201,181,168,0.2);padding:1px 5px;border-radius:4px;">index.html</code> file that downloaded to your computer (usually in your Downloads folder). Open it with a text editor — <strong>right-click → Open With → Notepad</strong> (Windows) or <strong>TextEdit</strong> (Mac). Then press <strong>Ctrl+A</strong> / <strong>Cmd+A</strong> to select everything, and <strong>Ctrl+C</strong> / <strong>Cmd+C</strong> to copy it.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">8</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Paste the New Code into GitHub's Editor</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Go back to the GitHub tab where the editor is now empty. Click inside it and press <strong>Ctrl+V</strong> / <strong>Cmd+V</strong> to paste all the new code. You should see the editor fill up with code immediately.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:var(--blush);border-radius:16px;border:1px solid rgba(232,168,168,0.2);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--charcoal);color:white;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;flex-shrink:0;">9</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Click "Commit Changes"</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">Scroll down to the bottom of the GitHub editor page. You'll see a green button that says <strong>"Commit changes"</strong>. Click it. A small popup may appear — just click <strong>Commit changes</strong> again to confirm.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:1.2rem;align-items:flex-start;padding:1.2rem;background:linear-gradient(135deg,rgba(212,228,216,0.4),rgba(244,200,200,0.2));border-radius:16px;border:1px solid rgba(201,181,168,0.3);">
+              <div style="width:38px;height:38px;border-radius:50%;background:var(--rose-deep);color:white;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">✦</div>
+              <div>
+                <div style="font-size:0.85rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Wait 2–3 Minutes → You're Live! 🌸</div>
+                <div style="font-size:0.82rem;color:#6b5c56;line-height:1.7;">GitHub Pages automatically rebuilds and publishes your site. After about 2–3 minutes, visit Shannon's live URL and your changes will be visible on <strong>every phone, tablet, computer, and browser worldwide</strong> — no other action needed. If you still see the old version, press <strong>Ctrl+Shift+R</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac) to force a fresh load.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- QUICK REFERENCE CARD -->
+        <div class="cms-card" style="background:var(--charcoal);border-color:var(--charcoal);">
+          <div class="cms-card-title" style="color:rgba(255,255,255,0.5);border-color:rgba(255,255,255,0.1);">⚡ Quick Reference Cheat Sheet</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+            <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:1rem;">
+              <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:0.6rem;">Every Time You Edit</div>
+              <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);line-height:1.9;">
+                1. Make changes in CMS<br>
+                2. Click 💾 Save<br>
+                3. Click ⬇ Export & Download<br>
+                4. Upload index.html to GitHub<br>
+                5. Commit changes<br>
+                6. Wait 2–3 min → Live ✦
+              </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:1rem;">
+              <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:0.6rem;">Good to Know</div>
+              <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);line-height:1.9;">
+                ✦ Changes auto-save here<br>
+                ✦ Only Export goes live<br>
+                ✦ Images: keep under 2MB<br>
+                ✦ Video: use YouTube URL<br>
+                ✦ Hard refresh: Ctrl+Shift+R<br>
+                ✦ GitHub = the real website
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGE TIPS -->
+        <div class="cms-card">
+          <div class="cms-card-title">🖼 Image Tips for Best Results</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;margin-top:0.5rem;">
+            <div style="background:var(--blush);border-radius:12px;padding:1rem;text-align:center;">
+              <div style="font-size:1.5rem;margin-bottom:0.4rem;">📸</div>
+              <div style="font-size:0.78rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Hero Photo</div>
+              <div style="font-size:0.72rem;color:#6b5c56;line-height:1.6;">Portrait orientation<br>800 × 1000px<br>Under 2MB</div>
+            </div>
+            <div style="background:var(--blush);border-radius:12px;padding:1rem;text-align:center;">
+              <div style="font-size:1.5rem;margin-bottom:0.4rem;">🌸</div>
+              <div style="font-size:0.78rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Coach Photo</div>
+              <div style="font-size:0.72rem;color:#6b5c56;line-height:1.6;">Portrait 3:4 ratio<br>600 × 800px<br>Under 2MB</div>
+            </div>
+            <div style="background:var(--blush);border-radius:12px;padding:1rem;text-align:center;">
+              <div style="font-size:1.5rem;margin-bottom:0.4rem;">🎬</div>
+              <div style="font-size:0.78rem;font-weight:500;color:var(--charcoal);margin-bottom:0.3rem;">Video</div>
+              <div style="font-size:0.72rem;color:#6b5c56;line-height:1.6;">Use YouTube embed URL<br>16:9 ratio<br>Not a file upload</div>
+            </div>
+          </div>
+          <div style="margin-top:1rem;padding:0.8rem 1rem;background:rgba(201,168,130,0.12);border-radius:10px;font-size:0.78rem;color:#6b5c56;line-height:1.6;">
+            💡 <strong>Need to compress an image?</strong> Go to <strong>squoosh.app</strong> — free, instant, drag and drop. Aim for under 500KB for fastest load times on mobile.
+          </div>
+        </div>
+
+        <!-- TROUBLESHOOTING -->
+        <div class="cms-card">
+          <div class="cms-card-title">🛠 Troubleshooting Common Issues</div>
+          <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:0.5rem;">
+            <div style="padding:0.9rem 1rem;background:var(--blush);border-radius:12px;border-left:3px solid var(--rose-deep);">
+              <div style="font-size:0.82rem;font-weight:500;color:var(--charcoal);margin-bottom:0.2rem;">"The site still looks the same after I uploaded"</div>
+              <div style="font-size:0.78rem;color:#6b5c56;line-height:1.6;">Wait 2–3 more minutes and then do a hard refresh: <strong>Ctrl+Shift+R</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac). GitHub Pages takes a few minutes to rebuild after every upload.</div>
+            </div>
+            <div style="padding:0.9rem 1rem;background:var(--blush);border-radius:12px;border-left:3px solid var(--rose-deep);">
+              <div style="font-size:0.82rem;font-weight:500;color:var(--charcoal);margin-bottom:0.2rem;">"My image disappeared after I re-opened the file"</div>
+              <div style="font-size:0.78rem;color:#6b5c56;line-height:1.6;">Images saved here only persist in this browser. Always click <strong>Export & Download</strong> after uploading a photo — the exported file will have the image permanently baked in.</div>
+            </div>
+            <div style="padding:0.9rem 1rem;background:var(--blush);border-radius:12px;border-left:3px solid var(--rose-deep);">
+              <div style="font-size:0.82rem;font-weight:500;color:var(--charcoal);margin-bottom:0.2rem;">"I opened the file on a different computer and my changes are gone"</div>
+              <div style="font-size:0.78rem;color:#6b5c56;line-height:1.6;">localStorage only exists on the computer and browser where you made the changes. Always use <strong>Export & Download → Upload to GitHub</strong> to make changes permanent everywhere.</div>
+            </div>
+            <div style="padding:0.9rem 1rem;background:var(--blush);border-radius:12px;border-left:3px solid var(--rose-deep);">
+              <div style="font-size:0.82rem;font-weight:500;color:var(--charcoal);margin-bottom:0.2rem;">"The page went blank after I committed to GitHub"</div>
+              <div style="font-size:0.78rem;color:#6b5c56;line-height:1.6;">This usually means the file wasn't named exactly <strong>index.html</strong> (all lowercase). Check your repository — if the file is named anything else, click it, then rename it to index.html.</div>
+            </div>
+            <div style="padding:0.9rem 1rem;background:var(--blush);border-radius:12px;border-left:3px solid var(--rose-deep);">
+              <div style="font-size:0.82rem;font-weight:500;color:var(--charcoal);margin-bottom:0.2rem;">"The contact form isn't sending emails"</div>
+              <div style="font-size:0.78rem;color:#6b5c56;line-height:1.6;">Log into <strong>formspree.io</strong> and confirm the form endpoint <code style="background:rgba(201,181,168,0.2);padding:1px 4px;border-radius:3px;">xeerknak</code> is active and pointing to <strong>Shananthony09@gmail.com</strong>. Also check Shannon's spam folder and mark any Formspree emails as Not Spam.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PUBLISH BUTTON SHORTCUT -->
+        <div class="cms-card" style="text-align:center;padding:2.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.8rem;">🚀</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--charcoal);margin-bottom:0.5rem;">Ready to go live?</div>
+          <div style="font-size:0.85rem;color:#6b5c56;margin-bottom:1.5rem;">Make sure you've saved all your changes first, then export your file.</div>
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <button class="cms-btn cms-btn-save" style="padding:0.8rem 1.8rem;font-size:0.8rem;" onclick="saveAll()">💾 Save All Changes</button>
+            <button class="cms-btn" style="background:#c9a882;color:white;padding:0.8rem 1.8rem;font-size:0.8rem;font-weight:500;" onclick="exportSite()">⬇ Export & Download index.html</button>
+          </div>
+          <div style="margin-top:1rem;font-size:0.72rem;color:var(--taupe);">Then upload the downloaded index.html to your GitHub repository to publish worldwide ✦</div>
+        </div>
+
+      </div>
+
     </div><!-- /cms-content -->
   </div><!-- /cms-body -->
 </div><!-- /cms-overlay -->
@@ -1832,17 +2037,210 @@
 <div class="cms-save-toast" id="saveToast">✓ Changes saved successfully</div>
 
 <script>
-// ======== CREDENTIALS ========
-let credentials = { user: 'admin', pass: 'healing2026' };
+// =====================================================================
+// SHANNON DAWN HEALING — PERSISTENT CMS ENGINE
+// All changes auto-save to localStorage and survive page refresh.
+// Use "Export & Download" to get an index.html ready to upload to GitHub.
+// =====================================================================
 
+const STORE_KEY = 'sdh_cms_data';
+const IMG_HERO_KEY  = 'sdh_img_hero';
+const IMG_ABOUT_KEY = 'sdh_img_about';
+const VIDEO_URL_KEY = 'sdh_video_url';
+const VIDEO_EMBED_KEY = 'sdh_video_embed';
+
+// ── Default data ──────────────────────────────────────────────────────
+const DEFAULTS = {
+  creds_user: 'admin',
+  creds_pass: 'healing2026',
+  // Hero
+  'hero-tag-text':    'Relationship Trauma Coach',
+  'hero-headline':    'When your heart is breaking,<br><em>this is for you.</em>',
+  'hero-subtext':     'Feel calmer and more supported in under 10 minutes, without falling apart or forcing yourself to "heal." You deserve a gentle path back to yourself.',
+  'hero-cta1':        'Begin Gently',
+  'hero-badge1-num':  '500+',
+  'hero-badge2-text': 'Certified Yoga & Mindfulness Therapist',
+  // Video
+  'videoTitle':       'Begin Your Healing Journey',
+  'videoSubtitle':    'Watch Shannon share her story and approach to nervous system healing',
+  // Program
+  'program-intro':    'Heartbreak is not just emotional — it is physiological. When a relationship ends, the nervous system often remains in survival mode long after the mind understands what happened. This is why healing can feel so difficult.',
+  'prog-card1': 'When your body feels safe enough to soften and settle, healing doesn\'t have to be forced. It begins to happen naturally, restoring your sense of calm and wholeness.',
+  'prog-card2': 'Soft movement, breathwork, meditation, journaling, and intuitive movement — each practice offered as an invitation, never a demand.',
+  'prog-card3': 'Stop second-guessing your healing. Begin trusting your own pace, your own process, and your own inner knowing through compassionate guidance.',
+  'prog-card4': 'A regulated nervous system is not just the foundation of healing — it is a way of being that comes from the inside out. This is the new confidence.',
+  // About
+  'about-quote': '"Healing didn\'t come from forcing it — it came from learning how to listen to my body."',
+  'about-body1': 'After my divorce, I remember feeling exhausted and lost, unsure how to keep moving forward when my heart felt shattered. On the outside I was functioning. On the inside, my body was bracing, holding its breath, trying to survive what it had just lost.',
+  'about-body2': 'I did not need more advice. I needed my body to feel safe again. Through my own healing, I discovered that what truly helped was not pushing harder or thinking my way through the pain, but learning how to work with my nervous system.',
+  'about-body3': 'Today, I support women around the world who are navigating heartbreak or divorce and want a different way to heal — one that doesn\'t rush the process, suppress emotions, or keep them stuck.',
+  // Pricing
+  'p1-name': 'Emotional Emergency Toolkit', 'p1-price': '7',   'p1-note': 'One-time payment · Instant access',
+  'p2-name': '7-Day Heart Reset',           'p2-price': '25',  'p2-note': 'One-time payment · Full 7 days',
+  'p3-name': 'Rise Above Heartbreak Journey','p3-price': '299', 'p3-note': 'Full 8-week program',
+  'p4-name': 'Journey + Weekly Coaching',   'p4-price': '999', 'p4-note': 'Premium · Limited availability',
+  'p1-link': '', 'p2-link': '', 'p3-link': '', 'p4-link': '',
+  // Steps
+  'step1-title': 'Access Immediate Calm',
+  'step1-body':  'As soon as you join, you\'ll receive instant access to your healing portal — where the journey begins with grounding practices you can use immediately.',
+  'step2-title': 'Gently Guided',
+  'step2-body':  'Over the next 7 days and beyond, you\'ll be guided through daily practices that help you release emotional tension and reconnect with your body.',
+  'step3-title': 'Begin Your Healing',
+  'step3-body':  'As you complete your journey, you\'ll feel lighter, clearer, and more in tune with yourself. The emotional chaos begins to settle. Life opens up.',
+  // Reviews
+  'r1-name': 'Amy',    'r1-text': 'I can\'t believe how much hurt I was holding onto! This was such a safe space for healing. I came to understand that my divorce didn\'t have to define me.',
+  'r2-name': 'Carly',  'r2-text': 'I couldn\'t show up for my kids. When they talked to me I was physically present but not mentally there. This program helped me let go of the past and show up for the here and now.',
+  'r3-name': 'Ashley', 'r3-text': 'Rise Above Heartbreak came into my life when I felt completely lost. This program helped me find hope again and reminded me that healing starts within. I finally feel free.',
+  // CTA
+  'cta-h2': 'Ready to Take the First <em>Gentle Step?</em>',
+  'cta-sub': 'You\'re not alone — and you don\'t have to do this by yourself.',
+  'cta-btn-text': 'Begin Gently Today',
+  // Footer / Social
+  'footer-desc': 'I support women healing from heartbreak by helping them gently reconnect with their nervous system, their bodies, and their inner wisdom.',
+  'footer-copy': '© 2026 Shannon Dawn Healing. All rights reserved.',
+  'social-ig':  'https://www.instagram.com/shannondawnhealing',
+  'social-fb':  'https://www.facebook.com/Shannondawnhealing',
+  'social-yt':  'https://www.youtube.com/@ShannondawnhealingInstagram',
+  'social-pin': 'https://au.pinterest.com/shannondawnhealing',
+};
+
+// ── Load / Save helpers ───────────────────────────────────────────────
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveData(d) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch(e) { console.warn('Storage full'); }
+}
+function get(key) {
+  const d = loadData();
+  return (d[key] !== undefined && d[key] !== '') ? d[key] : (DEFAULTS[key] || '');
+}
+function set(key, val) {
+  const d = loadData(); d[key] = val; saveData(d);
+}
+
+// ── Apply all saved data to the live page ─────────────────────────────
+function applyAllToPage() {
+  const textIds = [
+    'hero-tag-text','hero-subtext','hero-cta1','hero-badge1-num','hero-badge2-text',
+    'videoTitle','videoSubtitle','program-intro',
+    'prog-card1','prog-card2','prog-card3','prog-card4',
+    'about-quote','about-body1','about-body2','about-body3',
+    'p1-name','p1-price','p1-note','p2-name','p2-price','p2-note',
+    'p3-name','p3-price','p3-note','p4-name','p4-price','p4-note',
+    'step1-title','step1-body','step2-title','step2-body','step3-title','step3-body',
+    'r1-name','r1-text','r2-name','r2-text','r3-name','r3-text',
+    'cta-sub','cta-btn-text','footer-desc','footer-copy'
+  ];
+  textIds.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = get(id); });
+
+  // HTML fields
+  const htmlIds = ['hero-headline','cta-h2'];
+  htmlIds.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = get(id); });
+
+  // Review initials
+  ['r1','r2','r3'].forEach(r => {
+    const n = get(r+'-name'); const el = document.getElementById(r+'-init');
+    if (el) el.textContent = n ? n[0].toUpperCase() : '?';
+  });
+
+  // Pricing buttons
+  ['p1','p2','p3','p4'].forEach(p => {
+    const link = get(p+'-link');
+    const btn = document.getElementById(p+'-btn');
+    if (btn && link) { btn.href = link; btn.target = '_blank'; }
+  });
+
+  // Social links — both sets
+  const socials = { 'social-ig': ['social-ig-link','social-ig-link2'], 'social-fb': ['social-fb-link','social-fb-link2'], 'social-yt': ['social-yt-link','social-yt-link2'], 'social-pin': ['social-pin-link','social-pin-link2'] };
+  Object.entries(socials).forEach(([key, ids]) => {
+    const url = get(key);
+    ids.forEach(id => { const el = document.getElementById(id); if (el && url) { el.href = url; el.target = '_blank'; el.rel = 'noopener noreferrer'; } });
+  });
+
+  // Hero image
+  const heroImgData = localStorage.getItem(IMG_HERO_KEY);
+  if (heroImgData) {
+    const img = document.getElementById('heroImg');
+    img.src = heroImgData; img.style.display = 'block';
+    document.getElementById('heroImgPlaceholder').style.display = 'none';
+  }
+
+  // About image
+  const aboutImgData = localStorage.getItem(IMG_ABOUT_KEY);
+  if (aboutImgData) {
+    const img = document.getElementById('aboutImg');
+    img.src = aboutImgData; img.style.display = 'block';
+    document.getElementById('aboutImgPlaceholder').style.display = 'none';
+  }
+
+  // Video embed
+  const embedUrl = localStorage.getItem(VIDEO_EMBED_KEY);
+  if (embedUrl) applyVideoEmbed(embedUrl);
+}
+
+// ── Populate CMS form fields with saved values ────────────────────────
+function populateCmsFields() {
+  const fieldMap = {
+    'cms-hero-tag':    'hero-tag-text',
+    'cms-hero-sub':    'hero-subtext',
+    'cms-hero-cta':    'hero-cta1',
+    'cms-hero-badge1': 'hero-badge1-num',
+    'cms-hero-badge2': 'hero-badge2-text',
+    'cms-video-title': 'videoTitle',
+    'cms-video-sub':   'videoSubtitle',
+    'cms-prog-intro':  'program-intro',
+    'cms-prog-c1': 'prog-card1', 'cms-prog-c2': 'prog-card2',
+    'cms-prog-c3': 'prog-card3', 'cms-prog-c4': 'prog-card4',
+    'cms-about-quote': 'about-quote',
+    'cms-about-p1': 'about-body1', 'cms-about-p2': 'about-body2', 'cms-about-p3': 'about-body3',
+    'cms-p1-name': 'p1-name', 'cms-p1-price': 'p1-price', 'cms-p1-note': 'p1-note', 'cms-p1-link': 'p1-link',
+    'cms-p2-name': 'p2-name', 'cms-p2-price': 'p2-price', 'cms-p2-note': 'p2-note', 'cms-p2-link': 'p2-link',
+    'cms-p3-name': 'p3-name', 'cms-p3-price': 'p3-price', 'cms-p3-note': 'p3-note', 'cms-p3-link': 'p3-link',
+    'cms-p4-name': 'p4-name', 'cms-p4-price': 'p4-price', 'cms-p4-note': 'p4-note', 'cms-p4-link': 'p4-link',
+    'cms-s1-title': 'step1-title', 'cms-s1-body': 'step1-body',
+    'cms-s2-title': 'step2-title', 'cms-s2-body': 'step2-body',
+    'cms-s3-title': 'step3-title', 'cms-s3-body': 'step3-body',
+    'cms-r1-name': 'r1-name', 'cms-r1-text': 'r1-text',
+    'cms-r2-name': 'r2-name', 'cms-r2-text': 'r2-text',
+    'cms-r3-name': 'r3-name', 'cms-r3-text': 'r3-text',
+    'cms-cta-h2': 'cta-h2', 'cms-cta-sub': 'cta-sub', 'cms-cta-btn': 'cta-btn-text',
+    'social-ig': 'social-ig', 'social-fb': 'social-fb',
+    'social-yt': 'social-yt', 'social-pin': 'social-pin',
+  };
+  Object.entries(fieldMap).forEach(([fieldId, dataKey]) => {
+    const el = document.getElementById(fieldId);
+    if (el) el.value = get(dataKey);
+  });
+  // Credentials
+  const d = loadData();
+  if (d.creds_user && document.getElementById('cms-new-user')) {
+    // don't pre-fill password fields for security
+  }
+}
+
+// ── Track field changes → auto-save + live update ─────────────────────
+function persist(dataKey, val, liveId, isHTML) {
+  set(dataKey, val);
+  const el = document.getElementById(liveId);
+  if (el) { if (isHTML) el.innerHTML = val; else el.textContent = val; }
+}
+
+// ── CREDENTIALS ───────────────────────────────────────────────────────
+function getCredentials() {
+  const d = loadData();
+  return { user: d.creds_user || DEFAULTS.creds_user, pass: d.creds_pass || DEFAULTS.creds_pass };
+}
 function openAdmin() { document.getElementById('loginModal').classList.add('active'); }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value;
-  if (u === credentials.user && p === credentials.pass) {
+  const creds = getCredentials();
+  if (u === creds.user && p === creds.pass) {
     closeModal('loginModal');
     document.getElementById('cmsPanel').classList.add('active');
+    populateCmsFields();
   } else {
     document.getElementById('loginError').classList.add('show');
   }
@@ -1855,13 +2253,15 @@ function logout() {
 function updateCredentials() {
   const nu = document.getElementById('cms-new-user').value.trim();
   const np = document.getElementById('cms-new-pass').value;
-  if (nu) credentials.user = nu;
-  if (np) credentials.pass = np;
-  showToast('Credentials updated!');
+  const d = loadData();
+  if (nu) d.creds_user = nu;
+  if (np) d.creds_pass = np;
+  saveData(d);
+  showToast('✓ Credentials updated & saved!');
 }
 function previewSite() { document.getElementById('cmsPanel').classList.remove('active'); }
 
-// ======== CMS NAV ========
+// ── CMS NAV ───────────────────────────────────────────────────────────
 function showSection(id, btn) {
   document.querySelectorAll('.cms-section').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -1869,84 +2269,141 @@ function showSection(id, btn) {
   btn.classList.add('active');
 }
 
-// ======== LIVE UPDATE ========
+// ── LIVE UPDATE + PERSIST (called from oninput handlers) ──────────────
 function liveUpdate(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = val;
+  const el = document.getElementById(id); if (el) el.textContent = val;
+  set(id, val);
 }
 function liveUpdateHTML(id, val) {
-  const el = document.getElementById(id);
-  if (el) el.innerHTML = val;
+  const el = document.getElementById(id); if (el) el.innerHTML = val;
+  set(id, val);
 }
-
-// ======== PRICING LINKS ========
-function updatePricingLink(btnId, url) {
+function updatePricingLink(btnId, val) {
+  const key = btnId.replace('-btn', '-link');
+  set(key, val);
   const btn = document.getElementById(btnId);
-  if (btn && url) { btn.href = url; btn.target = '_blank'; }
+  if (btn && val) { btn.href = val; btn.target = '_blank'; }
+}
+function updateSocialLink(linkId, val) {
+  // Save with short key e.g. social-ig
+  const shortKey = linkId.replace('-link','').replace('-link2','').replace('social-','social-');
+  // Map link IDs back to storage keys
+  const keyMap = { 'social-ig-link': 'social-ig', 'social-fb-link': 'social-fb', 'social-yt-link': 'social-yt', 'social-pin-link': 'social-pin',
+                   'social-ig-link2':'social-ig',  'social-fb-link2':'social-fb',  'social-yt-link2':'social-yt',  'social-pin-link2':'social-pin' };
+  const storeKey = keyMap[linkId] || linkId;
+  set(storeKey, val);
+  // Update both link elements
+  ['social-ig-link','social-ig-link2','social-fb-link','social-fb-link2','social-yt-link','social-yt-link2','social-pin-link','social-pin-link2'].forEach(id => {
+    if (keyMap[id] === storeKey) {
+      const el = document.getElementById(id);
+      if (el && val) { el.href = val; el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+    }
+  });
+}
+function updateColor(varName, value) {
+  document.documentElement.style.setProperty(varName, value);
+  set('color_'+varName, value);
 }
 
-// ======== SOCIAL LINKS ========
-function updateSocialLink(linkId, url) {
-  const el = document.getElementById(linkId);
-  if (el && url) { el.href = url; el.target = '_blank'; }
+// ── SAVE BUTTON ───────────────────────────────────────────────────────
+function saveAll() {
+  // Collect all CMS input values and persist them
+  const fieldMap = {
+    'cms-hero-tag':    'hero-tag-text',    'cms-hero-sub':    'hero-subtext',
+    'cms-hero-cta':    'hero-cta1',        'cms-hero-badge1': 'hero-badge1-num',
+    'cms-hero-badge2': 'hero-badge2-text', 'cms-video-title': 'videoTitle',
+    'cms-video-sub':   'videoSubtitle',    'cms-prog-intro':  'program-intro',
+    'cms-prog-c1':'prog-card1','cms-prog-c2':'prog-card2','cms-prog-c3':'prog-card3','cms-prog-c4':'prog-card4',
+    'cms-about-quote':'about-quote','cms-about-p1':'about-body1','cms-about-p2':'about-body2','cms-about-p3':'about-body3',
+    'cms-p1-name':'p1-name','cms-p1-price':'p1-price','cms-p1-note':'p1-note','cms-p1-link':'p1-link',
+    'cms-p2-name':'p2-name','cms-p2-price':'p2-price','cms-p2-note':'p2-note','cms-p2-link':'p2-link',
+    'cms-p3-name':'p3-name','cms-p3-price':'p3-price','cms-p3-note':'p3-note','cms-p3-link':'p3-link',
+    'cms-p4-name':'p4-name','cms-p4-price':'p4-price','cms-p4-note':'p4-note','cms-p4-link':'p4-link',
+    'cms-s1-title':'step1-title','cms-s1-body':'step1-body','cms-s2-title':'step2-title','cms-s2-body':'step2-body',
+    'cms-s3-title':'step3-title','cms-s3-body':'step3-body',
+    'cms-r1-name':'r1-name','cms-r1-text':'r1-text','cms-r2-name':'r2-name','cms-r2-text':'r2-text',
+    'cms-r3-name':'r3-name','cms-r3-text':'r3-text',
+    'cms-cta-h2':'cta-h2','cms-cta-sub':'cta-sub','cms-cta-btn':'cta-btn-text',
+    'social-ig':'social-ig','social-fb':'social-fb','social-yt':'social-yt','social-pin':'social-pin',
+  };
+  const d = loadData();
+  Object.entries(fieldMap).forEach(([fieldId, dataKey]) => {
+    const el = document.getElementById(fieldId);
+    if (el) d[dataKey] = el.value;
+  });
+  saveData(d);
+  applyAllToPage();
+  showToast('✓ All changes saved permanently!');
 }
 
-// ======== SAVE ========
-function saveAll() { showToast('✓ All changes saved!'); }
 function showToast(msg) {
   const t = document.getElementById('saveToast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// ======== IMAGE UPLOADS ========
+// ── IMAGE UPLOADS — saved as base64 so they persist ───────────────────
 function uploadHeroImg(e) {
   const file = e.target.files[0]; if (!file) return;
-  const url = URL.createObjectURL(file);
-  const img = document.getElementById('heroImg');
-  img.src = url; img.style.display = 'block';
-  document.getElementById('heroImgPlaceholder').style.display = 'none';
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const data = ev.target.result;
+    try { localStorage.setItem(IMG_HERO_KEY, data); } catch(err) { showToast('⚠ Image too large for storage. Try a smaller file.'); return; }
+    const img = document.getElementById('heroImg');
+    img.src = data; img.style.display = 'block';
+    document.getElementById('heroImgPlaceholder').style.display = 'none';
+    showToast('✓ Hero image saved!');
+  };
+  reader.readAsDataURL(file);
 }
 function uploadAboutImg(e) {
   const file = e.target.files[0]; if (!file) return;
-  const url = URL.createObjectURL(file);
-  const img = document.getElementById('aboutImg');
-  img.src = url; img.style.display = 'block';
-  document.getElementById('aboutImgPlaceholder').style.display = 'none';
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const data = ev.target.result;
+    try { localStorage.setItem(IMG_ABOUT_KEY, data); } catch(err) { showToast('⚠ Image too large for storage. Try a smaller file.'); return; }
+    const img = document.getElementById('aboutImg');
+    img.src = data; img.style.display = 'block';
+    document.getElementById('aboutImgPlaceholder').style.display = 'none';
+    showToast('✓ Coach photo saved!');
+  };
+  reader.readAsDataURL(file);
 }
 
-// ======== VIDEO ========
+// ── VIDEO ─────────────────────────────────────────────────────────────
 function handleVideoUpload(e) {
   const file = e.target.files[0]; if (!file) return;
   const url = URL.createObjectURL(file);
   const player = document.getElementById('videoPlayer');
   player.src = url; player.style.display = 'block';
   document.getElementById('videoPlaceholder').style.display = 'none';
+  showToast('✓ Video loaded! Use a YouTube/Vimeo embed URL for permanent saving.');
 }
 function handleVideoEmbed(url) {
   if (!url) return;
+  localStorage.setItem(VIDEO_EMBED_KEY, url);
+  applyVideoEmbed(url);
+  showToast('✓ Video embed saved!');
+}
+function applyVideoEmbed(url) {
   const wrapper = document.getElementById('videoWrapper');
   const existing = wrapper.querySelector('iframe');
   if (existing) existing.remove();
   const iframe = document.createElement('iframe');
   iframe.src = url; iframe.frameBorder = '0'; iframe.allowFullscreen = true;
-  iframe.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;';
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;border:none;';
   wrapper.appendChild(iframe);
   document.getElementById('videoPlaceholder').style.display = 'none';
+  document.getElementById('videoPlayer').style.display = 'none';
 }
 
-// ======== COLORS ========
-function updateColor(varName, value) {
-  document.documentElement.style.setProperty(varName, value);
-}
-
-// ======== FAQ ACCORDION ========
+// ── FAQ ACCORDION ─────────────────────────────────────────────────────
 function toggleFaq(el) {
-  const item = el.closest('.faq-item');
-  item.classList.toggle('open');
+  el.closest('.faq-item').classList.toggle('open');
 }
 
-// ======== CONTACT FORM — sends to Shananthony09@gmail.com via Formspree ========
+// ── CONTACT FORM ──────────────────────────────────────────────────────
 async function submitContactForm() {
   const fname    = document.getElementById('cf-fname').value.trim();
   const lname    = document.getElementById('cf-lname').value.trim();
@@ -1957,84 +2414,179 @@ async function submitContactForm() {
   const message  = document.getElementById('cf-message').value.trim();
   const source   = document.getElementById('cf-source').value;
   const consent  = document.getElementById('cf-consent-check').checked;
-
-  if (!fname || !lname || !email || !interest || !consent) {
-    showFormError('Please fill in all required fields (*) and check the consent box.');
-    return;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showFormError('Please enter a valid email address.');
-    return;
-  }
-
+  if (!fname || !lname || !email || !interest || !consent) { showFormError('Please fill in all required fields (*) and check the consent box.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showFormError('Please enter a valid email address.'); return; }
   const submitBtn = document.querySelector('.cf-submit');
-  submitBtn.textContent = 'Sending… 🌸';
-  submitBtn.disabled = true;
-
+  submitBtn.textContent = 'Sending… 🌸'; submitBtn.disabled = true;
   try {
     const res = await fetch('https://formspree.io/f/xeerknak', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        'Full Name':        fname + ' ' + lname,
-        'Email':            email,
-        'Phone':            phone || 'Not provided',
-        'Interested In':    interest,
-        'Current Situation':stage || 'Not specified',
-        'Message':          message || 'No message provided',
-        'Found Shannon Via':source || 'Not specified',
-        '_replyto':         email,
-        '_subject':         '✦ New Inquiry — ' + fname + ' ' + lname + ' | Shannon Dawn Healing'
+        'Full Name': fname+' '+lname, 'Email': email, 'Phone': phone||'Not provided',
+        'Interested In': interest, 'Current Situation': stage||'Not specified',
+        'Message': message||'No message provided', 'Found Shannon Via': source||'Not specified',
+        '_replyto': email, '_subject': '✦ New Inquiry — '+fname+' '+lname+' | Shannon Dawn Healing'
       })
     });
-
     if (res.ok) {
       document.getElementById('contactFormInner').style.display = 'none';
       document.getElementById('cfSuccess').classList.add('show');
     } else {
       const data = await res.json();
-      showFormError(data.error || 'Something went wrong. Please try again or email directly.');
-      submitBtn.textContent = 'Send My Message ✦';
-      submitBtn.disabled = false;
+      showFormError(data.error || 'Something went wrong. Please try again.');
+      submitBtn.textContent = 'Send My Message ✦'; submitBtn.disabled = false;
     }
-  } catch (err) {
+  } catch(err) {
     showFormError('Network error. Please check your connection and try again.');
-    submitBtn.textContent = 'Send My Message ✦';
-    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send My Message ✦'; submitBtn.disabled = false;
   }
 }
-
 function showFormError(msg) {
-  let errEl = document.getElementById('cf-error-msg');
-  if (!errEl) {
-    errEl = document.createElement('div');
-    errEl.id = 'cf-error-msg';
-    errEl.style.cssText = 'background:#fff0f0;border:1px solid #e8a8a8;color:#a05050;padding:0.8rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;';
-    document.querySelector('.cf-submit').before(errEl);
-  }
-  errEl.textContent = msg;
-  errEl.style.display = 'block';
-  setTimeout(() => { errEl.style.display = 'none'; }, 6000);
+  let e = document.getElementById('cf-error-msg');
+  if (!e) { e = document.createElement('div'); e.id='cf-error-msg'; e.style.cssText='background:#fff0f0;border:1px solid #e8a8a8;color:#a05050;padding:0.8rem 1rem;border-radius:10px;font-size:0.82rem;margin-bottom:1rem;'; document.querySelector('.cf-submit').before(e); }
+  e.textContent = msg; e.style.display = 'block';
+  setTimeout(() => { e.style.display = 'none'; }, 6000);
 }
 
-// ======== NAV SCROLL ========
+// ── EXPORT & DOWNLOAD ─────────────────────────────────────────────────
+// Bakes all saved data directly into the HTML and downloads index.html
+function exportSite() {
+  showToast('⏳ Preparing your file…');
+  setTimeout(() => {
+    let html = document.documentElement.outerHTML;
+
+    // Helper: replace attribute value in html string
+    function replaceAttr(html, id, attr, newVal) {
+      // Replace href/src on element with this id
+      const re = new RegExp('(id=["\']' + id + '["\'][^>]*' + attr + '=["\'])([^"\']*)', 'g');
+      const re2 = new RegExp('(' + attr + '=["\'][^"\']*["\'][^>]*id=["\']' + id + '["\'])', 'g');
+      html = html.replace(re, '$1' + escHtml(newVal));
+      return html;
+    }
+    function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function setTextContent(html, id, val) {
+      return html.replace(new RegExp('(<[^>]+id=["\']' + id + '["\'][^>]*>)([\\s\\S]*?)(<\\/)', 'g'), '$1' + escHtml(val) + '$3');
+    }
+    function setInnerHTML(html, id, val) {
+      return html.replace(new RegExp('(<[^>]+id=["\']' + id + '["\'][^>]*>)([\\s\\S]*?)(<\\/)', 'g'), '$1' + val + '$3');
+    }
+
+    // Bake text content
+    const textIds = ['hero-tag-text','hero-subtext','hero-cta1','hero-badge1-num','hero-badge2-text',
+      'videoTitle','videoSubtitle','program-intro','prog-card1','prog-card2','prog-card3','prog-card4',
+      'about-quote','about-body1','about-body2','about-body3',
+      'p1-name','p1-price','p1-note','p2-name','p2-price','p2-note',
+      'p3-name','p3-price','p3-note','p4-name','p4-price','p4-note',
+      'step1-title','step1-body','step2-title','step2-body','step3-title','step3-body',
+      'r1-name','r1-text','r2-name','r2-text','r3-name','r3-text',
+      'cta-sub','cta-btn-text','footer-desc','footer-copy'];
+    textIds.forEach(id => { html = setTextContent(html, id, get(id)); });
+    html = setInnerHTML(html, 'hero-headline', get('hero-headline'));
+    html = setInnerHTML(html, 'cta-h2', get('cta-h2'));
+
+    // Bake review initials
+    ['r1','r2','r3'].forEach(r => {
+      const n = get(r+'-name');
+      html = setTextContent(html, r+'-init', n ? n[0].toUpperCase() : '?');
+    });
+
+    // Bake social links — both link sets
+    const socialIds = {
+      'social-ig':  ['social-ig-link','social-ig-link2'],
+      'social-fb':  ['social-fb-link','social-fb-link2'],
+      'social-yt':  ['social-yt-link','social-yt-link2'],
+      'social-pin': ['social-pin-link','social-pin-link2']
+    };
+    Object.entries(socialIds).forEach(([key, ids]) => {
+      const url = get(key);
+      ids.forEach(linkId => {
+        html = html.replace(
+          new RegExp('(<a[^>]+id=["\']' + linkId + '["\'][^>]*href=["\'])[^"\']*(["\'])', 'g'),
+          '$1' + url + '$2'
+        );
+        html = html.replace(
+          new RegExp('(<a[^>]+href=["\'])[^"\']*(["\'][^>]+id=["\']' + linkId + '["\'])'),
+          '$1' + url + '$2'
+        );
+      });
+    });
+
+    // Bake pricing button links
+    ['p1','p2','p3','p4'].forEach(p => {
+      const link = get(p+'-link');
+      if (link) {
+        html = html.replace(
+          new RegExp('(<a[^>]+id=["\']' + p + '-btn["\'][^>]*href=["\'])[^"\']*(["\'])'),
+          '$1' + link + '$2'
+        );
+      }
+    });
+
+    // Bake hero image
+    const heroImg = localStorage.getItem(IMG_HERO_KEY);
+    if (heroImg) {
+      html = html.replace(/(<img[^>]+id="heroImg"[^>]*src=")[^"]*(")/,'$1' + heroImg + '$2');
+      html = html.replace(/(<img[^>]+id="heroImg"[^>]*)style="display:none;?[^"]*"/,'$1style="display:block;width:100%;height:100%;object-fit:cover;"');
+      html = html.replace(/(<div[^>]+id="heroImgPlaceholder"[^>]*)>/,'$1 style="display:none;">');
+    }
+
+    // Bake about image
+    const aboutImg = localStorage.getItem(IMG_ABOUT_KEY);
+    if (aboutImg) {
+      html = html.replace(/(<img[^>]+id="aboutImg"[^>]*src=")[^"]*(")/,'$1' + aboutImg + '$2');
+      html = html.replace(/(<img[^>]+id="aboutImg"[^>]*)style="display:none;?[^"]*"/,'$1style="display:block;width:100%;height:100%;object-fit:cover;border-radius:30px;"');
+      html = html.replace(/(<div[^>]+id="aboutImgPlaceholder"[^>]*)>/,'$1 style="display:none;">');
+    }
+
+    // Bake video embed URL
+    const embedUrl = localStorage.getItem(VIDEO_EMBED_KEY);
+    if (embedUrl) {
+      const iframeTag = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" style="width:100%;height:100%;position:absolute;top:0;left:0;border:none;"></iframe>`;
+      html = html.replace(/(<div[^>]+id="videoPlaceholder"[^>]*>[\s\S]*?<\/div>\s*<\/div>)/, (m) => {
+        return m + '\n    ' + iframeTag;
+      });
+    }
+
+    // Strip the CMS overlay and admin modal from the exported file so visitors never see it
+    html = html.replace(/<!-- ={6,} ADMIN LOGIN MODAL ={6,} -->[\s\S]*?<!-- ={6,} CMS ADMIN PANEL ={6,} -->[\s\S]*?<\/div><!-- \/cms-overlay -->/g, '');
+
+    // Download
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'index.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast('✓ index.html downloaded! Upload to GitHub to go live.');
+  }, 300);
+}
+
+// ── NAV SCROLL ────────────────────────────────────────────────────────
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// ======== MOBILE MENU ========
+// ── MOBILE MENU ───────────────────────────────────────────────────────
 function toggleMobileMenu() {
   const m = document.getElementById('mobileMenu');
   m.style.display = m.style.display === 'none' ? 'block' : 'none';
 }
 function closeMobileMenu() { document.getElementById('mobileMenu').style.display = 'none'; }
 
-// ======== SCROLL REVEAL ========
+// ── SCROLL REVEAL ─────────────────────────────────────────────────────
 const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1 });
 revealEls.forEach(el => observer.observe(el));
+
+// ── BOOT: apply all saved data on every page load ─────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  applyAllToPage();
+});
+// Also run immediately in case DOMContentLoaded already fired
+applyAllToPage();
 </script>
 </body>
 </html>
