@@ -185,11 +185,32 @@
     position: relative; overflow: hidden;
   }
   .video-wrapper {
-    width: 100%; aspect-ratio: 16/7;
+    width: 100%;
     position: relative; background: var(--charcoal);
     overflow: hidden;
+    /* Reliable cross-device aspect ratio — works on all mobile browsers */
+    padding-bottom: 43.75%; /* 16:7 ratio = 7/16 = 43.75% */
+    height: 0;
   }
-  .video-wrapper video, .video-wrapper iframe { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 768px) {
+    .video-wrapper {
+      padding-bottom: 56.25%; /* Switch to standard 16:9 on mobile for better fit */
+    }
+  }
+  .video-wrapper video,
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .video-wrapper video { object-fit: cover; }
+  .video-placeholder {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #2c2522 0%, #3d2f2b 50%, #2c2522 100%);
+  }
   .video-overlay-text {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -199,34 +220,21 @@
   }
   .video-overlay-text h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 300; color: white;
+    font-size: clamp(1.4rem, 4vw, 3.5rem); font-weight: 300; color: white;
     line-height: 1.2; margin-bottom: 0.8rem;
   }
-  .video-overlay-text p { color: rgba(255,255,255,0.75); font-size: 0.95rem; font-weight: 300; }
-  .video-placeholder {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #2c2522 0%, #3d2f2b 50%, #2c2522 100%);
-    position: relative;
-  }
+  .video-overlay-text p { color: rgba(255,255,255,0.75); font-size: clamp(0.8rem, 2vw, 0.95rem); font-weight: 300; }
   .video-play-btn {
     width: 80px; height: 80px; border-radius: 50%;
     background: rgba(244,200,200,0.2); border: 2px solid rgba(244,200,200,0.5);
     display: flex; align-items: center; justify-content: center;
     cursor: pointer; transition: all 0.3s; margin-bottom: 1.5rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); position: relative; z-index: 3;
   }
   .video-play-btn:hover { background: rgba(244,200,200,0.35); transform: scale(1.05); }
   .video-play-btn svg { fill: white; margin-left: 5px; }
-  .video-upload-label {
-    position: absolute; bottom: 20px; right: 20px; z-index: 10;
-    background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
-    padding: 0.5rem 1rem; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.3s; font-family: 'Jost', sans-serif;
-    backdrop-filter: blur(10px);
-  }
-  .video-upload-label:hover { background: rgba(255,255,255,0.2); color: white; }
+  /* Upload label — ONLY visible inside the CMS admin panel, never on live site */
+  .video-upload-label { display: none; }
   #videoFileInput { display: none; }
 
   /* ====== SECTIONS COMMON ====== */
@@ -873,13 +881,12 @@
         <h2 id="videoTitle">Begin Your Healing Journey</h2>
         <p id="videoSubtitle">Watch Shannon share her story and approach to nervous system healing</p>
       </div>
-      <div class="video-play-btn" onclick="document.getElementById('videoFileInput').click()">
+      <div class="video-play-btn">
         <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
       </div>
     </div>
-    <video id="videoPlayer" controls style="display:none;width:100%;height:100%;object-fit:cover;"></video>
-    <input type="file" id="videoFileInput" accept="video/*" onchange="handleVideoUpload(event)">
-    <label class="video-upload-label" onclick="document.getElementById('videoFileInput').click()">+ Upload Video</label>
+    <video id="videoPlayer" controls playsinline style="display:none;width:100%;height:100%;object-fit:cover;"></video>
+    <input type="file" id="videoFileInput" accept="video/*" onchange="handleVideoUpload(event)" style="display:none;">
   </div>
 </div>
 
@@ -2379,7 +2386,8 @@ function handleVideoUpload(e) {
   const file = e.target.files[0]; if (!file) return;
   const url = URL.createObjectURL(file);
   const player = document.getElementById('videoPlayer');
-  player.src = url; player.style.display = 'block';
+  player.src = url;
+  player.style.cssText = 'display:block;position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;';
   document.getElementById('videoPlaceholder').style.display = 'none';
   showToast('✓ Video loaded! Use a YouTube/Vimeo embed URL for permanent saving.');
 }
@@ -2391,15 +2399,19 @@ function handleVideoEmbed(url) {
 }
 function applyVideoEmbed(url) {
   const wrapper = document.getElementById('videoWrapper');
+  // Remove any existing iframe or video
   const existing = wrapper.querySelector('iframe');
   if (existing) existing.remove();
-  const iframe = document.createElement('iframe');
-  iframe.src = url; iframe.frameBorder = '0'; iframe.allowFullscreen = true;
-  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  iframe.style.cssText = 'width:100%;height:100%;position:absolute;top:0;left:0;border:none;';
-  wrapper.appendChild(iframe);
-  document.getElementById('videoPlaceholder').style.display = 'none';
   document.getElementById('videoPlayer').style.display = 'none';
+  document.getElementById('videoPlaceholder').style.display = 'none';
+  const iframe = document.createElement('iframe');
+  iframe.src = url;
+  iframe.frameBorder = '0';
+  iframe.allowFullscreen = true;
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  // Must be absolutely positioned inside the padding-bottom wrapper
+  iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+  wrapper.appendChild(iframe);
 }
 
 // ── FAQ ACCORDION ─────────────────────────────────────────────────────
