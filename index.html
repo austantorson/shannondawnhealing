@@ -1310,13 +1310,13 @@
         <span class="footer-logo">Shannon Dawn Healing</span>
         <p id="footer-desc">I support women healing from heartbreak by helping them gently reconnect with their nervous system, their bodies, and their inner wisdom.</p>
         <div class="social-links">
-          <a href="https://instagram.com" id="social-ig-link" class="social-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.instagram.com/shannondawnhealing" id="social-ig-link" class="social-link" target="_blank" rel="noopener noreferrer">Instagram</a>
           <span style="color:rgba(255,255,255,0.2);">·</span>
-          <a href="https://facebook.com" id="social-fb-link" class="social-link" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://www.facebook.com/Shannondawnhealing" id="social-fb-link" class="social-link" target="_blank" rel="noopener noreferrer">Facebook</a>
           <span style="color:rgba(255,255,255,0.2);">·</span>
-          <a href="https://youtube.com" id="social-yt-link" class="social-link" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://www.youtube.com/@ShannondawnhealingInstagram" id="social-yt-link" class="social-link" target="_blank" rel="noopener noreferrer">YouTube</a>
           <span style="color:rgba(255,255,255,0.2);">·</span>
-          <a href="https://pinterest.com" id="social-pin-link" class="social-link" target="_blank" rel="noopener noreferrer">Pinterest</a>
+          <a href="https://au.pinterest.com/shannondawnhealing" id="social-pin-link" class="social-link" target="_blank" rel="noopener noreferrer">Pinterest</a>
         </div>
       </div>
       <div class="footer-links">
@@ -1342,10 +1342,10 @@
       <div class="footer-links">
         <span class="cms-nav-label">Connect</span>
         <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">YouTube Shorts</a></li>
-          <li><a href="#">Pinterest</a></li>
+          <li><a href="https://www.instagram.com/shannondawnhealing" id="social-ig-link2" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          <li><a href="https://www.facebook.com/Shannondawnhealing" id="social-fb-link2" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+          <li><a href="https://www.youtube.com/@ShannondawnhealingInstagram" id="social-yt-link2" target="_blank" rel="noopener noreferrer">YouTube Shorts</a></li>
+          <li><a href="https://au.pinterest.com/shannondawnhealing" id="social-pin-link2" target="_blank" rel="noopener noreferrer">Pinterest</a></li>
           <li><a href="#" onclick="openAdmin()">Admin Login</a></li>
         </ul>
       </div>
@@ -1767,12 +1767,12 @@
               ⚠️ <strong>Important:</strong> Paste the full URL including https:// — e.g. <em>https://instagram.com/shannondawnhealing</em>. Updates the footer links live. Re-upload to GitHub to make permanent.
             </div>
             <div class="cms-row">
-              <div class="cms-field"><label>Instagram URL</label><input type="url" id="social-ig" placeholder="https://instagram.com/yourhandle" oninput="updateSocialLink('social-ig-link',this.value)"></div>
-              <div class="cms-field"><label>Facebook URL</label><input type="url" id="social-fb" placeholder="https://facebook.com/yourpage" oninput="updateSocialLink('social-fb-link',this.value)"></div>
+              <div class="cms-field"><label>Instagram URL</label><input type="url" id="social-ig" value="https://www.instagram.com/shannondawnhealing" oninput="updateSocialLink('social-ig-link',this.value);updateSocialLink('social-ig-link2',this.value)"></div>
+              <div class="cms-field"><label>Facebook URL</label><input type="url" id="social-fb" value="https://www.facebook.com/Shannondawnhealing" oninput="updateSocialLink('social-fb-link',this.value);updateSocialLink('social-fb-link2',this.value)"></div>
             </div>
             <div class="cms-row" style="margin-top:0.8rem;">
-              <div class="cms-field"><label>YouTube URL</label><input type="url" id="social-yt" placeholder="https://youtube.com/@yourchannel" oninput="updateSocialLink('social-yt-link',this.value)"></div>
-              <div class="cms-field"><label>Pinterest URL</label><input type="url" id="social-pin" placeholder="https://pinterest.com/yourprofile" oninput="updateSocialLink('social-pin-link',this.value)"></div>
+              <div class="cms-field"><label>YouTube URL</label><input type="url" id="social-yt" value="https://www.youtube.com/@ShannondawnhealingInstagram" oninput="updateSocialLink('social-yt-link',this.value);updateSocialLink('social-yt-link2',this.value)"></div>
+              <div class="cms-field"><label>Pinterest URL</label><input type="url" id="social-pin" value="https://au.pinterest.com/shannondawnhealing" oninput="updateSocialLink('social-pin-link',this.value);updateSocialLink('social-pin-link2',this.value)"></div>
             </div>
           </div>
         </div>
@@ -1972,7 +1972,7 @@ async function submitContactForm() {
   submitBtn.disabled = true;
 
   try {
-    const res = await fetch('https://formspree.io/f/xdkoqnwb', {
+    const res = await fetch('https://formspree.io/f/xeerknak', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
@@ -1984,7 +1984,7 @@ async function submitContactForm() {
         'Message':          message || 'No message provided',
         'Found Shannon Via':source || 'Not specified',
         '_replyto':         email,
-        '_subject':         '✦ New Inquiry from Shannon Dawn Healing Website — ' + fname + ' ' + lname
+        '_subject':         '✦ New Inquiry — ' + fname + ' ' + lname + ' | Shannon Dawn Healing'
       })
     });
 
