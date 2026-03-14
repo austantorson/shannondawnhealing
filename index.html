@@ -330,7 +330,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
 <body>
 
 <!-- NAV -->
-<nav id="mainNav" class="">
+<nav id="mainNav" class="scrolled">
   <a href="#" class="nav-logo">Shannon Dawn <span>Healing</span></a>
   <ul class="nav-links">
     <li><a href="#program">About the Program</a></li>
@@ -418,7 +418,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
         <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="white"></polygon></svg>
       </div>
     </div>
-    <video id="videoPlayer" controls="" playsinline="" webkit-playsinline="" style="display: block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 2; border: 0px;" src="blob:https://austantorson.github.io/009da542-b0b2-44bd-99ca-4df918a08100"></video>
+    <video id="videoPlayer" controls="" playsinline="" webkit-playsinline="" style="display: block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 2; border: 0px;" src="blob:null/9a1f6b28-8c76-480f-bd8c-48e94d69dfd0"></video>
     <input type="file" id="videoFileInput" accept="video/*" onchange="handleVideoUpload(event)" style="display:none;">
   </div>
 </div>
@@ -785,14 +785,14 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
         <button class="cms-nav-item" onclick="showSection('cms-steps',this)"><span>📋</span><span>How it Works</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-reviews',this)"><span>⭐</span><span>Reviews</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-faq',this)"><span>❓</span><span>FAQ</span></button>
-        <button class="cms-nav-item active" onclick="showSection('cms-cta',this)"><span>🎯</span><span>CTA Banner</span></button>
+        <button class="cms-nav-item" onclick="showSection('cms-cta',this)"><span>🎯</span><span>CTA Banner</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-contact',this)"><span>📩</span><span>Contact</span></button>
       </div>
       <div class="cms-nav-group">
         <span class="cms-nav-label">Settings</span>
         <button class="cms-nav-item" onclick="showSection('cms-media',this)"><span>🖼</span><span>Images</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-footer',this)"><span>📬</span><span>Footer</span></button>
-        <button class="cms-nav-item" onclick="showSection('cms-settings',this)"><span>⚙</span><span>Settings</span></button>
+        <button class="cms-nav-item active" onclick="showSection('cms-settings',this)"><span>⚙</span><span>Settings</span></button>
       </div>
       <div class="cms-nav-group">
         <span class="cms-nav-label">Help</span>
@@ -926,7 +926,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
       </div>
 
       <!-- CTA -->
-      <div class="cms-section active" id="cms-cta">
+      <div class="cms-section" id="cms-cta">
         <div class="cms-section-title">CTA Banner</div>
         <div class="cms-card"><div class="cms-card-title">Banner Content</div>
           <div class="cms-field"><label>Headline (HTML allowed)</label><input type="text" id="cms-cta-h2" oninput="liveUpdateHTML('cta-h2',this.value)"></div>
@@ -977,7 +977,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
       </div>
 
       <!-- SETTINGS -->
-      <div class="cms-section" id="cms-settings">
+      <div class="cms-section active" id="cms-settings">
         <div class="cms-section-title">Site Settings</div>
         <div class="cms-card"><div class="cms-card-title">Change Admin Credentials</div>
           <div class="cms-row">
@@ -1066,7 +1066,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
 </div>
 
 <!-- SAVE TOAST -->
-<div class="cms-save-toast" id="saveToast">✓ Video loaded! Use YouTube URL for all-device support.</div>
+<div class="cms-save-toast" id="saveToast">✓ All changes saved!</div>
 
 <script>
 // =====================================================================
