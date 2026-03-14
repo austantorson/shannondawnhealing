@@ -227,8 +227,8 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
 .footer-bottom{font-size:.72rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
 
 /* ADMIN LOGIN MODAL */
-.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(26,18,16,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
-.modal-overlay.active{opacity:1;pointer-events:all;}
+.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(26,18,16,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;visibility:hidden;}
+.modal-overlay.active{opacity:1;pointer-events:all;visibility:visible;}
 .modal-box{background:white;border-radius:28px;padding:3rem 2.5rem;width:90%;max-width:420px;box-shadow:0 40px 100px rgba(0,0,0,.2);transform:translateY(20px);transition:transform .3s;position:relative;}
 .modal-overlay.active .modal-box{transform:translateY(0);}
 .modal-close{position:absolute;top:1.2rem;right:1.2rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--taupe);}
@@ -245,8 +245,8 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
 .btn-login:hover{background:var(--taupe);}
 
 /* CMS PANEL */
-.cms-overlay{position:fixed;inset:0;z-index:9998;background:var(--cream);opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto;}
-.cms-overlay.active{opacity:1;pointer-events:all;}
+.cms-overlay{position:fixed;inset:0;z-index:9998;background:var(--cream);opacity:0;pointer-events:none;transition:opacity .3s;overflow-y:auto;visibility:hidden;}
+.cms-overlay.active{opacity:1;pointer-events:all;visibility:visible;}
 .cms-header{background:var(--charcoal);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;flex-wrap:wrap;gap:.5rem;}
 .cms-header-left{display:flex;align-items:center;gap:1.5rem;}
 .cms-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:white;}
@@ -418,7 +418,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
         <svg width="24" height="24" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="white"></polygon></svg>
       </div>
     </div>
-    <video id="videoPlayer" controls="" playsinline="" webkit-playsinline="" style="display: block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 2; border: 0px;" src="blob:null/9a1f6b28-8c76-480f-bd8c-48e94d69dfd0"></video>
+    <video id="videoPlayer" controls="" playsinline="" webkit-playsinline="" style="display: block; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; object-fit: cover; z-index: 2; border: 0px;" src="blob:null/6ba930f2-0b0b-4e42-8dc0-6fa069258873"></video>
     <input type="file" id="videoFileInput" accept="video/*" onchange="handleVideoUpload(event)" style="display:none;">
   </div>
 </div>
@@ -786,13 +786,13 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
         <button class="cms-nav-item" onclick="showSection('cms-reviews',this)"><span>⭐</span><span>Reviews</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-faq',this)"><span>❓</span><span>FAQ</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-cta',this)"><span>🎯</span><span>CTA Banner</span></button>
-        <button class="cms-nav-item" onclick="showSection('cms-contact',this)"><span>📩</span><span>Contact</span></button>
+        <button class="cms-nav-item active" onclick="showSection('cms-contact',this)"><span>📩</span><span>Contact</span></button>
       </div>
       <div class="cms-nav-group">
         <span class="cms-nav-label">Settings</span>
         <button class="cms-nav-item" onclick="showSection('cms-media',this)"><span>🖼</span><span>Images</span></button>
         <button class="cms-nav-item" onclick="showSection('cms-footer',this)"><span>📬</span><span>Footer</span></button>
-        <button class="cms-nav-item active" onclick="showSection('cms-settings',this)"><span>⚙</span><span>Settings</span></button>
+        <button class="cms-nav-item" onclick="showSection('cms-settings',this)"><span>⚙</span><span>Settings</span></button>
       </div>
       <div class="cms-nav-group">
         <span class="cms-nav-label">Help</span>
@@ -977,7 +977,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
       </div>
 
       <!-- SETTINGS -->
-      <div class="cms-section active" id="cms-settings">
+      <div class="cms-section" id="cms-settings">
         <div class="cms-section-title">Site Settings</div>
         <div class="cms-card"><div class="cms-card-title">Change Admin Credentials</div>
           <div class="cms-row">
@@ -1457,7 +1457,21 @@ var revObs=new IntersectionObserver(function(entries){
 revEls.forEach(function(el){revObs.observe(el);});
 
 // ── Boot: apply all saved data on page load
-document.addEventListener('DOMContentLoaded',function(){applyAll();});
+// Force CMS and login modal closed on every page load using classList only
+document.addEventListener('DOMContentLoaded', function() {
+  var cms = document.getElementById('cmsPanel');
+  var modal = document.getElementById('loginModal');
+  // Remove active class only — never set inline styles (they would block openAdmin)
+  if (cms) cms.classList.remove('active');
+  if (modal) modal.classList.remove('active');
+  // Clear any stale login fields
+  var lu = document.getElementById('loginUser');
+  var lp = document.getElementById('loginPass');
+  if (lu) lu.value = '';
+  if (lp) lp.value = '';
+  // Apply saved content to the page
+  applyAll();
+});
 applyAll();
 </script>
 
