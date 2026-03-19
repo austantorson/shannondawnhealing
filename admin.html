@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Rehab — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=Cabinet+Grotesk:wght@400;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cr:#FDF8F3;--bl:#eef6fc;--ro:#d6e9f6;
+  --pk:#b0d2ec;--pkd:#5a9bc4;--pkl:#eef6fc;
+  --mt:#C8D9C0;--mtd:#7A9E72;--mtl:#E6EFE3;
+  --cf:#2A1A14;--esp:#1A0E09;--lt:#9B7060;--sd:#E8DDD6;--mo:#5C3828;
+  --gp:linear-gradient(135deg,#b0d2ec,#5a9bc4);
+  --gm:linear-gradient(135deg,#C8D9C0,#7A9E72);
+  --sb:260px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:"Instrument Sans",sans-serif;color:var(--cf)}
+body{background:var(--bl);overflow:hidden}
+
+/* LOGIN */
+#loginWrap{position:fixed;inset:0;background:var(--esp);display:flex;align-items:center;justify-content:center;z-index:9999}
+.lb{position:absolute;border-radius:50%;pointer-events:none}
+.lb1{width:520px;height:520px;background:radial-gradient(circle,rgba(176,210,236,.16) 0%,transparent 70%);top:-160px;right:-80px}
+.lb2{width:380px;height:380px;background:radial-gradient(circle,rgba(200,217,192,.12) 0%,transparent 70%);bottom:-120px;left:-60px}
+.lbox{background:#fff;border-radius:22px;padding:48px 44px;max-width:400px;width:92%;position:relative;z-index:1;box-shadow:0 28px 72px rgba(0,0,0,.38)}
+.lbox::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--gp);border-radius:22px 22px 0 0}
+.llogo{font-family:"Fraunces",serif;font-size:1.75rem;font-weight:700;color:var(--cf);margin-bottom:4px}
+.llogo em{color:var(--pkd);font-style:normal}
+.lsub{font-size:.8rem;color:var(--lt);margin-bottom:28px}
+.flbl{display:block;font-family:"Cabinet Grotesk",sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lt);margin-bottom:6px}
+.linp{width:100%;padding:12px 15px;border:1.5px solid var(--sd);border-radius:11px;font-family:"Instrument Sans",sans-serif;font-size:.9rem;color:var(--cf);outline:none;transition:border-color .2s}
+.linp:focus{border-color:var(--pkd)}
+.lbtn{width:100%;padding:13px;background:var(--gp);color:#fff;border:none;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;margin-top:18px;transition:all .2s;box-shadow:0 6px 20px rgba(90,155,196,.3)}
+.lbtn:hover{opacity:.9;transform:translateY(-1px)}
+.lerr{color:var(--pkd);font-size:.78rem;margin-top:9px;display:none;font-weight:500}
+
+/* SHELL */
+#app{display:none;height:100vh}
+.shell{display:grid;grid-template-columns:var(--sb) 1fr;height:100vh}
+
+/* SIDEBAR */
+.sb{background:var(--esp);display:flex;flex-direction:column;overflow-y:auto;border-right:1px solid rgba(255,255,255,.04)}
+.sb-top{padding:24px 18px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.sb-logo{font-family:"Fraunces",serif;font-size:1.2rem;font-weight:700;color:var(--pk);display:block;text-decoration:none}
+.sb-logo em{color:#fff;font-style:normal}
+.sb-tag{display:inline-block;background:rgba(90,155,196,.18);color:var(--pk);font-family:"Cabinet Grotesk",sans-serif;font-size:.56rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-top:5px;border:1px solid rgba(90,155,196,.22)}
+.sb-nav{padding:12px 10px;flex:1}
+.sb-sec{display:block;font-family:"Cabinet Grotesk",sans-serif;font-size:.57rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:0 8px;margin:16px 0 6px}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;cursor:pointer;transition:all .18s;color:rgba(255,255,255,.45);font-size:.81rem;font-weight:500;margin-bottom:1px;border:none;background:none;width:100%;text-align:left;font-family:"Instrument Sans",sans-serif}
+.ni:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.8)}
+.ni.on{background:rgba(90,155,196,.13);color:var(--pk);border:1px solid rgba(90,155,196,.16)}
+.ni-ico{font-size:.9rem;width:18px;text-align:center;flex-shrink:0}
+.sb-foot{padding:12px 10px;border-top:1px solid rgba(255,255,255,.05)}
+.pub-btn{width:100%;padding:11px;background:var(--gp);color:#fff;border:none;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 14px rgba(90,155,196,.28)}
+.pub-btn:hover{opacity:.9;transform:translateY(-1px)}
+.pub-btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.sb-view{display:block;text-align:center;padding:8px;color:rgba(255,255,255,.3);font-size:.7rem;margin-top:5px;text-decoration:none;font-family:"Cabinet Grotesk",sans-serif;font-weight:600;letter-spacing:.05em;transition:color .2s}
+.sb-view:hover{color:var(--mtd)}
+.sb-out{display:block;width:100%;text-align:center;padding:6px;color:rgba(255,255,255,.2);font-size:.68rem;cursor:pointer;border:none;background:none;font-family:"Instrument Sans",sans-serif;transition:color .2s}
+.sb-out:hover{color:rgba(255,255,255,.5)}
+
+/* MAIN */
+.main{overflow-y:auto;height:100vh;background:var(--bl)}
+.mhdr{background:#fff;border-bottom:1px solid var(--sd);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:14px}
+.mhdr-txt h1{font-family:"Fraunces",serif;font-size:1.3rem;font-weight:700;color:var(--cf)}
+.mhdr-txt p{font-size:.76rem;color:var(--lt);margin-top:2px}
+.status{display:inline-flex;align-items:center;gap:5px;padding:5px 13px;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;transition:all .3s}
+.status.saved{background:var(--mtl);color:var(--mtd);border:1px solid var(--mt)}
+.status.dirty{background:var(--pkl);color:var(--pkd);border:1px solid var(--ro)}
+.status.saving{background:#FFF9E6;color:#A06A10;border:1px solid #EDCC60}
+.sdot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.mbody{padding:26px 28px}
+.panel{display:none}.panel.active{display:block}
+
+/* PREVIEW BAR */
+.pvbar{background:var(--cf);border-radius:13px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:14px}
+.pvbar p{font-size:.78rem;color:rgba(255,255,255,.5);line-height:1.55}
+.pvbar p strong{color:#fff}
+.pvbar a{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:8px 16px;background:var(--gp);color:#fff;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.72rem;font-weight:700;text-decoration:none}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;border:1.5px solid var(--sd);margin-bottom:16px;overflow:hidden}
+.chdr{padding:16px 20px;border-bottom:1px solid var(--sd);display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
+.cico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.cico.pk{background:var(--pkl)}.cico.mt{background:var(--mtl)}.cico.sd{background:var(--bl)}
+.cttl{font-family:"Cabinet Grotesk",sans-serif;font-weight:700;font-size:.86rem;color:var(--cf)}
+.csub{font-size:.71rem;color:var(--lt);margin-top:1px}
+.cchev{margin-left:auto;color:var(--lt);transition:transform .28s;font-size:.72rem}
+.cbody{padding:20px;display:none}.cbody.open{display:block}
+
+/* FIELDS */
+.row{display:grid;gap:13px;margin-bottom:13px}
+.r1{grid-template-columns:1fr}.r2{grid-template-columns:1fr 1fr}.r3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-family:"Cabinet Grotesk",sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--lt)}
+.field input,.field textarea,.field select{padding:9px 12px;border:1.5px solid var(--sd);border-radius:9px;font-family:"Instrument Sans",sans-serif;font-size:.84rem;color:var(--cf);outline:none;transition:border-color .2s;background:#fff;width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pkd)}
+.field textarea{resize:vertical;min-height:72px;line-height:1.55}
+.hint{font-size:.68rem;color:var(--lt);margin-top:3px;line-height:1.4}
+
+/* REPEATER */
+.ri{background:var(--bl);border:1.5px solid var(--sd);border-radius:13px;padding:15px;margin-bottom:11px}
+.rihdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.rilbl{font-family:"Cabinet Grotesk",sans-serif;font-size:.7rem;font-weight:700;color:var(--lt);text-transform:uppercase;letter-spacing:.1em}
+.ridel{background:none;border:none;color:var(--lt);cursor:pointer;font-size:.78rem;padding:3px 8px;border-radius:6px;transition:all .2s;font-family:"Cabinet Grotesk",sans-serif;font-weight:700}
+.ridel:hover{background:var(--ro);color:var(--pkd)}
+.radd{display:flex;align-items:center;gap:7px;padding:9px 14px;border:1.5px dashed var(--sd);border-radius:9px;background:none;color:var(--lt);font-family:"Cabinet Grotesk",sans-serif;font-size:.74rem;font-weight:700;cursor:pointer;transition:all .2s;width:100%;margin-top:4px}
+.radd:hover{border-color:var(--pkd);color:var(--pkd);background:var(--pkl)}
+
+/* IMAGE ZONES */
+.img-zone{border:2px dashed var(--sd);border-radius:13px;overflow:hidden;background:var(--bl)}
+.iz-inner{padding:16px}
+.iz-spec-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:11px}
+.spec-pill{display:inline-flex;align-items:center;padding:3px 10px;border-radius:6px;font-family:"Cabinet Grotesk",sans-serif;font-size:.63rem;font-weight:700}
+.sp-dim{background:var(--pkl);color:var(--pkd);border:1px solid var(--ro)}
+.sp-shape{background:#fff;color:var(--lt);border:1px solid var(--sd)}
+.sp-auto{background:var(--mtl);color:var(--mtd);border:1px solid var(--mt)}
+.iz-pw{width:100%;border-radius:9px;overflow:hidden;background:#f0ede8;margin-bottom:10px;display:flex;align-items:center;justify-content:center;min-height:80px}
+.iz-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;width:100%}
+.iz-ph-ico{font-size:1.4rem;margin-bottom:5px;opacity:.3}
+.iz-ph-txt{font-family:"Cabinet Grotesk",sans-serif;font-size:.74rem;font-weight:700;color:var(--lt)}
+.iz-ph-sub{font-size:.65rem;color:var(--lt);opacity:.6;margin-top:2px}
+.iz-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.iz-upload{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--gp);color:#fff;border:none;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;position:relative;overflow:hidden}
+.iz-upload input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.iz-url-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:#fff;color:var(--cf);border:1.5px solid var(--sd);border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.7rem;font-weight:700;cursor:pointer}
+.iz-url-btn:hover{border-color:var(--pkd);color:var(--pkd)}
+.iz-clear{padding:7px 12px;background:none;color:var(--lt);border:1.5px solid var(--sd);border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.7rem;font-weight:700;cursor:pointer}
+.iz-clear:hover{border-color:var(--ro);color:var(--pkd);background:var(--pkl)}
+.iz-url-row{display:none;gap:7px;align-items:center;margin-top:4px}
+.iz-url-row.open{display:flex}
+.iz-url-inp{flex:1;padding:8px 12px;border:1.5px solid var(--sd);border-radius:9px;font-size:.8rem;color:var(--cf);outline:none;font-family:"Instrument Sans",sans-serif}
+.iz-url-inp:focus{border-color:var(--pkd)}
+.iz-url-apply{padding:8px 14px;background:var(--cf);color:#fff;border:none;border-radius:9px;font-family:"Cabinet Grotesk",sans-serif;font-size:.72rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.iz-url-apply:hover{background:var(--mo)}
+
+/* OVERLAY TEXT FIELDS */
+.ov-fields{background:rgba(90,155,196,.04);border:1.5px solid var(--ro);border-radius:11px;padding:14px;margin-top:12px}
+.ov-lbl{font-family:"Cabinet Grotesk",sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pkd);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+
+/* SPEC TABLE */
+.stbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.stbl th{background:var(--bl);padding:9px 13px;text-align:left;font-family:"Cabinet Grotesk",sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lt);border-bottom:1px solid var(--sd)}
+.stbl td{padding:9px 13px;border-bottom:1px solid var(--sd);color:var(--cf);vertical-align:middle;line-height:1.5}
+.stbl tr:last-child td{border-bottom:none}
+.sp-wide{background:#FFF9E6;color:#9A6010;border:1px solid #F0D080}
+.sp-port{background:var(--bl);color:var(--mo);border:1px solid var(--sd)}
+.sp-sq{background:var(--mtl);color:var(--mtd);border:1px solid var(--mt)}
+
+/* LINKS */
+.lg{margin-bottom:22px}
+.lg-title{font-family:"Cabinet Grotesk",sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--lt);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.lg-title::after{content:"";flex:1;height:1px;background:var(--sd)}
+.lrow{display:grid;grid-template-columns:190px 1fr auto;gap:9px;align-items:center;background:#fff;border:1.5px solid var(--sd);border-radius:11px;padding:11px 14px;margin-bottom:7px}
+.lrow:hover{border-color:var(--ro)}
+.lname span{font-family:"Cabinet Grotesk",sans-serif;font-size:.78rem;font-weight:700;color:var(--cf);display:block}
+.lname small{font-size:.65rem;color:var(--lt);display:block;margin-top:1px}
+.linput{padding:8px 12px;border:1.5px solid var(--sd);border-radius:9px;font-family:"Instrument Sans",sans-serif;font-size:.8rem;color:var(--cf);outline:none;transition:border-color .2s;background:#fff;width:100%}
+.linput:focus{border-color:var(--pkd)}
+.ltest{display:inline-flex;align-items:center;gap:4px;padding:7px 12px;background:var(--bl);color:var(--lt);border:1.5px solid var(--sd);border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.66rem;font-weight:700;text-decoration:none;white-space:nowrap}
+.ltest:hover{border-color:var(--pk);color:var(--pkd);background:var(--pkl)}
+
+/* STATS GRID */
+.sgrid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.scard{background:var(--bl);border:1.5px solid var(--sd);border-radius:11px;padding:13px}
+.scard-lbl{font-family:"Cabinet Grotesk",sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lt);margin-bottom:9px}
+
+/* FIREBASE */
+.fbcard{background:var(--cf);border-radius:16px;padding:26px;margin-bottom:18px;position:relative;overflow:hidden}
+.fbcard::before{content:"";position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(176,210,236,.13) 0%,transparent 70%)}
+.fbcard h3{font-family:"Fraunces",serif;font-size:1.1rem;color:#fff;margin-bottom:5px}
+.fbcard p{font-size:.78rem;color:rgba(255,255,255,.44);line-height:1.7;margin-bottom:16px}
+.fbfields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fbf label{display:block;font-family:"Cabinet Grotesk",sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:5px}
+.fbf input{width:100%;padding:9px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px;color:#fff;font-family:"Instrument Sans",sans-serif;font-size:.8rem;outline:none}
+.fbf input::placeholder{color:rgba(255,255,255,.16)}
+.fb-btn{margin-top:13px;padding:9px 20px;background:var(--gp);color:#fff;border:none;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.76rem;font-weight:700;cursor:pointer}
+.fb-ok{display:none;align-items:center;gap:5px;background:var(--mtl);color:var(--mtd);padding:5px 13px;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.68rem;font-weight:700;border:1px solid var(--mt);margin-top:10px;width:fit-content}
+.fb-dot{width:6px;height:6px;border-radius:50%;background:var(--mtd)}
+.fb-err{display:none;align-items:center;gap:5px;background:var(--pkl);color:var(--pkd);padding:5px 13px;border-radius:100px;font-family:"Cabinet Grotesk",sans-serif;font-size:.68rem;font-weight:700;border:1px solid var(--ro);margin-top:10px;width:fit-content}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--cf);color:#fff;padding:12px 18px;border-radius:11px;font-family:"Cabinet Grotesk",sans-serif;font-size:.78rem;font-weight:700;z-index:99999;transform:translateY(70px);opacity:0;transition:all .32s;box-shadow:0 8px 28px rgba(0,0,0,.22);display:flex;align-items:center;gap:8px;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok::before{content:"✦";color:var(--mtd)}
+.toast.err::before{content:"✗";color:var(--pk)}
+
+@media(max-width:768px){
+  :root{--sb:0px}
+  .shell{grid-template-columns:1fr}
+  .sb{display:none}
+  body{overflow:auto}
+  .main{height:auto}
+}
+.status.error{background:rgba(220,60,60,.12);border-color:rgba(220,60,60,.3);color:#cc3333}.status.error .sdot{background:#cc3333}
+.toast.warn{background:var(--mocha)}
+</style>
+</head>
+<body>
+
+<div id="loginWrap">
+  <div class="lb lb1"></div><div class="lb lb2"></div>
+  <div class="lbox">
+    <div class="llogo">Brand<em>Rehab</em></div>
+    <p class="lsub">Admin Panel</p>
+    <label class="flbl">Password</label>
+    <input class="linp" type="password" id="lpw" placeholder="Enter admin password">
+    <div class="lerr" id="lerr">Incorrect password</div>
+    <button class="lbtn" id="lbtn">Sign In</button>
+  </div>
+</div>
+
+<div id="app">
+<div class="shell">
+<aside class="sb">
+  <div class="sb-top">
+    <span class="sb-logo">Brand<em>Rehab</em></span>
+    <div class="sb-tag">Admin Panel</div>
+  </div>
+  <nav class="sb-nav">
+    <span class="sb-sec">Content</span>
+    <button class="ni on" id="nav-hero"><span class="ni-ico">✨</span>Hero</button>
+    <button class="ni" id="nav-pain"><span class="ni-ico">💡</span>Pain Section</button>
+    <button class="ni" id="nav-checklist"><span class="ni-ico">✅</span>Checklist</button>
+    <button class="ni" id="nav-process"><span class="ni-ico">⚙️</span>Process Steps</button>
+    <button class="ni" id="nav-pricing"><span class="ni-ico">💳</span>Pricing</button>
+    <button class="ni" id="nav-testimonials"><span class="ni-ico">⭐</span>Testimonials</button>
+    <button class="ni" id="nav-team"><span class="ni-ico">👥</span>Team</button>
+    <button class="ni" id="nav-faq"><span class="ni-ico">💬</span>FAQ</button>
+    <button class="ni" id="nav-footer"><span class="ni-ico">📄</span>Footer</button>
+    <button class="ni" id="nav-reality"><span class="ni-ico">📱</span>Reality Check</button>
+    <button class="ni" id="nav-numbers"><span class="ni-ico">📊</span>By the Numbers</button>
+    <button class="ni" id="nav-sproof"><span class="ni-ico">📷</span>Client Results</button>
+    <button class="ni" id="nav-ctabanner"><span class="ni-ico">📞</span>15-Min CTA Section</button>
+    <span class="sb-sec">Media</span>
+    <button class="ni" id="nav-images"><span class="ni-ico">🖼️</span>Images & Overlays</button>
+    <span class="sb-sec">Links</span>
+    <button class="ni" id="nav-links"><span class="ni-ico">🔗</span>Links & Buttons</button>
+    <span class="sb-sec">Settings</span>
+    <button class="ni" id="nav-firebase"><span class="ni-ico">⚙️</span>Firebase Setup</button>
+    <button class="ni" id="nav-password"><span class="ni-ico">🔒</span>Change Password</button>
+    <button class="ni" id="nav-seo"><span class="ni-ico">📲</span>Link Preview (SMS)</button>
+  </nav>
+  <div class="sb-foot">
+    <button class="pub-btn" id="pubBtn">Save &amp; Publish ✦</button>
+    <a href="index.html" target="_blank" class="sb-view">↗ View Live Site</a>
+    <button class="sb-out" id="logoutBtn">Log out</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="mhdr">
+    <div class="mhdr-txt"><h1 id="ptitle">Hero</h1><p id="pdesc">Edit headline, subtext and stats</p></div>
+    <div class="status saved" id="statusBadge"><div class="sdot"></div><span id="statusTxt">All saved</span></div>
+  </div>
+  <div class="mbody">
+    <div class="pvbar">
+      <p><strong>Save &amp; Publish</strong> updates desktop and mobile instantly.</p>
+      <a href="index.html" target="_blank">↗ Open Live Site</a>
+    </div>
+
+    <!-- HERO -->
+    <div class="panel active" id="panel-hero">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">✨</div><div><div class="cttl">Headline</div><div class="csub">3 lines at the top of the page</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Tag pill text (above headline)</label><input type="text" id="h_tag"></div></div>
+          <div class="row r1"><div class="field"><label>Line 1 — plain</label><input type="text" id="h_line1"></div></div>
+          <div class="row r1"><div class="field"><label>Line 2 — bold</label><input type="text" id="h_line2"></div></div>
+          <div class="row r1"><div class="field"><label>Line 3 — italic pink</label><input type="text" id="h_line3"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📝</div><div><div class="cttl">Subtext &amp; CTA Button</div><div class="csub">Supporting copy and primary button</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Main paragraph</label><textarea id="h_sub"></textarea></div></div>
+          <div class="row r2">
+            <div class="field"><label>Italic tagline (matcha)</label><input type="text" id="h_sub2"></div>
+            <div class="field"><label>CTA button text</label><input type="text" id="h_cta"></div>
+          </div>
+          <div class="row r1"><div class="field"><label>"See Plans" ghost button text</label><input type="text" id="h_ghost"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">📊</div><div><div class="cttl">Stats Bar</div><div class="csub">4 numbers along the bottom of the hero</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="sgrid2">
+            <div class="scard"><div class="scard-lbl">Stat 1</div><div class="row r1" style="margin-bottom:9px"><div class="field"><label>Number</label><input type="text" id="s1n"></div></div><div class="row r1"><div class="field"><label>Label</label><input type="text" id="s1l"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Stat 2</div><div class="row r1" style="margin-bottom:9px"><div class="field"><label>Number</label><input type="text" id="s2n"></div></div><div class="row r1"><div class="field"><label>Label</label><input type="text" id="s2l"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Stat 3</div><div class="row r1" style="margin-bottom:9px"><div class="field"><label>Number</label><input type="text" id="s3n"></div></div><div class="row r1"><div class="field"><label>Label</label><input type="text" id="s3l"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Stat 4</div><div class="row r1" style="margin-bottom:9px"><div class="field"><label>Number</label><input type="text" id="s4n"></div></div><div class="row r1"><div class="field"><label>Label</label><input type="text" id="s4l"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAIN -->
+    <div class="panel" id="panel-pain">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">💡</div><div><div class="cttl">Left Column</div><div class="csub">Headline and subtext</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Section label</label><input type="text" id="pain_label"></div></div>
+          <div class="row r1"><div class="field"><label>Headline (use | for line breaks)</label><textarea id="pain_h"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Subtext paragraph</label><textarea id="pain_sub"></textarea></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">💬</div><div><div class="cttl">Quote Cards</div><div class="csub">3 client pain point quotes</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Quote 1</label><textarea id="pain_q1"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Quote 2</label><textarea id="pain_q2"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Quote 3</label><textarea id="pain_q3"></textarea></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="panel" id="panel-checklist">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">✅</div><div><div class="cttl">Section Header</div><div class="csub">Title and intro</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label</label><input type="text" id="chk_label"></div></div>
+          <div class="row r1"><div class="field"><label>Headline</label><input type="text" id="chk_h"></div></div>
+          <div class="row r1"><div class="field"><label>Subtext</label><textarea id="chk_sub"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Watermark word (background)</label><input type="text" id="chk_wm"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">☑️</div><div><div class="cttl">Checklist Items</div><div class="csub">6 checkboxes</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Item 1</label><input type="text" id="chk_i1"></div></div>
+          <div class="row r1"><div class="field"><label>Item 2</label><input type="text" id="chk_i2"></div></div>
+          <div class="row r1"><div class="field"><label>Item 3</label><input type="text" id="chk_i3"></div></div>
+          <div class="row r1"><div class="field"><label>Item 4</label><input type="text" id="chk_i4"></div></div>
+          <div class="row r1"><div class="field"><label>Item 5</label><input type="text" id="chk_i5"></div></div>
+          <div class="row r1"><div class="field"><label>Item 6</label><input type="text" id="chk_i6"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">📣</div><div><div class="cttl">CTA Block</div><div class="csub">Bottom box text and button</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Main text (use | for line breaks)</label><textarea id="chk_cta_txt"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Subtext below</label><input type="text" id="chk_cta_sub"></div></div>
+          <div class="row r1"><div class="field"><label>Button text</label><input type="text" id="chk_cta_btn"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="panel" id="panel-process">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">⚙️</div><div><div class="cttl">Section Header</div><div class="csub">Title above the 3 steps</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label</label><input type="text" id="proc_label"></div></div>
+          <div class="row r2"><div class="field"><label>Headline line 1</label><input type="text" id="proc_h1"></div><div class="field"><label>Headline line 2 (italic)</label><input type="text" id="proc_h2"></div></div>
+          <div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="proc_sub"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">1️⃣</div><div><div class="cttl">Step 1</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Title</label><input type="text" id="proc_s1t"></div></div>
+          <div class="row r1"><div class="field"><label>Description</label><textarea id="proc_s1d"></textarea></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">2️⃣</div><div><div class="cttl">Step 2</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Title</label><input type="text" id="proc_s2t"></div></div>
+          <div class="row r1"><div class="field"><label>Description</label><textarea id="proc_s2d"></textarea></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">3️⃣</div><div><div class="cttl">Step 3</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Title</label><input type="text" id="proc_s3t"></div></div>
+          <div class="row r1"><div class="field"><label>Description</label><textarea id="proc_s3d"></textarea></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div class="panel" id="panel-pricing">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📌</div><div><div class="cttl">Section Header</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r2"><div class="field"><label>Headline line 1</label><input type="text" id="pr_h1"></div><div class="field"><label>Headline line 2 (italic pink)</label><input type="text" id="pr_h2"></div></div>
+          <div class="row r1"><div class="field"><label>Subtext</label><textarea id="pr_sub"></textarea></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">📦</div><div><div class="cttl">Pricing Plans</div><div class="csub">Name, price, features for each plan</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open" id="plans-editor"></div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">💎</div><div><div class="cttl">High-Touch Exclusive Plan</div><div class="csub">Full-width bottom row</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r2"><div class="field"><label>Title line 1</label><input type="text" id="ht_t1"></div><div class="field"><label>Title line 2 (italic)</label><input type="text" id="ht_t2"></div></div>
+          <div class="row r1"><div class="field"><label>Description</label><textarea id="ht_desc"></textarea></div></div>
+          <div class="row r2"><div class="field"><label>Price</label><input type="text" id="ht_price"></div><div class="field"><label>Period</label><input type="text" id="ht_period"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="panel" id="panel-testimonials">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">💬</div><div><div class="cttl">Featured Pull Quote</div><div class="csub">Large centred quote</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Quote text</label><textarea id="pq_txt" style="min-height:96px"></textarea></div></div>
+          <div class="row r2">
+            <div class="field"><label>Attribution</label><input type="text" id="pq_cite"></div>
+            <div class="field"><label>Bold-pink highlight phrase</label><input type="text" id="pq_hi"><span class="hint">Exact phrase inside the quote that turns bold pink</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">⭐</div><div><div class="cttl">Testimonial Cards</div><div class="csub">3 client review cards</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open" id="testi-editor"></div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="panel" id="panel-team">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">👥</div><div><div class="cttl">Team Members</div><div class="csub">Names, roles, bios — photos in Images tab</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open" id="team-editor"></div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="panel" id="panel-faq">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">💬</div><div><div class="cttl">FAQ Items</div><div class="csub">Add, edit or remove questions</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open"><div id="faq-editor"></div><button class="radd" id="addFaqBtn">+ Add Question</button></div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="panel" id="panel-footer">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📄</div><div><div class="cttl">Footer Text</div><div class="csub">Brand description and copyright</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Brand description</label><textarea id="ft_desc"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Copyright line</label><input type="text" id="ft_copy"></div></div>
+          <div class="row r3"><div class="field"><label>Col 1 title</label><input type="text" id="ft_col1_title"></div><div class="field"><label>Col 2 title</label><input type="text" id="ft_col2_title"></div><div class="field"><label>Col 3 title</label><input type="text" id="ft_col3_title"></div></div>
+          <div class="row r3"><div class="field"><label>IG handle label</label><input type="text" id="ft_ig_label"></div><div class="field"><label>TikTok label</label><input type="text" id="ft_tt_label"></div><div class="field"><label>LinkedIn label</label><input type="text" id="ft_li_label"></div></div>
+        </div>
+      </div>
+    </div
+
+    <!-- REALITY CHECK -->
+    <div class="panel" id="panel-reality">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📱</div><div><div class="cttl">Section Text</div><div class="csub">Eyebrow, headline, body and button</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label</label><input type="text" id="rc_eyebrow"></div></div>
+          <div class="row r1"><div class="field"><label>Headline (use quotes, italics auto on last word)</label><input type="text" id="rc_h"></div></div>
+          <div class="row r1"><div class="field"><label>Paragraph 1 — main statement</label><textarea id="rc_sub" style="min-height:60px"></textarea></div></div>
+          <div class="row r1"><div class="field"><label>Paragraph 2 — supporting detail</label><textarea id="rc_sub2" style="min-height:60px"></textarea></div></div>
+          <div class="row r2"><div class="field"><label>Button text</label><input type="text" id="rc_cta_txt"></div><div class="field"><label>Button link (or use Links &amp; Buttons tab)</label><input type="text" id="rc_cta_link" placeholder="#pricing"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">🎬</div><div><div class="cttl">Phone Video</div><div class="csub">Video URL that fills the 9:16 phone screen</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Video URL <small style="color:var(--latte);font-weight:400">(MP4, MOV or hosted video direct link — 9:16 vertical)</small></label><input type="text" id="rc_video_url" placeholder="YouTube URL or direct MP4 link">
+          <p style="font-size:.71rem;color:var(--latte);margin-top:6px;line-height:1.6">
+            <strong style="color:var(--matcha-dk)">YouTube (recommended free):</strong> Paste any YouTube URL — e.g. <em>https://youtube.com/watch?v=abc123</em> or <em>https://youtu.be/abc123</em><br>
+            <strong style="color:var(--matcha-dk)">Direct video:</strong> Google Drive or any .mp4 URL
+          </p></div></div>
+          <p style="font-size:.72rem;color:var(--latte);margin-top:8px">&#128204; Best format: vertical MP4, 1080×1920px. Upload to Cloudinary, Bunny.net, or any direct-link host and paste the URL here.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">🌄</div><div><div class="cttl">Background Image</div><div class="csub">1800×1000px · behind the phone and text</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Upload or paste URL <small style="color:var(--latte);font-weight:400">(1800×1000px wide)</small></label>
+            <div class="img-zone" id="iz-reality_bg" data-key="reality_bg" onclick="document.getElementById('if-reality_bg').click()">
+              <input type="file" id="if-reality_bg" accept="image/*" style="display:none" onchange="handleImgUpload(this,'reality_bg')">
+              <div class="iz-icon">🌄</div>
+              <div class="iz-lbl">Click to upload · 1800×1000px</div>
+              <div class="iz-sub">or drag and drop</div>
+            </div>
+            <input type="text" id="img_reality_bg" placeholder="https://... (or upload above)" style="margin-top:8px" oninput="previewImgUrl(this.value,'reality_bg')">
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NUMBERS -->
+    <div class="panel" id="panel-numbers">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">&#128202;</div><div><div class="cttl">Section Header</div></div><span class="cchev">&#9660;</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label</label><input type="text" id="nb_eyebrow"></div></div>
+          <div class="row r2"><div class="field"><label>Headline line 1</label><input type="text" id="nb_h1"></div><div class="field"><label>Headline line 2 (italic)</label><input type="text" id="nb_h2"></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">&#128293;</div><div><div class="cttl">4 Stat Blocks</div><div class="csub">Label, number and subtext for each</div></div><span class="cchev">&#9660;</span></div>
+        <div class="cbody open">
+          <div class="sgrid2">
+            <div class="scard"><div class="scard-lbl">Block 1</div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Label</label><input type="text" id="nb_b1l"></div></div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Number</label><input type="text" id="nb_b1n"></div></div><div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="nb_b1s"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Block 2</div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Label</label><input type="text" id="nb_b2l"></div></div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Number</label><input type="text" id="nb_b2n"></div></div><div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="nb_b2s"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Block 3</div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Label</label><input type="text" id="nb_b3l"></div></div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Number</label><input type="text" id="nb_b3n"></div></div><div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="nb_b3s"></div></div></div>
+            <div class="scard"><div class="scard-lbl">Block 4</div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Label</label><input type="text" id="nb_b4l"></div></div><div class="row r1" style="margin-bottom:8px"><div class="field"><label>Number</label><input type="text" id="nb_b4n"></div></div><div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="nb_b4s"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOCIAL PROOF -->
+    <div class="panel" id="panel-sproof">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">&#128247;</div><div><div class="cttl">Section Header</div></div><span class="cchev">&#9660;</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label</label><input type="text" id="sp_eyebrow"></div></div>
+          <div class="row r2"><div class="field"><label>Headline line 1</label><input type="text" id="sp_h1"></div><div class="field"><label>Headline line 2 (italic)</label><input type="text" id="sp_h2"></div></div>
+          <div class="row r1"><div class="field"><label>CTA button text</label><input type="text" id="sp_cta_txt"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA BANNER -->
+    <div class="panel" id="panel-ctabanner">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">&#128222;</div><div><div class="cttl">Pink 15-Min CTA Section</div><div class="csub">All text in the pink call-to-action band</div></div><span class="cchev">&#9660;</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Eyebrow label (small caps above headline)</label><input type="text" id="cta_eyebrow"></div></div>
+          <div class="row r2"><div class="field"><label>Headline line 1</label><input type="text" id="cta_h1"></div><div class="field"><label>Headline line 2 (italic)</label><input type="text" id="cta_h2"></div></div>
+          <div class="row r1"><div class="field"><label>Body paragraph</label><textarea id="cta_body"></textarea></div></div>
+          <div class="row r2"><div class="field"><label>Button text</label><input type="text" id="cta_btn_txt"></div><div class="field"><label>Fine print below button</label><input type="text" id="cta_fine"></div></div>
+          <div class="row r1"><div class="field"><label>Pill tags (one per line)</label><textarea id="cta_pills" style="min-height:80px"></textarea></div></div>
+        </div>
+      </div>
+    </div>>
+
+    <!-- IMAGES -->
+    <div class="panel" id="panel-images">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📐</div><div><div class="cttl">Image Size Guide</div><div class="csub">Exact dimensions for every image</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <table class="stbl">
+            <thead><tr><th>Image</th><th>Size</th><th>Shape</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Hero Background</strong></td><td>1800×900px</td><td><span class="spec-pill sp-wide">Wide</span></td><td>Full screen. Keep subject centred.</td></tr>
+              <tr><td><strong>Image Break 1 &amp; 2</strong></td><td>1800×600px</td><td><span class="spec-pill sp-wide">Wide</span></td><td>Cinematic strip. Centre your subject.</td></tr>
+              <tr><td><strong>Team Photos ×3</strong></td><td>600×800px</td><td><span class="spec-pill sp-port">Portrait</span></td><td>Face centred, space above head.</td></tr>
+              <tr><td><strong>IG Posts ×4</strong></td><td>1080×1920px</td><td><span class="spec-pill sp-port">9:16 Portrait</span></td><td>Full-screen iPhone frame. Upload vertical images only.</td></tr>
+              <tr><td><strong>Reality Check BG</strong></td><td>1800×1000px</td><td><span class="spec-pill sp-wide">Wide</span></td><td>Behind the phone section. Dark images work best.</td></tr>
+              <tr><td><strong>CTA Banner BG</strong></td><td>1800×600px</td><td><span class="spec-pill sp-wide">Wide</span></td><td>Behind the pink CTA section. Keep it subtle.</td></tr>
+              <tr><td><strong>How We Work BG</strong></td><td>1800×900px</td><td><span class="spec-pill sp-wide">Wide</span></td><td>Dark section. Low-opacity overlay. Dark images best.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">🌅</div><div><div class="cttl">Hero Background</div><div class="csub">1800×900px + overlay text on top</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open"><div id="iz-hero_bg"></div></div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">🎞️</div><div><div class="cttl">Image Break 1</div><div class="csub">1800×600px + editable overlay text</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div id="iz-break1"></div>
+          <div class="ov-fields">
+            <div class="ov-lbl">📝 Overlay Text on this image</div>
+            <div class="row r1"><div class="field"><label>Headline (use | for line break + italic)</label><input type="text" id="ib1_h"></div></div>
+            <div class="row r1"><div class="field"><label>Subtext</label><input type="text" id="ib1_sub"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">🎞️</div><div><div class="cttl">Image Break 2</div><div class="csub">1800×600px + editable overlay text</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div id="iz-break2"></div>
+          <div class="ov-fields">
+            <div class="ov-lbl">📝 Overlay Text on this image</div>
+            <div class="row r1"><div class="field"><label>Headline (use | for line break + italic)</label><input type="text" id="ib2_h"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">👩</div><div><div class="cttl">Team Photos</div><div class="csub">600×800px portrait for each member</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="team-photos-grid"></div></div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico mt">📱</div><div><div class="cttl">Instagram Post Images</div><div class="csub">1080×1920px — 4 phone slots · image or YouTube URL</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open"><div id="ig-photos-grid"></div></div>
+      </div>
+    
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">⚙️</div><div><div class="cttl">How We Work Background</div><div class="csub">1800×900px · dark overlay behind process steps</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field">
+            <div class="img-zone" id="iz-process_bg" data-key="process_bg" onclick="document.getElementById('if-process_bg').click()">
+              <input type="file" id="if-process_bg" accept="image/*" style="display:none" onchange="handleImgUpload(this,'process_bg')">
+              <div class="iz-icon">⚙️</div><div class="iz-lbl">Click to upload · 1800×900px</div><div class="iz-sub">or drag and drop</div>
+            </div>
+            <input type="text" id="img_process_bg" placeholder="https://... (or upload above)" style="margin-top:8px" oninput="previewImgUrl(this.value,'process_bg')">
+          </div></div>
+        </div>
+      </div>
+            <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">🎀</div><div><div class="cttl">CTA Banner Background</div><div class="csub">1800×600px · behind the pink 15-min section</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Upload or paste URL <small style="color:var(--latte);font-weight:400">(1800×600px)</small></label>
+            <div class="img-zone" id="iz-cta_bg" data-key="cta_bg" onclick="document.getElementById('if-cta_bg').click()">
+              <input type="file" id="if-cta_bg" accept="image/*" style="display:none" onchange="handleImgUpload(this,'cta_bg')">
+              <div class="iz-icon">🎀</div>
+              <div class="iz-lbl">Click to upload · 1800×600px</div>
+              <div class="iz-sub">or drag and drop</div>
+            </div>
+            <input type="text" id="img_cta_bg" placeholder="https://... (or upload above)" style="margin-top:8px" oninput="previewImgUrl(this.value,'cta_bg')">
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LINKS -->
+    <div class="panel" id="panel-links">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">🔗</div><div><div class="cttl">All Links &amp; Buttons</div><div class="csub">Update every URL on the site</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="lg"><div class="lg-title">📱 Section CTAs</div>
+            <div class="lrow"><div class="lname"><span>Reality Check Button</span><small>"Start posting with purpose" link</small></div><input class="linput" id="lnk_reality_cta" type="url" placeholder="#pricing"><a class="ltest" id="lt_reality_cta" href="#" target="_blank">Test ↗</a></div>
+          </div>
+          <div class="lg"><div class="lg-title">💳 Pricing Plan Buttons</div>
+            <div class="lrow"><div class="lname"><span>Content Planner — $37</span><small>Button on the first pricing card</small></div><input class="linput" id="lnk_plan_0" type="url" placeholder="https://"><a class="ltest" id="lt_plan_0" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>DIY Strategy — $249/mo</span><small>Button on the second pricing card</small></div><input class="linput" id="lnk_plan_1" type="url" placeholder="https://"><a class="ltest" id="lt_plan_1" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Done-With-You ⭐ — $495/mo</span><small>Button on the featured pricing card</small></div><input class="linput" id="lnk_plan_2" type="url" placeholder="https://"><a class="ltest" id="lt_plan_2" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Content Engine — $1,495/mo</span><small>Button on the fourth pricing card</small></div><input class="linput" id="lnk_plan_3" type="url" placeholder="https://"><a class="ltest" id="lt_plan_3" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>High-Touch Strategy — $2,995+</span><small>"Apply for This Plan" button</small></div><input class="linput" id="lnk_plan_ht" type="url" placeholder="https://"><a class="ltest" id="lt_plan_ht" href="#" target="_blank">Test ↗</a></div>
+          </div>
+          <div class="lg"><div class="lg-title">📅 Booking / CTA</div>
+            <div class="lrow"><div class="lname"><span>Hero CTA Button</span><small>Primary button — hero section</small></div><input class="linput" id="lnk_hero_cta" type="url"><a class="ltest" id="lt_hero_cta" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Nav "Book Free Call"</span><small>Top right nav button</small></div><input class="linput" id="lnk_nav_cta" type="url"><a class="ltest" id="lt_nav_cta" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Checklist CTA</span><small>"Let's Build Yours" button</small></div><input class="linput" id="lnk_checklist" type="url"><a class="ltest" id="lt_checklist" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Social Proof CTA</span><small>"Start Growing" button</small></div><input class="linput" id="lnk_sproof" type="url"><a class="ltest" id="lt_sproof" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Bottom CTA Banner</span><small>"Book Free Discovery Call"</small></div><input class="linput" id="lnk_ctabanner" type="url"><a class="ltest" id="lt_ctabanner" href="#" target="_blank">Test ↗</a></div>
+          </div>
+          <div class="lg"><div class="lg-title">📧 Contact &amp; Social</div>
+            <div class="lrow"><div class="lname"><span>Email Address</span><small>Footer contact</small></div><input class="linput" id="lnk_email" type="email"><a class="ltest" id="lt_email" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Instagram</span><small>Footer link</small></div><input class="linput" id="lnk_ig" type="url"><a class="ltest" id="lt_ig" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>TikTok</span><small>Footer link</small></div><input class="linput" id="lnk_tt" type="url"><a class="ltest" id="lt_tt" href="#" target="_blank">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>LinkedIn</span><small>Footer link</small></div><input class="linput" id="lnk_li" type="url"><a class="ltest" id="lt_li" href="#" target="_blank">Test ↗</a></div>
+          </div>
+          <div class="lg"><div class="lg-title">🧭 Navigation</div>
+            <div class="lrow"><div class="lname"><span>Process</span><small>Nav anchor</small></div><input class="linput" id="lnk_nav_process"><a class="ltest" href="#">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Results</span><small>Nav anchor</small></div><input class="linput" id="lnk_nav_results"><a class="ltest" href="#">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>Pricing</span><small>Nav anchor</small></div><input class="linput" id="lnk_nav_pricing"><a class="ltest" href="#">Test ↗</a></div>
+            <div class="lrow"><div class="lname"><span>FAQ</span><small>Nav anchor</small></div><input class="linput" id="lnk_nav_faq"><a class="ltest" href="#">Test ↗</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIREBASE -->
+    <div class="panel" id="panel-firebase">
+      <div class="fbcard">
+        <h3>Firebase Connection ✦</h3>
+        <p>Connect your Realtime Database so every Save &amp; Publish syncs to the cloud — updating desktop and mobile instantly.</p>
+        <div class="fbfields">
+          <div class="fbf"><label>API Key</label><input type="text" id="fb_key" placeholder="AIzaSy..."></div>
+          <div class="fbf"><label>Project ID</label><input type="text" id="fb_pid" placeholder="brand-rehab-abc12"></div>
+          <div class="fbf" style="grid-column:span 2"><label>Database URL (must end in .firebaseio.com)</label><input type="text" id="fb_url" placeholder="https://brand-rehab-default-rtdb.firebaseio.com"></div>
+        </div>
+        <button class="fb-btn" id="fbSaveBtn">Save &amp; Connect</button>
+        <div class="fb-ok" id="fbOk"><div class="fb-dot"></div>Connected</div>
+        <div class="fb-err" id="fbErr">URL must be https://your-project-default-rtdb.firebaseio.com</div>
+      </div>
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico sd">📋</div><div><div class="cttl">Setup Guide</div></div><span class="cchev">▼</span></div>
+        <div class="cbody">
+          <ol style="padding-left:18px;color:var(--lt);font-size:.83rem;line-height:2.2">
+            <li>Go to <strong style="color:var(--cf)">console.firebase.google.com</strong></li>
+            <li>Add project → name it brand-rehab</li>
+            <li>Build → Realtime Database → Create database → Test mode</li>
+            <li>Project Settings (gear) → scroll down → click &lt;/&gt; to register web app</li>
+            <li>Copy apiKey and projectId from the config block shown</li>
+            <li>Database URL is shown in the Realtime Database panel</li>
+            <li>Paste all three here and click Save &amp; Connect</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="panel" id="panel-password">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">🔒</div><div><div class="cttl">Change Password</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div class="row r1"><div class="field"><label>Current Password</label><input type="password" id="pw_cur"></div></div>
+          <div class="row r2"><div class="field"><label>New Password</label><input type="password" id="pw_new"></div><div class="field"><label>Confirm</label><input type="password" id="pw_conf"></div></div>
+          <button id="pwBtn" style="padding:10px 22px;background:var(--gp);color:#fff;border:none;border-radius:100px;font-family:'Cabinet Grotesk',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;margin-top:4px">Update Password</button>
+          <div id="pw_msg" style="font-size:.78rem;margin-top:9px;display:none;font-weight:600"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<div class="panel" id="panel-seo">
+      <div class="card">
+        <div class="chdr" onclick="tog(this)"><div class="cico pk">📲</div><div><div class="cttl">SMS & Social Link Preview</div><div class="csub">Controls the image, title and description shown when your URL is shared</div></div><span class="cchev">▼</span></div>
+        <div class="cbody open">
+          <div style="background:rgba(176,210,236,.08);border:1px solid rgba(176,210,236,.2);border-radius:12px;padding:14px 16px;margin-bottom:18px">
+            <p style="font-size:.74rem;color:var(--latte);line-height:1.7;margin:0">
+              <strong style="color:var(--lt)">📐 OG Image size: 1200 × 630 px</strong><br>
+              This is the image shown when your link is shared via SMS, iMessage, Instagram DMs, WhatsApp, Facebook, Twitter/X, or LinkedIn. Use a bold, high-contrast image with your brand name visible. Upload to Google Drive or Cloudinary and paste the direct URL below.
+            </p>
+          </div>
+          <div class="row r1"><div class="field">
+            <label>Page Title</label>
+            <input type="text" id="seo_title" placeholder="Brand Rehab — Social Content Studio">
+            <p style="font-size:.65rem;color:var(--latte);margin-top:4px">Shown as the bold headline in link previews. Keep under 60 characters.</p>
+          </div></div>
+          <div class="row r1"><div class="field">
+            <label>Description</label>
+            <textarea id="seo_desc" style="min-height:70px" placeholder="We grow your brand on social media so you don't have to."></textarea>
+            <p style="font-size:.65rem;color:var(--latte);margin-top:4px">2–3 sentences shown under the title. Keep under 160 characters.</p>
+          </div></div>
+          <div class="row r1"><div class="field">
+            <label>Preview Image URL <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--latte)">(1200 × 630px · JPG or PNG)</span></label>
+            <input type="text" id="seo_img" placeholder="https://drive.google.com/uc?export=view&id=...">
+            <p style="font-size:.65rem;color:var(--latte);margin-top:4px">Upload to Google Drive or Cloudinary → paste direct URL here. Must end in .jpg or .png for best compatibility.</p>
+          </div></div>
+          <div id="seo_preview_wrap" style="margin-top:16px;display:none">
+            <p style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--latte);margin-bottom:8px">Preview</p>
+            <div style="border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden;max-width:400px">
+              <div id="seo_img_preview" style="width:100%;aspect-ratio:1200/630;background:#111;background-size:cover;background-position:center"></div>
+              <div style="padding:10px 14px;background:rgba(255,255,255,.04)">
+                <p id="seo_title_preview" style="font-size:.78rem;font-weight:700;color:var(--lt);margin:0 0 3px;font-family:'Cabinet Grotesk',sans-serif">Title</p>
+                <p id="seo_desc_preview" style="font-size:.68rem;color:var(--latte);margin:0;line-height:1.5">Description</p>
+                <p style="font-size:.6rem;color:rgba(255,255,255,.3);margin:4px 0 0">brandrehab.online</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+//
+// PASSWORD
+//
+var PW = localStorage.getItem('br_pw') || 'brandrehab2025';
+
+//
+// DEFAULTS
+//
+var DEFS = {
+  hero:{
+    tag:'Social Content Studio - Built for Business Owners',
+    line1:'Your brand.',line2:'Your content.',line3:'Your audience.',
+    sub:"You already know you need to show up consistently. You just don\'t have the time -- or the system -- to make it happen every single week.",
+    sub2:'That ends here. ✨',cta:'Book Your Free Strategy Call ↗',cta_url:'https://calendly.com',
+    ghost:'See Plans',
+    s1n:'100+',s1l:'Business owners served',s2n:'2.3M',s2l:'Top client followers',
+    s3n:'1 Wk',s3l:'Average launch time',s4n:'+100%',s4l:'Avg. monthly growth'
+  },
+  pain:{
+    label:'Sound Familiar?',
+    h:"You care about|your business.|*The content keeps|falling through.",
+    sub:"You\'re not lazy. You\'re not behind. You just don\'t have a system built around you. That\'s exactly what we fix.",
+    q1:"I\'m getting distracted by conflicting advice and trying to piece together a strategy, but I haven\'t found anything that consistently gets results -- and it\'s exhausting.",
+    q2:"I\'ve tried seemingly everything to grow my audience, but I\'m hitting a wall month after month with little to no growth.",
+    q3:"I\'m doing it all by myself. I\'ve got no one to brainstorm with or guide me on what to do next -- I have so many questions with no clear answers."
+  },
+  checklist:{
+    label:'Tell Me, Which of These Have You Already Tried?',
+    h:'Check everything that applies.',
+    sub:"Every box you check is proof you need a strategy built for you -- not borrowed from someone else\'s playbook.",
+    wm:'SAME.',
+    i1:'Posted consistently for 2 weeks, burned out, and went quiet again',
+    i2:'Followed every trending audio hoping something would stick',
+    i3:"Downloaded free content templates that didn\'t fit your brand",
+    i4:'Paid for a course on content strategy that you never finished',
+    i5:"Hired a SMMA who didn\'t really get your voice or audience",
+    i6:'Tried to batch content and lost your entire day',
+    cta_txt:"If you checked more than two, you\'re not the problem.|*The missing piece is a strategy built around you.*",
+    cta_sub:'Month-to-month. No contracts. Onboarded in 3–5 days.',
+    cta_btn:"Let\'s Build Yours →"
+  },
+  process:{
+    label:'How We Work',h1:'Strategy that drives',h2:'real social growth.',
+    sub:'Three steps. Zero guesswork. A content engine built to work.',
+    s1t:'We Learn Your Brand',s1d:"Deep-dive discovery where we study your audience, voice, niche, and goals. We don\'t guess -- we build from your actual business, your actual market, your actual competitors.",
+    s2t:'We Build Your Custom Plan',s2d:'Hooks, carousels, scripts, and a full month of content -- researched, written, and structured to convert. Every post has a purpose. Every caption has a strategy behind it.',
+    s3t:'We Execute or Hand It Off',s3d:"Depending on your plan, we hand you a ready-to-post system or handle everything from edit to publish. Your only job is to show up as the face of your brand."
+  },
+  pricing:{
+    h1:'Find your phase.',h2:"We\'ll build the rest.",
+    sub:'No long-term contracts. No retainers. Just the plan that fits where you are right now.',
+    ht_t1:"You\'re ready to own your niche.",ht_t2:"We\'ll build the machine.",
+    ht_desc:'A dedicated content team, custom growth strategy, and full marketing management -- all under one roof. 40 pieces of content, ad management, A/B testing, unlimited copywriting, weekly analytics reviews, and a dedicated growth specialist who lives and breathes your brand.',
+    ht_price:'$2,995',ht_period:'/month',
+    plans:[
+      {name:'Content Planner',desc:'For the business owner who wants the system and will run it themselves.',price:'$37',period:'one-time',featured:false,badge:'',features:['Notion content planner template','Built-in content calendar system','Hooks + caption frameworks','Batching workflow included','Instant digital download']},
+      {name:'DIY Strategy',desc:"You need a plan. We\'ll build it.",price:'$249',period:'/month',featured:false,badge:'',features:['8 posts planned monthly','Hooks written for each post','Profile optimization','DIY batching content system','Month-to-month, cancel anytime']},
+      {name:'Done-With-You',desc:"You need the plan AND the words. We\'ll write both.",price:'$495',period:'/month',featured:true,badge:'✦ Most Popular',features:['Custom content strategy','Monthly 30-min strategy call','12 posts planned (hooks + outlines)','4 complete carousels designed + written','8 reel scripts','Client portal access','Industry research']},
+      {name:'Content Engine',desc:"Busy owners who are done DIYing.",price:'$1,495',period:'/month',featured:false,badge:'',features:['Custom brand & content strategy','18 posts planned monthly','3 short-form videos (edit & post)','3 carousels (designed + posted)','Monthly analytics review call','Full scripting + copywriting','SEO optimization','Client portal access']}
+    ]
+  },
+  testimonials:{
+    pq_txt:'"I used to spend half my Sunday dreading Monday\'s posts. Now my entire month is planned before the week starts. I\'ve got my weekends back -- and my engagement has never been higher."',
+    pq_cite:'-- Shiraz Gidwani, CEO & National Strategist - 2.3M followers',pq_hi:"I\'ve got my weekends back",
+    cards:[
+      {quote:'"Felicia and the team completely transformed how I show up online."',name:'Alexis Monroe',role:'Founder, Monroe Wellness - 48K followers',initials:'AM',featured:true},
+      {quote:'"I was stuck at 3K followers for over a year. Within 60 days I broke 25K."',name:'Jasmine Liu',role:'Business Coach - 25K followers',initials:'JL',featured:false},
+      {quote:'"The Content Engine is worth every dollar. My business grew 40% this quarter."',name:'Kira Reyes',role:'E-commerce Founder - 112K followers',initials:'KR',featured:false}
+    ]
+  },
+  team:{members:[
+    {name:'Felicia',role:'Founder & CEO',bio:"The visionary behind Brand Rehab."},
+    {name:'Austan',role:'Business Strategist',bio:'Austan connects content strategy to business outcomes.'},
+    {name:'Ava',role:'Technical Lead',bio:'Ava runs the production engine.'}
+  ]},
+  faq:{items:[
+    {q:"What makes Brand Rehab different from a template?",a:"We research your niche and build a strategy around your business."},
+    {q:"Do I have to post the content myself?",a:"It depends on your plan."},
+    {q:"How quickly can I get started?",a:"Most clients are onboarded within 3–5 business days."},
+    {q:"What if I\'m not on every platform?",a:"We\'ll tell you which platform matters most for your business."},
+    {q:"Is there a contract?",a:"No long-term contracts. Month-to-month always."},
+    {q:"How do I get started?",a:"Book your free discovery call -- 15 minutes, zero pressure."}
+  ]},
+  footer:{
+    desc:"A social content studio for busy business owners who are done figuring it out alone. Built by a female founder. Powered by strategy. Driven by results.",
+    copy:"© 2025 Brand Rehab. All rights reserved. Built for the bold. ✦"
+  },
+  images:{
+    hero_bg:'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1800&q=80&fit=crop',
+    break1:'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1800&q=80&fit=crop',
+    break2:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1800&q=80&fit=crop',
+    ib1_h:'Stop guessing. Stop wasting hours.|*Start owning your niche.*',
+    ib1_sub:'Your content should work as hard as you do. Let us build the engine.',
+    ib2_h:'A studio that moves at|the pace of your business.|*Not against it.*',
+    team_0:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=faces',
+    team_1:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&fit=crop&crop=faces',
+    team_2:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80&fit=crop&crop=faces',
+    ig_0:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&q=80&fit=crop',
+    ig_1:'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&q=80&fit=crop',
+    ig_2:'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&q=80&fit=crop',
+    ig_3:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&q=80&fit=crop',
+    ig_4:'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=400&q=80&fit=crop',
+    ig_0_cap:'How We Grew This Account 4x in 60 Days',ig_0_likes:'31,204 likes - 2.1K saves',
+    ig_1_cap:'3 Content Pillars Every Business Owner Needs',ig_1_likes:'18,447 likes - 1.8K saves',
+    ig_2_cap:'Why Consistent Posting Won\'t Save Your Brand',ig_2_likes:'44,882 likes - 3.4K saves',
+    ig_3_cap:'Our Client Just Hit 100K -- Here\'s What We Did',ig_3_likes:'22,103 likes - 1.2K saves',
+    ig_4_cap:'Stop Posting Without a Strategy (Do This Instead)',ig_4_likes:'27,553 likes - 1.4K saves'
+  },
+  links:{
+    hero_cta:'https://calendly.com',nav_cta:'https://calendly.com',
+    checklist:'https://calendly.com',sproof:'https://calendly.com',ctabanner:'https://calendly.com',
+    email:'hello@brandrehab.co',ig:'https://instagram.com/brandrehab',
+    tt:'https://tiktok.com/@brandrehab',li:'https://linkedin.com/company/brandrehab',
+    nav_process:'#process',nav_results:'#results',nav_pricing:'#pricing',nav_faq:'#faq'
+  }
+};
+
+function mergeDeep(t,s){
+  for(var k in s){
+    if(s[k]&&typeof s[k]==='object'&&!Array.isArray(s[k])){
+      if(!t[k])t[k]={};mergeDeep(t[k],s[k]);
+    }else if(!(k in t)){t[k]=s[k];}
+  }
+  return t;
+}
+
+var stored = JSON.parse(localStorage.getItem('br_content')||'{}');
+var C = mergeDeep(stored, JSON.parse(JSON.stringify(DEFS)));
+var dirty = false;
+
+//
+// LOGIN
+//
+async function login(){
+  var pw = document.getElementById('lpw').value;
+  if(pw === PW){
+    document.getElementById('loginWrap').style.display='none';
+    document.getElementById('app').style.display='flex';
+    // Show loading state
+    document.getElementById('app').style.opacity='0.5';
+    // Fetch latest data from Firebase before building panels
+    try {
+      var FIREBASE_URL = 'https://brand-rehab-default-rtdb.firebaseio.com';
+      var res = await fetch(FIREBASE_URL + '/content.json');
+      if(res.ok){
+        var fbData = await res.json();
+        if(fbData){
+          // Merge Firebase data into C so all panels have fresh data
+          C = mergeDeep(fbData, JSON.parse(JSON.stringify(DEFS)));
+          localStorage.setItem('br_content', JSON.stringify(C));
+        }
+      }
+    } catch(e){
+      console.warn('Firebase read failed, using localStorage:', e);
+    }
+    document.getElementById('app').style.opacity='1';
+    initAll();
+  } else {
+    document.getElementById('lerr').style.display='block';
+    document.getElementById('lpw').style.borderColor='var(--pkd)';
+  }
+}
+document.getElementById('lbtn').addEventListener('click', login);
+document.getElementById('lpw').addEventListener('keydown', function(e){ if(e.key==='Enter') login(); });
+document.getElementById('logoutBtn').addEventListener('click', function(){
+  document.getElementById('loginWrap').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('lpw').value='';
+  document.getElementById('lerr').style.display='none';
+});
+
+//
+// NAVIGATION
+//
+var META = {
+  hero:{t:'Hero',d:'Edit headline, subtext and stats'},
+  pain:{t:'Pain Section',d:'Edit headline, subtext and quote cards'},
+  checklist:{t:'Checklist Section',d:'Edit checklist items and CTA block'},
+  process:{t:'Process Steps',d:'Edit the 3 how-it-works steps'},
+  pricing:{t:'Pricing',d:'Edit plans, prices and features'},
+  testimonials:{t:'Testimonials',d:'Edit pull quote and review cards'},
+  team:{t:'Team',d:'Edit names, roles and bios'},
+  faq:{t:'FAQ',d:'Add, edit or remove questions'},
+  footer:{t:'Footer',d:'Edit brand description and copyright'},
+  numbers:{t:'By the Numbers',d:'Edit the 4 stat blocks and section headline'},
+  sproof:{t:'Client Results',d:'Edit the social proof section header'},
+  ctabanner:{t:'15-Min CTA Section',d:'Edit all text in the pink call-to-action band'},
+  reality:{t:'Reality Check Section',d:'Video phone section — text, video, background and link'},
+  images:{t:'Images & Overlays',d:'Upload images and edit overlay text'},
+  links:{t:'Links & Buttons',d:'Update every URL on the site'},
+  firebase:{t:'Firebase Setup',d:'Connect cloud database'},
+  password:{t:'Change Password',d:'Update your login password'},
+  seo:{t:'Link Preview (SMS / Social)',d:'Update the image and text shown when your URL is shared via text or social media'}
+};
+['hero','pain','checklist','process','pricing','testimonials','team','faq','footer','numbers','sproof','ctabanner','reality','images','links','firebase','password','seo'].forEach(function(id){
+  document.getElementById('nav-'+id).addEventListener('click', function(){
+    document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+    document.querySelectorAll('.ni').forEach(function(b){b.classList.remove('on');});
+    document.getElementById('panel-'+id).classList.add('active');
+    document.getElementById('nav-'+id).classList.add('on');
+    document.getElementById('ptitle').textContent = META[id].t;
+    document.getElementById('pdesc').textContent = META[id].d;
+    // Rebuild image zones when Images panel is opened so Firebase data is loaded
+    if(id === 'images') buildImageZones();
+  });
+});
+
+//
+// ACCORDION
+//
+function tog(hdr){
+  var b=hdr.nextElementSibling, c=hdr.querySelector('.cchev');
+  b.classList.toggle('open');
+  c.style.transform = b.classList.contains('open')?'rotate(180deg)':'';
+}
+
+//
+// DIRTY TRACKING
+//
+function markDirty(){
+  dirty=true;
+  var b=document.getElementById('statusBadge');
+  b.className='status dirty';
+  document.getElementById('statusTxt').textContent='Unsaved changes';
+}
+document.addEventListener('input', function(e){
+  markDirty();
+  if(e.target.id==='seo_img'||e.target.id==='seo_title'||e.target.id==='seo_desc') updateSeoPreview();
+});
+
+//
+// HELPERS
+//
+function gv(id){ var e=document.getElementById(id); return e?e.value:''; }
+function sv(id,val){ var e=document.getElementById(id); if(e) e.value=val||''; }
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+//
+// INIT ALL
+//
+function initAll(){
+  loadHero(); loadPain(); loadChecklist(); loadProcess();
+  loadPricing(); loadTestimonials(); loadTeam(); loadFaq();
+  loadFooter(); loadNumbers(); loadSproof(); loadCtaBanner(); loadReality(); buildImageZones(); loadLinks(); loadFbConfig(); loadSeo();
+}
+
+function loadHero(){
+  var h=C.hero;
+  sv('h_tag',h.tag);sv('h_line1',h.line1);sv('h_line2',h.line2);sv('h_line3',h.line3);
+  sv('h_sub',h.sub);sv('h_sub2',h.sub2);sv('h_cta',h.cta);sv('h_ghost',h.ghost);
+  sv('s1n',h.s1n);sv('s1l',h.s1l);sv('s2n',h.s2n);sv('s2l',h.s2l);
+  sv('s3n',h.s3n);sv('s3l',h.s3l);sv('s4n',h.s4n);sv('s4l',h.s4l);
+}
+
+function loadPain(){
+  var p=C.pain;
+  sv('pain_label',p.label);sv('pain_h',p.h);sv('pain_sub',p.sub);
+  sv('pain_q1',p.q1);sv('pain_q2',p.q2);sv('pain_q3',p.q3);
+}
+
+function loadChecklist(){
+  var c=C.checklist;
+  sv('chk_label',c.label);sv('chk_h',c.h);sv('chk_sub',c.sub);sv('chk_wm',c.wm);
+  sv('chk_i1',c.i1);sv('chk_i2',c.i2);sv('chk_i3',c.i3);
+  sv('chk_i4',c.i4);sv('chk_i5',c.i5);sv('chk_i6',c.i6);
+  sv('chk_cta_txt',c.cta_txt);sv('chk_cta_sub',c.cta_sub);sv('chk_cta_btn',c.cta_btn);
+}
+
+function loadProcess(){
+  var p=C.process;
+  sv('proc_label',p.label);sv('proc_h1',p.h1);sv('proc_h2',p.h2);sv('proc_sub',p.sub);
+  sv('proc_s1t',p.s1t);sv('proc_s1d',p.s1d);
+  sv('proc_s2t',p.s2t);sv('proc_s2d',p.s2d);
+  sv('proc_s3t',p.s3t);sv('proc_s3d',p.s3d);
+}
+
+function loadPricing(){
+  var p=C.pricing;
+  sv('pr_h1',p.h1);sv('pr_h2',p.h2);sv('pr_sub',p.sub);
+  sv('ht_t1',p.ht_t1);sv('ht_t2',p.ht_t2);sv('ht_desc',p.ht_desc);
+  sv('ht_price',p.ht_price);sv('ht_period',p.ht_period);
+  var el=document.getElementById('plans-editor');el.innerHTML='';
+  p.plans.forEach(function(plan,i){
+    var d=document.createElement('div');d.className='ri';
+    d.innerHTML='<div class="rihdr"><span class="rilbl">Plan '+(i+1)+(plan.featured?' - ✦ Featured':'')+'</span></div>'+
+      '<div class="row r2"><div class="field"><label>Plan Name</label><input type="text" id="pl_'+i+'_name" value="'+esc(plan.name)+'"></div><div class="field"><label>Price</label><input type="text" id="pl_'+i+'_price" value="'+esc(plan.price)+'"></div></div>'+
+      '<div class="row r3"><div class="field"><label>Period</label><input type="text" id="pl_'+i+'_period" value="'+esc(plan.period)+'"></div><div class="field"><label>Badge</label><input type="text" id="pl_'+i+'_badge" value="'+esc(plan.badge)+'"></div><div class="field"><label>Featured?</label><select id="pl_'+i+'_feat"><option value="false"'+(plan.featured?'':' selected')+'>No</option><option value="true"'+(plan.featured?' selected':'')+'>Yes</option></select></div></div>'+
+      '<div class="row r1"><div class="field"><label>Description</label><textarea id="pl_'+i+'_desc">'+esc(plan.desc)+'</textarea></div></div>'+
+      '<div class="row r1"><div class="field"><label>Features -- one per line</label><textarea id="pl_'+i+'_feats" style="min-height:110px">'+plan.features.join('\n')+'</textarea></div></div>'+
+      '<div class="row r1"><div class="field"><label>Button URL (where the button links)</label><input type="text" id="pl_'+i+'_url" placeholder="https://calendly.com" value="'+esc(plan.btn_url||'')+'"></div></div>';
+    el.appendChild(d);
+  });
+}
+
+function loadTestimonials(){
+  var t=C.testimonials;
+  sv('pq_txt',t.pq_txt);sv('pq_cite',t.pq_cite);sv('pq_hi',t.pq_hi);
+  var el=document.getElementById('testi-editor');el.innerHTML='';
+  t.cards.forEach(function(card,i){
+    el.innerHTML+='<div class="ri"><div class="rihdr"><span class="rilbl">Card '+(i+1)+(card.featured?' - ✦ Featured':'')+'</span></div>'+
+      '<div class="row r1"><div class="field"><label>Quote</label><textarea id="tc_'+i+'_q">'+esc(card.quote)+'</textarea></div></div>'+
+      '<div class="row r3"><div class="field"><label>Name</label><input type="text" id="tc_'+i+'_name" value="'+esc(card.name)+'"></div><div class="field"><label>Initials</label><input type="text" id="tc_'+i+'_init" value="'+esc(card.initials)+'" maxlength="2"></div><div class="field"><label>Role</label><input type="text" id="tc_'+i+'_role" value="'+esc(card.role)+'"></div></div>'+
+      '<div class="row r1"><div class="field"><label>Featured dark card?</label><select id="tc_'+i+'_feat"><option value="false"'+(card.featured?'':' selected')+'>No</option><option value="true"'+(card.featured?' selected':'')+'>Yes</option></select></div></div></div>';
+  });
+}
+
+function loadTeam(){
+  var el=document.getElementById('team-editor');el.innerHTML='';
+  C.team.members.forEach(function(m,i){
+    el.innerHTML+='<div class="ri"><div class="rihdr"><span class="rilbl">Member '+(i+1)+'</span></div>'+
+      '<div class="row r2"><div class="field"><label>Name</label><input type="text" id="tm_'+i+'_name" value="'+esc(m.name)+'"></div><div class="field"><label>Role</label><input type="text" id="tm_'+i+'_role" value="'+esc(m.role)+'"></div></div>'+
+      '<div class="row r1"><div class="field"><label>Bio</label><textarea id="tm_'+i+'_bio">'+esc(m.bio)+'</textarea></div></div>'+
+      '<p class="hint" style="margin-top:2px">Photo managed in the Images tab</p></div>';
+  });
+}
+
+function loadFaq(){
+  var el=document.getElementById('faq-editor');el.innerHTML='';
+  C.faq.items.forEach(function(item,i){
+    var d=document.createElement('div');d.className='ri';d.id='faq-'+i;
+    d.innerHTML='<div class="rihdr"><span class="rilbl">Q'+(i+1)+'</span><button class="ridel" data-idx="'+i+'">✕ Remove</button></div>'+
+      '<div class="row r1"><div class="field"><label>Question</label><input type="text" id="fq_'+i+'_q" value="'+esc(item.q)+'"></div></div>'+
+      '<div class="row r1"><div class="field"><label>Answer</label><textarea id="fq_'+i+'_a">'+esc(item.a)+'</textarea></div></div>';
+    el.appendChild(d);
+    d.querySelector('.ridel').addEventListener('click', function(){
+      C.faq.items.splice(parseInt(this.getAttribute('data-idx')),1);
+      loadFaq(); markDirty();
+    });
+  });
+}
+document.getElementById('addFaqBtn').addEventListener('click', function(){
+  C.faq.items.push({q:'New question?',a:'Your answer here.'});
+  loadFaq(); markDirty();
+});
+
+function loadFooter(){
+  sv('ft_desc',C.footer.desc);sv('ft_copy',C.footer.copy);
+  sv('ft_col1_title',C.footer.col1_title||'Services');
+  sv('ft_col2_title',C.footer.col2_title||'Company');
+  sv('ft_col3_title',C.footer.col3_title||'Contact');
+  sv('ft_ig_label',C.footer.ig_label||'@brandrehab');
+  sv('ft_tt_label',C.footer.tt_label||'TikTok');
+  sv('ft_li_label',C.footer.li_label||'LinkedIn');
+}
+
+function loadNumbers(){
+  var nb=C.numbers||{};
+  sv('nb_eyebrow',nb.eyebrow||'By the Numbers');
+  sv('nb_h1',nb.h1||'Growth you can'); sv('nb_h2',nb.h2||'actually measure.');
+  sv('nb_b1l',nb.b1l||'Clients Served'); sv('nb_b1n',nb.b1n||'100+'); sv('nb_b1s',nb.b1s||'');
+  sv('nb_b2l',nb.b2l||'Avg Growth'); sv('nb_b2n',nb.b2n||'+100%'); sv('nb_b2s',nb.b2s||'');
+  sv('nb_b3l',nb.b3l||'Top Client'); sv('nb_b3n',nb.b3n||'2.3M'); sv('nb_b3s',nb.b3s||'');
+  sv('nb_b4l',nb.b4l||'Onboard Time'); sv('nb_b4n',nb.b4n||'5 Days'); sv('nb_b4s',nb.b4s||'');
+}
+
+function loadSproof(){
+  var sp=C.sproof||{};
+  sv('sp_eyebrow',sp.eyebrow||'Client Results');
+  sv('sp_h1',sp.h1||'What growth'); sv('sp_h2',sp.h2||'actually looks like.');
+  sv('sp_cta_txt',sp.cta_txt||'Start Growing');
+}
+
+function loadReality(){
+  var rc=C.reality||{};
+  sv('rc_eyebrow',rc.eyebrow||'The Reality Check');
+  sv('rc_h',rc.h||'"I don’t need social media."');
+  sv('rc_sub',rc.sub||'');
+  sv('rc_sub2',rc.sub2||'');
+  sv('rc_cta_txt',rc.cta_txt||'Start posting with purpose ↗');
+  sv('rc_cta_link',rc.cta_link||'#pricing');
+  sv('rc_video_url',rc.video_url||'');
+  sv('img_reality_bg',rc.bg_img||'');
+  sv('img_process_bg',(C.images&&C.images.process_bg)||'');
+  sv('img_cta_bg',(C.ctabanner&&C.ctabanner.bg_img)||'');
+}
+function loadCtaBanner(){
+  var cta=C.ctabanner||{};
+  sv('cta_eyebrow',cta.eyebrow||"You've Spent Enough Time Figuring This Out Alone");
+  sv('cta_h1',cta.h1||"A 15-minute call won't"); sv('cta_h2',cta.h2||'lock you into anything.');
+  sv('cta_body',cta.body||''); sv('cta_btn_txt',cta.btn_txt||'Book Your Free Discovery Call');
+  sv('cta_fine',cta.fine||'Month-to-month. Cancel anytime. No hidden fees.');
+  sv('cta_pills',(cta.pills||['No commitment','No pressure','Just clarity','Onboarded in 3-5 days']).join('\n'));
+}
+
+//
+// IMAGE ZONES
+//
+var IMG_SPECS = {
+  hero_bg:{w:1800,h:900,shape:'Wide',ar:'16/9'},
+  break1:{w:1800,h:600,shape:'Wide',ar:'3/1'},
+  break2:{w:1800,h:600,shape:'Wide',ar:'3/1'},
+  team_0:{w:600,h:800,shape:'Portrait',ar:'3/4'},
+  team_1:{w:600,h:800,shape:'Portrait',ar:'3/4'},
+  team_2:{w:600,h:800,shape:'Portrait',ar:'3/4'},
+  ig_0:{w:1080,h:1920,shape:'9:16 Portrait',ar:'9/16'},
+  ig_1:{w:1080,h:1920,shape:'9:16 Portrait',ar:'9/16'},
+  ig_2:{w:1080,h:1920,shape:'9:16 Portrait',ar:'9/16'},
+  ig_3:{w:1080,h:1920,shape:'9:16 Portrait',ar:'9/16'},
+  ig_4:{w:1080,h:1920,shape:'9:16 Portrait',ar:'9/16'}
+};
+
+function buildImageZones(){
+  ['hero_bg','break1','break2'].forEach(function(k){
+    var el=document.getElementById('iz-'+k);
+    if(el) el.innerHTML=makeZone(k);
+  });
+  var tg=document.getElementById('team-photos-grid');
+  if(tg){
+    tg.innerHTML='';
+    [0,1,2,3].forEach(function(i){
+      var k='team_'+i;
+      var nm=C.team.members[i]?C.team.members[i].name:'Member '+(i+1);
+      var wrap=document.createElement('div');
+      wrap.innerHTML='<p style="font-family:sans-serif;font-size:.7rem;font-weight:700;color:var(--lt);margin-bottom:7px;text-transform:uppercase;letter-spacing:.1em">'+nm+'</p><div id="iz-'+k+'"></div>';
+      tg.appendChild(wrap);
+      document.getElementById('iz-'+k).innerHTML=makeZone(k);
+    });
+  }
+  var ig=document.getElementById('ig-photos-grid');
+  if(ig){
+    ig.innerHTML='';
+    [0,1,2,3].forEach(function(i){
+      var k='ig_'+i;
+      var stored=C.images[k]||'';
+      var isYT=stored.indexOf('youtube.com')>-1||stored.indexOf('youtu.be')>-1;
+      var ytVal=isYT?stored:'';
+      // Temporarily blank YT from C.images so makeZone shows empty image zone
+      if(isYT) C.images[k]='';
+
+      var wrap=document.createElement('div');
+      wrap.style.cssText='margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.08)';
+
+      wrap.innerHTML=
+        '<p style="font-size:.72rem;font-weight:700;color:var(--lt);margin:0 0 14px;text-transform:uppercase;letter-spacing:.1em">Phone '+(i+1)+'</p>'+
+
+        '<label style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--latte);display:block;margin-bottom:5px">YouTube URL</label>'+
+        '<input type="text" id="igyt'+i+'" placeholder="https://youtube.com/watch?v=..." value="'+esc(ytVal)+'" style="width:100%;padding:10px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:white;font-size:.82rem;box-sizing:border-box;outline:none;margin-bottom:5px">'+
+        '<p style="font-size:.62rem;color:var(--latte);opacity:.65;margin:0 0 14px">Paste YouTube link — autoplays silently on loop inside the phone</p>'+
+
+        '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">'+
+          '<span style="flex:1;height:1px;background:rgba(255,255,255,.08)"></span>'+
+          '<span style="font-size:.6rem;color:var(--latte);opacity:.5;text-transform:uppercase;letter-spacing:.1em">or image / direct video URL</span>'+
+          '<span style="flex:1;height:1px;background:rgba(255,255,255,.08)"></span>'+
+        '</div>'+
+
+        '<div id="iz-'+k+'"></div>';
+
+      ig.appendChild(wrap);
+      document.getElementById('iz-'+k).innerHTML=makeZone(k);
+      // Restore YT value
+      if(isYT) C.images[k]=stored;
+    });
+  }
+    sv('ib1_h',C.images.ib1_h||'');sv('ib1_sub',C.images.ib1_sub||'');sv('ib2_h',C.images.ib2_h||'');
+}
+
+function makeZone(key){
+  var spec=IMG_SPECS[key], url=C.images[key]||'', has=!!url;
+  return '<div class="img-zone">'+
+    '<div class="iz-inner">'+
+      '<div class="iz-spec-row">'+
+        '<span class="spec-pill sp-dim">📐 '+spec.w+' × '+spec.h+' px</span>'+
+        '<span class="spec-pill sp-shape">'+spec.shape+'</span>'+
+        '<span class="spec-pill sp-auto">✦ Auto-scaled</span>'+
+      '</div>'+
+      '<div class="iz-pw" style="aspect-ratio:'+spec.ar+'">'+
+        (has && (url.indexOf('youtube.com')>-1||url.indexOf('youtu.be')>-1) ?
+          '<div style="width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center;border-radius:8px"><span style="font-size:2rem">▶️</span><span style="color:white;font-size:.75rem;margin-left:8px;font-family:sans-serif">YouTube</span></div>'
+          : has ? '<img src="'+esc(url)+'" style="width:100%;height:100%;object-fit:cover;display:block">'
+          : '<div class="iz-ph"><div class="iz-ph-ico">🖼️</div><div class="iz-ph-txt">No image yet</div><div class="iz-ph-sub">Upload a file or paste a URL below</div></div>')+
+      '</div>'+
+      '<div class="iz-actions">'+
+        '<label class="iz-upload">📁 Upload<input type="file" accept="image/*" data-key="'+key+'"></label>'+
+        '<button class="iz-url-btn" data-key="'+key+'">🔗 URL</button>'+
+        (has?'<button class="iz-clear" data-key="'+key+'">✕ Clear</button>':'')+
+      '</div>'+
+      '<div class="iz-url-row" id="urlrow-'+key+'">'+
+        '<input class="iz-url-inp" id="urlval-'+key+'" type="url" placeholder="https://..." value="'+esc(url)+'">'+
+        '<button class="iz-url-apply" data-key="'+key+'">Apply</button>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+document.addEventListener('change', function(e){
+  if(e.target.type==='file' && e.target.closest('.iz-upload')){
+    var key=e.target.getAttribute('data-key');
+    var file=e.target.files[0]; if(!file) return;
+    var spec=IMG_SPECS[key];
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      var img=new Image();
+      img.onload=function(){
+        var canvas=document.createElement('canvas');
+        canvas.width=spec.w; canvas.height=spec.h;
+        var ctx=canvas.getContext('2d');
+        var scale=Math.max(spec.w/img.width, spec.h/img.height);
+        var sw=img.width*scale, sh=img.height*scale;
+        ctx.drawImage(img,(spec.w-sw)/2,(spec.h-sh)/2,sw,sh);
+        setZoneImg(key, canvas.toDataURL('image/jpeg',0.9));
+        showToast('Scaled to '+spec.w+'×'+spec.h+'px ✦','ok');
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+    // Warn if file is large (will bloat Firebase)
+    if(file.size > 500000){
+      showToast('Tip: Large images slow Firebase. Use Cloudinary URL instead for best results.','warn');
+    }
+  }
+});
+
+document.addEventListener('click', function(e){
+  if(e.target.classList.contains('iz-url-btn')){
+    var key=e.target.getAttribute('data-key');
+    var row=document.getElementById('urlrow-'+key);
+    if(row) row.classList.toggle('open');
+  }
+  if(e.target.classList.contains('iz-url-apply')){
+    var key=e.target.getAttribute('data-key');
+    var val=document.getElementById('urlval-'+key);
+    if(val && val.value.trim()) setZoneImg(key, val.value.trim());
+  }
+  if(e.target.classList.contains('iz-clear')){
+    var key=e.target.getAttribute('data-key');
+    C.images[key]='';
+    var el=document.getElementById('iz-'+key);
+    if(el) el.innerHTML=makeZone(key);
+    markDirty();
+  }
+});
+
+function setZoneImg(key, url){
+  C.images[key]=url;
+  var el=document.getElementById('iz-'+key);
+  if(el) el.innerHTML=makeZone(key);
+  markDirty();
+}
+
+//
+// LINKS
+//
+function loadLinks(){
+  var l=C.links;
+  sv('lnk_hero_cta',l.hero_cta);sv('lnk_nav_cta',l.nav_cta);sv('lnk_checklist',l.checklist);
+  sv('lnk_sproof',l.sproof);sv('lnk_ctabanner',l.ctabanner);sv('lnk_email',l.email);
+  sv('lnk_ig',l.ig);sv('lnk_tt',l.tt);sv('lnk_li',l.li);
+  sv('lnk_nav_process',l.nav_process);sv('lnk_nav_results',l.nav_results);
+  sv('lnk_nav_pricing',l.nav_pricing);sv('lnk_nav_faq',l.nav_faq);
+  sv('lnk_reality_cta',(C.reality&&C.reality.cta_link)||'#pricing');
+  var plans=C.pricing.plans||[];
+  for(var i=0;i<4;i++){sv('lnk_plan_'+i,(plans[i]&&plans[i].btn_url)||'');}
+  sv('lnk_plan_ht',C.pricing.ht_btn_url||'');
+  // Pricing plan button URLs
+  var plans=C.pricing.plans||[];
+  for(var i=0;i<4;i++){ sv('lnk_plan_'+i, plans[i]?plans[i].btn_url||'':''); }
+  sv('lnk_plan_ht', C.pricing.ht_btn_url||'');
+  document.querySelectorAll('.linput').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var a=document.getElementById(this.id.replace('lnk_','lt_'));
+      if(a) a.href=this.value||'#';
+    });
+  });
+}
+
+//
+// COLLECT
+//
+function collect(){
+  C.hero={tag:gv('h_tag'),line1:gv('h_line1'),line2:gv('h_line2'),line3:gv('h_line3'),
+    sub:gv('h_sub'),sub2:gv('h_sub2'),cta:gv('h_cta'),cta_url:gv('lnk_hero_cta'),ghost:gv('h_ghost'),
+    s1n:gv('s1n'),s1l:gv('s1l'),s2n:gv('s2n'),s2l:gv('s2l'),
+    s3n:gv('s3n'),s3l:gv('s3l'),s4n:gv('s4n'),s4l:gv('s4l')};
+  C.pain={label:gv('pain_label'),h:gv('pain_h'),sub:gv('pain_sub'),
+    q1:gv('pain_q1'),q2:gv('pain_q2'),q3:gv('pain_q3')};
+  C.checklist={label:gv('chk_label'),h:gv('chk_h'),sub:gv('chk_sub'),wm:gv('chk_wm'),
+    i1:gv('chk_i1'),i2:gv('chk_i2'),i3:gv('chk_i3'),i4:gv('chk_i4'),i5:gv('chk_i5'),i6:gv('chk_i6'),
+    cta_txt:gv('chk_cta_txt'),cta_sub:gv('chk_cta_sub'),cta_btn:gv('chk_cta_btn')};
+  C.process={label:gv('proc_label'),h1:gv('proc_h1'),h2:gv('proc_h2'),sub:gv('proc_sub'),
+    s1t:gv('proc_s1t'),s1d:gv('proc_s1d'),s2t:gv('proc_s2t'),s2d:gv('proc_s2d'),s3t:gv('proc_s3t'),s3d:gv('proc_s3d')};
+  C.pricing.h1=gv('pr_h1');C.pricing.h2=gv('pr_h2');C.pricing.sub=gv('pr_sub');
+  C.pricing.ht_t1=gv('ht_t1');C.pricing.ht_t2=gv('ht_t2');C.pricing.ht_desc=gv('ht_desc');
+  C.pricing.ht_price=gv('ht_price');C.pricing.ht_period=gv('ht_period');
+  C.pricing.plans.forEach(function(_,i){
+    var urlFromLinks=gv('lnk_plan_'+i);
+    C.pricing.plans[i]={name:gv('pl_'+i+'_name')||C.pricing.plans[i].name,
+      price:gv('pl_'+i+'_price')||C.pricing.plans[i].price,
+      period:gv('pl_'+i+'_period')||C.pricing.plans[i].period,
+      badge:gv('pl_'+i+'_badge')||C.pricing.plans[i].badge||'',
+      featured:gv('pl_'+i+'_feat')==='true',
+      desc:gv('pl_'+i+'_desc')||C.pricing.plans[i].desc,
+      features:(gv('pl_'+i+'_feats')||'').split('\n').map(function(f){return f.trim();}).filter(Boolean).length>0
+        ? (gv('pl_'+i+'_feats')||'').split('\n').map(function(f){return f.trim();}).filter(Boolean)
+        : C.pricing.plans[i].features,
+      btn_url:urlFromLinks||gv('pl_'+i+'_url')||''};
+  });
+  C.pricing.ht_btn_url=gv('lnk_plan_ht');
+  C.testimonials.pq_txt=gv('pq_txt');C.testimonials.pq_cite=gv('pq_cite');C.testimonials.pq_hi=gv('pq_hi');
+  C.testimonials.cards.forEach(function(_,i){
+    C.testimonials.cards[i]={quote:gv('tc_'+i+'_q'),name:gv('tc_'+i+'_name'),
+      initials:gv('tc_'+i+'_init'),role:gv('tc_'+i+'_role'),featured:gv('tc_'+i+'_feat')==='true'};
+  });
+  C.team.members.forEach(function(_,i){
+    C.team.members[i].name=gv('tm_'+i+'_name');
+    C.team.members[i].role=gv('tm_'+i+'_role');
+    C.team.members[i].bio=gv('tm_'+i+'_bio');
+  });
+  C.faq.items.forEach(function(_,i){
+    C.faq.items[i]={q:gv('fq_'+i+'_q'),a:gv('fq_'+i+'_a')};
+  });
+  C.footer={desc:gv('ft_desc'),copy:gv('ft_copy'),
+    col1_title:gv('ft_col1_title'),col2_title:gv('ft_col2_title'),col3_title:gv('ft_col3_title'),
+    ig_label:gv('ft_ig_label'),tt_label:gv('ft_tt_label'),li_label:gv('ft_li_label'),
+    col1_links:C.footer.col1_links,col2_links:C.footer.col2_links};
+  C.numbers={eyebrow:gv('nb_eyebrow'),h1:gv('nb_h1'),h2:gv('nb_h2'),
+    b1l:gv('nb_b1l'),b1n:gv('nb_b1n'),b1s:gv('nb_b1s'),
+    b2l:gv('nb_b2l'),b2n:gv('nb_b2n'),b2s:gv('nb_b2s'),
+    b3l:gv('nb_b3l'),b3n:gv('nb_b3n'),b3s:gv('nb_b3s'),
+    b4l:gv('nb_b4l'),b4n:gv('nb_b4n'),b4s:gv('nb_b4s')};
+  C.sproof={eyebrow:gv('sp_eyebrow'),h1:gv('sp_h1'),h2:gv('sp_h2'),cta_txt:gv('sp_cta_txt')};
+  C.reality={eyebrow:gv('rc_eyebrow'),h:gv('rc_h'),sub:gv('rc_sub'),sub2:gv('rc_sub2'),
+    cta_txt:gv('rc_cta_txt'),cta_link:gv('rc_cta_link'),
+    video_url:gv('rc_video_url'),
+    bg_img:gv('img_reality_bg')};
+  C.ctabanner={eyebrow:gv('cta_eyebrow'),h1:gv('cta_h1'),h2:gv('cta_h2'),
+    body:gv('cta_body'),btn_txt:gv('cta_btn_txt'),fine:gv('cta_fine'),
+    bg_img:gv('img_cta_bg'),
+    pills:gv('cta_pills').split('\n').map(function(p){return p.trim();}).filter(Boolean)};
+  C.images.ib1_h=gv('ib1_h');C.images.ib1_sub=gv('ib1_sub');C.images.ib2_h=gv('ib2_h');
+  C.images.process_bg=gv('img_process_bg');
+  [0,1,2,3].forEach(function(i){
+    var ytEl=document.getElementById('igyt'+i);
+    var ytVal=ytEl?ytEl.value.trim():'';
+    if(ytVal && (ytVal.indexOf('youtube.com')>-1||ytVal.indexOf('youtu.be')>-1)){
+      C.images['ig_'+i]=ytVal;
+    } else if(!ytVal && C.images['ig_'+i] && (C.images['ig_'+i].indexOf('youtube.com')>-1||C.images['ig_'+i].indexOf('youtu.be')>-1)){
+      C.images['ig_'+i]='';
+    }
+    C.images['ig_'+i+'_cap']=gv('ig_'+i+'_cap');
+    C.images['ig_'+i+'_likes']=gv('ig_'+i+'_likes');
+  });
+  C.seo={title:gv('seo_title'),desc:gv('seo_desc'),img:gv('seo_img')};
+  C.links={hero_cta:gv('lnk_hero_cta'),nav_cta:gv('lnk_nav_cta'),checklist:gv('lnk_checklist'),
+    sproof:gv('lnk_sproof'),ctabanner:gv('lnk_ctabanner'),email:gv('lnk_email'),
+    ig:gv('lnk_ig'),tt:gv('lnk_tt'),li:gv('lnk_li'),
+    nav_process:gv('lnk_nav_process'),nav_results:gv('lnk_nav_results'),
+    nav_pricing:gv('lnk_nav_pricing'),nav_faq:gv('lnk_nav_faq')};
+}
+
+//
+// SAVE
+//
+document.getElementById('pubBtn').addEventListener('click', saveAll);
+function loadSeo(){
+  var s=C.seo||{};
+  sv('seo_title',s.title||'');
+  sv('seo_desc',s.desc||'');
+  sv('seo_img',s.img||'');
+  updateSeoPreview();
+}
+function updateSeoPreview(){
+  var img=document.getElementById('seo_img');
+  var wrap=document.getElementById('seo_preview_wrap');
+  var imgDiv=document.getElementById('seo_img_preview');
+  var titleEl=document.getElementById('seo_title_preview');
+  var descEl=document.getElementById('seo_desc_preview');
+  if(!img) return;
+  var url=img.value.trim();
+  if(url){ wrap.style.display='block'; imgDiv.style.backgroundImage="url('"+url+"')"; }
+  else { wrap.style.display='none'; }
+  if(titleEl) titleEl.textContent=document.getElementById('seo_title').value||'Your Page Title';
+  if(descEl) descEl.textContent=document.getElementById('seo_desc').value||'Your description here';
+}
+
+async function saveAll(){
+  var btn=document.getElementById('pubBtn');
+  btn.textContent='Saving...'; btn.disabled=true;
+  var badge=document.getElementById('statusBadge');
+  badge.className='status saving';
+  document.getElementById('statusTxt').textContent='Saving...';
+  collect();
+  localStorage.setItem('br_content', JSON.stringify(C));
+  // Always write to hardcoded Firebase URL + also keep localStorage as backup
+  var FIREBASE_URL = "https://brand-rehab-default-rtdb.firebaseio.com";
+  var fb=JSON.parse(localStorage.getItem('br_firebase')||'{}');
+  var writeUrl = FIREBASE_URL || (fb.dbUrl && fb.dbUrl.startsWith('https://') && fb.dbUrl.indexOf('firebaseio.com')>-1 ? fb.dbUrl : null);
+  var firebaseOk = false;
+  if(writeUrl){
+    try{
+      var payload = JSON.stringify(C);
+      var payloadKB = Math.round(payload.length/1024);
+      var r=await fetch(writeUrl+'/content.json',{
+        method:'PUT',body:payload,
+        headers:{'Content-Type':'application/json'}
+      });
+      if(r.ok){
+        firebaseOk = true;
+        console.log('Firebase write OK, payload: '+payloadKB+'KB');
+      } else {
+        var errText = await r.text();
+        console.error('Firebase write error:',r.status, errText);
+        showToast('Firebase error '+r.status+'. Check console for details.','err');
+      }
+    }catch(e){
+      console.error('Firebase write failed:',e);
+      showToast('Could not reach Firebase. Check your internet connection.','err');
+    }
+  } else {
+    showToast('No Firebase URL configured. Go to Firebase Setup tab.','err');
+  }
+  await new Promise(function(res){setTimeout(res,300);});
+  btn.textContent='Save & Publish ✦'; btn.disabled=false;
+  if(firebaseOk){
+    badge.className='status saved';
+    document.getElementById('statusTxt').textContent='Live ✔';
+    dirty=false;
+    showToast('Published! Live on site ✶','ok');
+  } else {
+    badge.className='status error';
+    document.getElementById('statusTxt').textContent='Save failed';
+  }
+}
+
+//
+// FIREBASE
+//
+document.getElementById('fbSaveBtn').addEventListener('click', function(){
+  var dbUrl = gv('fb_url').trim().replace(/\/+$/,'');
+  var okEl=document.getElementById('fbOk'), errEl=document.getElementById('fbErr');
+  okEl.style.display='none'; errEl.style.display='none';
+  if(!dbUrl.startsWith('https://') || dbUrl.indexOf('firebaseio.com')<0){
+    errEl.style.display='inline-flex'; return;
+  }
+  localStorage.setItem('br_firebase', JSON.stringify({
+    apiKey:gv('fb_key'), projectId:gv('fb_pid'), dbUrl:dbUrl
+  }));
+  okEl.style.display='inline-flex';
+  showToast('Firebase connected! ✦','ok');
+});
+
+function loadFbConfig(){
+  var cfg=JSON.parse(localStorage.getItem('br_firebase')||'{}');
+  if(cfg.apiKey) sv('fb_key',cfg.apiKey);
+  if(cfg.projectId) sv('fb_pid',cfg.projectId);
+  if(cfg.dbUrl){
+    sv('fb_url',cfg.dbUrl);
+    document.getElementById('fbOk').style.display='inline-flex';
+  }
+}
+
+//
+// PASSWORD
+//
+document.getElementById('pwBtn').addEventListener('click', function(){
+  var cur=gv('pw_cur'),nw=gv('pw_new'),conf=gv('pw_conf');
+  var msg=document.getElementById('pw_msg'); msg.style.display='block';
+  if(cur!==PW){msg.style.color='var(--pkd)';msg.textContent='Current password is incorrect.';return;}
+  if(nw.length<6){msg.style.color='var(--pkd)';msg.textContent='Password must be at least 6 characters.';return;}
+  if(nw!==conf){msg.style.color='var(--pkd)';msg.textContent='Passwords do not match.';return;}
+  PW=nw; localStorage.setItem('br_pw',nw);
+  msg.style.color='var(--mtd)'; msg.textContent='Password updated ✦';
+  sv('pw_cur',''); sv('pw_new',''); sv('pw_conf','');
+});
+
+//
+// TOAST
+//
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+(type||'ok')+' show';
+  setTimeout(function(){t.classList.remove('show');},3200);
+}
+
+window.addEventListener('beforeunload', function(e){
+  if(dirty){e.preventDefault();e.returnValue='';}
+});
+</script>
+</body>
+</html>
