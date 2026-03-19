@@ -298,6 +298,8 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
 .cms-save-toast{position:fixed;bottom:2rem;right:2rem;background:var(--charcoal);color:white;padding:.9rem 1.5rem;border-radius:12px;font-size:.78rem;display:flex;align-items:center;gap:.5rem;transform:translateY(100px);opacity:0;visibility:hidden;transition:all .3s;z-index:99999;box-shadow:0 10px 30px rgba(0,0,0,.2);pointer-events:none;}
 .cms-save-toast.show{transform:translateY(0);opacity:1;visibility:visible;}
 
+.pricing-grid.pricing-row2{grid-template-columns:repeat(2,1fr);max-width:760px;margin-left:auto;margin-right:auto;}
+
 /* REVEAL */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
@@ -313,22 +315,82 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
   .about-grid{grid-template-columns:1fr;gap:3rem;}
 }
 @media(max-width:768px){
+  /* NAV */
   .nav-links{display:none;}
   .hamburger{display:flex;}
-  section{padding:70px 1.5rem;}
-  .transform-grid{grid-template-columns:1fr;}
-  .feeling-section{grid-template-columns:1fr;}
-  .pricing-grid,.pricing-grid.six{grid-template-columns:1fr;}
-  .steps{grid-template-columns:1fr;}
-  .reviews-grid{grid-template-columns:1fr;}
-  .faq-layout{grid-template-columns:1fr;gap:2.5rem;}
-  .contact-grid{grid-template-columns:1fr;gap:3rem;}
+  nav{padding:0 1.2rem;}
+
+  /* HERO */
+  .hero{padding:90px 1.2rem 50px;}
+  .hero-inner{grid-template-columns:1fr;gap:2rem;}
+  .hero-img-wrap{max-width:100%;margin:0 auto;}
+  .hero-img-frame{aspect-ratio:3/4;max-height:380px;}
+  .hero-badge{display:none;}
+  .hero-badge2{display:none;}
+  .hero-btns{flex-direction:column;gap:.8rem;}
+  .hero-btns a{text-align:center;width:100%;}
+
+  /* SECTIONS */
+  section{padding:60px 1.2rem;}
+
+  /* PROGRAM */
+  .transform-grid{grid-template-columns:1fr;gap:1.5rem;}
+  .feeling-section{grid-template-columns:1fr;gap:1.5rem;}
+
+  /* PRICING — all cards single column on mobile */
+  .pricing-grid{grid-template-columns:1fr!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;}
+
+  /* STEPS */
+  .steps{grid-template-columns:1fr;gap:1.5rem;}
+
+  /* REVIEWS */
+  .reviews-grid{grid-template-columns:1fr;gap:1.5rem;}
+
+  /* FAQ */
+  .faq-layout{grid-template-columns:1fr;gap:2rem;}
+
+  /* CONTACT */
+  .contact-grid{grid-template-columns:1fr;gap:2rem;}
   .cf-row{grid-template-columns:1fr;}
-  .contact-form-wrap{padding:2rem 1.5rem;}
-  nav{padding:0 1.5rem;}
-  .cms-sidebar{width:60px;}
+  .contact-form-wrap{padding:1.8rem 1.2rem;}
+
+  /* ABOUT */
+  .about-grid{grid-template-columns:1fr;gap:2rem;}
+  .about-image{max-height:380px;}
+
+  /* FOOTER */
+  .footer-top{flex-direction:column;gap:2rem;}
+  .footer-brand{max-width:100%;}
+  footer{padding:50px 1.2rem 25px;}
+
+  /* VIDEO controls */
+  .vid-controls{padding:.8rem 1rem;}
+  .vid-btn{width:36px;height:36px;}
+
+  /* CMS */
+  .cms-sidebar{width:55px;}
   .cms-nav-item span:last-child{display:none;}
   .cms-row{grid-template-columns:1fr;}
+  .cms-content{padding:1.5rem 1rem;}
+  .cms-header{padding:.8rem 1rem;}
+  .cms-row.three{grid-template-columns:1fr;}
+
+  /* BUTTONS */
+  .btn-primary,.btn-outline{padding:.9rem 1.8rem;font-size:.75rem;}
+
+  /* Section headings */
+  .section-h2{font-size:clamp(1.8rem,7vw,2.5rem);}
+}
+
+@media(max-width:480px){
+  .hero-h1{font-size:clamp(2.2rem,8vw,3rem);}
+  .hero-tag{font-size:.62rem;}
+  .hero-sub{font-size:.92rem;}
+  .pricing-card{padding:2rem 1.5rem;}
+  .contact-form-wrap{padding:1.5rem 1rem;}
+  .step{padding:2rem 1.5rem;}
+  .cta-banner{padding:70px 1.2rem;}
+  .section-h2{font-size:clamp(1.7rem,7.5vw,2.2rem);}
 }
 </style>
 </head>
@@ -517,7 +579,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
       </div>
     </div>
     <!-- Row 2: 2 cards centered -->
-    <div class="pricing-grid" style="margin-top:1.5rem;grid-template-columns:repeat(2,1fr);max-width:760px;margin-left:auto;margin-right:auto;">
+    <div class="pricing-grid pricing-row2" style="margin-top:1.5rem;">
       <div class="pricing-card featured reveal">
         <div class="pricing-badge">Most Popular</div>
         <h3 id="p3-name">Rise Above Heartbreak Journey</h3>
