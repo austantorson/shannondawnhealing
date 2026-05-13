@@ -6,6 +6,7 @@
 <title>Shannon Dawn | Relationship Trauma Coach</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
 :root{
   --rose:#f4c8c8;--rose-deep:#e8a8a8;--blush:#fdf0f0;--cream:#faf7f4;
@@ -749,18 +750,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
   </div>
 </footer>
 
-<!-- ADMIN LOGIN MODAL -->
-<div class="modal-overlay" id="loginModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('loginModal')">&#10005;</button>
-    <div class="modal-logo">Shannon Dawn</div>
-    <div class="modal-sub">&#10022; Admin Portal &#10022;</div>
-    <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="admin"></div>
-    <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <div class="login-error" id="loginError">Incorrect username or password</div>
-    <button class="btn-login" onclick="doLogin()">Sign In to Admin</button>
-  </div>
-</div>
+<!-- ADMIN LOGIN — uses Netlify Identity -->
 
 <!-- CMS ADMIN PANEL -->
 <div class="cms-overlay" id="cmsPanel">
@@ -1093,10 +1083,43 @@ var DEF={
   'social-pin':'https://au.pinterest.com/shannondawnhealing/'
 };
 
-function loadData(){try{return JSON.parse(localStorage.getItem(STORE))||{};}catch(e){return{};}}
-function saveData(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){}}
-function get(k){var d=loadData();return(d[k]!==undefined&&d[k]!=='')? d[k]:(DEF[k]||'');}
-function set(k,v){var d=loadData();d[k]=v;saveData(d);}
+// Content loaded from content.json (persisted via GitHub)
+var LIVE_DATA = {};
+var DATA_LOADED = false;
+
+function loadData(){return LIVE_DATA;}
+function saveData(d){LIVE_DATA=d;}
+function get(k){return(LIVE_DATA[k]!==undefined&&LIVE_DATA[k]!=='')? LIVE_DATA[k]:(DEF[k]||'');}
+function set(k,v){LIVE_DATA[k]=v;}
+
+// Fetch content.json on page load
+function fetchContent(){
+  return fetch('content.json?t='+Date.now())
+    .then(function(r){return r.json();})
+    .then(function(data){LIVE_DATA=data;DATA_LOADED=true;return data;})
+    .catch(function(){LIVE_DATA={};DATA_LOADED=true;return {};});
+}
+
+// Save content to GitHub via Netlify Function
+function saveToGitHub(){
+  var user = netlifyIdentity.currentUser();
+  if(!user){showToast('⚠ Please log in first.');return Promise.reject('Not logged in');}
+  var token = user.token.access_token;
+  // Build the full content object from CMS fields + current LIVE_DATA
+  var data = Object.assign({}, LIVE_DATA);
+  return fetch('/.netlify/functions/save-content',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body:JSON.stringify(data)
+  })
+  .then(function(r){return r.json();})
+  .then(function(result){
+    if(result.success){showToast('✓ Saved & published! Site will update in ~30 seconds.');}
+    else{showToast('⚠ Save failed: '+(result.message||'Unknown error'));}
+    return result;
+  })
+  .catch(function(err){showToast('⚠ Save failed: '+err.message);});
+}
 
 // Apply all saved data to the live page
 function applyAll(){
@@ -1120,13 +1143,13 @@ function applyAll(){
   // Social links
   var sm={ig:['social-ig-link','social-ig-link2'],fb:['social-fb-link','social-fb-link2'],yt:['social-yt-link','social-yt-link2'],pin:['social-pin-link','social-pin-link2']};
   Object.keys(sm).forEach(function(k){var url=get('social-'+k);sm[k].forEach(function(id){var el=document.getElementById(id);if(el&&url){el.href=url;el.target='_blank';el.rel='noopener noreferrer';}});});
-  // Images
-  var hi=localStorage.getItem(IMG_H);
+  // Images from content data
+  var hi=LIVE_DATA['hero-image'];
   if(hi){var i=document.getElementById('heroImg');if(i){i.src=hi;i.style.display='block';var p=document.getElementById('heroImgPlaceholder');if(p)p.style.display='none';}}
-  var ai=localStorage.getItem(IMG_A);
+  var ai=LIVE_DATA['about-image'];
   if(ai){var i2=document.getElementById('aboutImg');if(i2){i2.src=ai;i2.style.display='block';var p2=document.getElementById('aboutImgPlaceholder');if(p2)p2.style.display='none';}}
-  // Video — use saved URL or fall back to baked-in default
-  var ve=localStorage.getItem(VID_E)||'https://youtu.be/nMiqkE0ofDQ';
+  // Video — use saved URL or fall back to default
+  var ve=LIVE_DATA['video-url']||'https://youtu.be/nMiqkE0ofDQ';
   if(ve){setTimeout(function(){applyVideoEmbed(ve);},200);}
 }
 
@@ -1156,7 +1179,7 @@ function populateCMS(){
     'social-ig':'social-ig','social-fb':'social-fb','social-yt':'social-yt','social-pin':'social-pin'
   };
   Object.keys(map).forEach(function(fid){var el=document.getElementById(fid);if(el)el.value=get(map[fid]);});
-  var vu=localStorage.getItem(VID_E);if(vu){var vel=document.getElementById('cms-video-url');if(vel)vel.value=vu;}
+  var vu=LIVE_DATA['video-url'];if(vu){var vel=document.getElementById('cms-video-url');if(vel)vel.value=vu;}
 }
 
 function liveUpdate(id,val){var el=document.getElementById(id);if(el)el.textContent=val;set(id,val);}
@@ -1169,19 +1192,33 @@ function updateSocialLink(val,key){
 }
 function updateColor(v,val){document.documentElement.style.setProperty(v,val);}
 
-// Credentials
-function getCreds(){var d=loadData();return{user:d.creds_user||DEF.creds_user,pass:d.creds_pass||DEF.creds_pass};}
-function openAdmin(){document.getElementById('loginModal').classList.add('active');}
-function closeModal(id){document.getElementById(id).classList.remove('active');}
-function doLogin(){
-  var u=document.getElementById('loginUser').value.trim();
-  var p=document.getElementById('loginPass').value;
-  var c=getCreds();
-  if(u===c.user&&p===c.pass){closeModal('loginModal');document.getElementById('cmsPanel').classList.add('active');populateCMS();}
-  else{document.getElementById('loginError').classList.add('show');}
+// Auth — Netlify Identity
+function openAdmin(){
+  var user = netlifyIdentity.currentUser();
+  if(user){
+    document.getElementById('cmsPanel').classList.add('active');
+    populateCMS();
+  } else {
+    netlifyIdentity.open('login');
+  }
 }
-function logout(){document.getElementById('cmsPanel').classList.remove('active');document.getElementById('loginUser').value='';document.getElementById('loginPass').value='';}
-function updateCredentials(){var d=loadData();var nu=document.getElementById('cms-new-user').value.trim();var np=document.getElementById('cms-new-pass').value;if(nu)d.creds_user=nu;if(np)d.creds_pass=np;saveData(d);showToast('\u2713 Credentials updated!');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function logout(){
+  netlifyIdentity.logout();
+  document.getElementById('cmsPanel').classList.remove('active');
+}
+
+// Listen for Netlify Identity login events
+if(typeof netlifyIdentity !== 'undefined'){
+  netlifyIdentity.on('login', function(user){
+    document.getElementById('cmsPanel').classList.add('active');
+    populateCMS();
+    netlifyIdentity.close();
+  });
+  netlifyIdentity.on('logout', function(){
+    document.getElementById('cmsPanel').classList.remove('active');
+  });
+}
 function previewSite(){document.getElementById('cmsPanel').classList.remove('active');}
 function showSection(id,btn){document.querySelectorAll('.cms-section').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');document.querySelectorAll('.cms-nav-item').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');}
 
@@ -1210,9 +1247,9 @@ function saveAll(){
     'cms-footer-desc':'footer-desc','cms-footer-copy':'footer-copy',
     'social-ig':'social-ig','social-fb':'social-fb','social-yt':'social-yt','social-pin':'social-pin'
   };
-  var d=loadData();
-  Object.keys(map).forEach(function(fid){var el=document.getElementById(fid);if(el)d[map[fid]]=el.value;});
-  saveData(d);applyAll();showToast('\u2713 All changes saved!');
+  Object.keys(map).forEach(function(fid){var el=document.getElementById(fid);if(el)LIVE_DATA[map[fid]]=el.value;});
+  applyAll();
+  saveToGitHub();
 }
 
 function showToast(msg){
@@ -1222,8 +1259,8 @@ function showToast(msg){
 }
 
 // Images
-function uploadHeroImg(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{localStorage.setItem(IMG_H,ev.target.result);}catch(err){showToast('\u26a0 Image too large, try under 2MB');return;}var img=document.getElementById('heroImg');img.src=ev.target.result;img.style.display='block';var ph=document.getElementById('heroImgPlaceholder');if(ph)ph.style.display='none';showToast('\u2713 Hero image saved!');};r.readAsDataURL(f);}
-function uploadAboutImg(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{localStorage.setItem(IMG_A,ev.target.result);}catch(err){showToast('\u26a0 Image too large, try under 2MB');return;}var img=document.getElementById('aboutImg');img.src=ev.target.result;img.style.display='block';var ph=document.getElementById('aboutImgPlaceholder');if(ph)ph.style.display='none';showToast('\u2713 Coach photo saved!');};r.readAsDataURL(f);}
+function uploadHeroImg(e){var f=e.target.files[0];if(!f)return;if(f.size>1500000){showToast('⚠ Image too large, try under 1.5MB');return;}var r=new FileReader();r.onload=function(ev){LIVE_DATA['hero-image']=ev.target.result;var img=document.getElementById('heroImg');img.src=ev.target.result;img.style.display='block';var ph=document.getElementById('heroImgPlaceholder');if(ph)ph.style.display='none';showToast('✓ Hero image updated — click Save to publish');};r.readAsDataURL(f);}
+function uploadAboutImg(e){var f=e.target.files[0];if(!f)return;if(f.size>1500000){showToast('⚠ Image too large, try under 1.5MB');return;}var r=new FileReader();r.onload=function(ev){LIVE_DATA['about-image']=ev.target.result;var img=document.getElementById('aboutImg');img.src=ev.target.result;img.style.display='block';var ph=document.getElementById('aboutImgPlaceholder');if(ph)ph.style.display='none';showToast('✓ Coach photo updated — click Save to publish');};r.readAsDataURL(f);}
 
 // ── VIDEO with custom controls ──────────────────────────────────────
 var vidPlayer=null; // YouTube player API instance
@@ -1248,7 +1285,7 @@ function applyVideoFromCMS(){
   if(!raw){showToast('\u26a0 Please paste a YouTube URL first.');return;}
   var url=buildEmbedUrl(raw);
   if(!url){showToast('\u26a0 Could not read that URL. Paste a YouTube link.');return;}
-  localStorage.setItem(VID_E,raw); // store the raw URL
+  LIVE_DATA['video-url']=raw; // store the raw URL
   applyVideoEmbed(url);
   showToast('\u2713 Video applied!');
 }
@@ -1380,10 +1417,8 @@ function exportSite(){
       'r1-name','r1-text','r2-name','r2-text','r3-name','r3-text',
       'cta-sub','cta-btn-text','footer-desc','footer-copy'
     ];
-    // Only inject fields that were explicitly saved in localStorage
-    // If not saved, the baked-in HTML default is already correct — leave it alone
-    // This prevents &amp; from becoming &amp;amp; (double encoding)
-    var savedData=loadData();
+    // Inject fields from content data
+    var savedData=LIVE_DATA;
     textFields.forEach(function(id){
       if(savedData[id]!==undefined&&savedData[id]!==''){
         html=injectText(html,id,savedData[id]);
@@ -1419,7 +1454,7 @@ function exportSite(){
     });
 
     // ── Hero image ────────────────────────────────────────────────────
-    var hi=localStorage.getItem(IMG_H);
+    var hi=LIVE_DATA['hero-image'];
     if(hi){
       html=html.replace(/(<img[^>]+id="heroImg"[^>]+src=")[^"]*"/,'$1'+hi+'"');
       html=html.replace(/(<img[^>]+id="heroImg"[^>]+)style="[^"]*"/,'$1style="display:block;width:100%;height:100%;object-fit:cover;"');
@@ -1427,7 +1462,7 @@ function exportSite(){
     }
 
     // ── About / Coach image ───────────────────────────────────────────
-    var ai=localStorage.getItem(IMG_A);
+    var ai=LIVE_DATA['about-image'];
     if(ai){
       html=html.replace(/(<img[^>]+id="aboutImg"[^>]+src=")[^"]*"/,'$1'+ai+'"');
       html=html.replace(/(<img[^>]+id="aboutImg"[^>]+)style="[^"]*"/,'$1style="display:block;width:100%;height:100%;object-fit:cover;border-radius:30px;"');
@@ -1435,7 +1470,7 @@ function exportSite(){
     }
 
     // ── Video embed — always bake in (saved URL or default) ──────────
-    var ve=localStorage.getItem(VID_E)||'https://youtu.be/nMiqkE0ofDQ';
+    var ve=LIVE_DATA['video-url']||'https://youtu.be/nMiqkE0ofDQ';
     var eu=buildEmbedUrl(ve);
     if(eu){
       var iframeStr='<iframe id="ytIframe" src="'+eu+'" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="Shannon Dawn Healing" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block;pointer-events:none;"></iframe>';
@@ -1478,14 +1513,16 @@ function closeMobileMenu(){document.getElementById('mobileMenu').style.display='
 var revObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');revObs.unobserve(e.target);}});},{threshold:0.1});
 document.querySelectorAll('.reveal').forEach(function(el){revObs.observe(el);});
 
-// Boot
+// Boot — fetch content.json then apply
 document.addEventListener('DOMContentLoaded',function(){
-  var cms=document.getElementById('cmsPanel');var modal=document.getElementById('loginModal');
-  if(cms)cms.classList.remove('active');if(modal)modal.classList.remove('active');
-  var lu=document.getElementById('loginUser');var lp=document.getElementById('loginPass');
-  if(lu)lu.value='';if(lp)lp.value='';
-  applyAll();
+  var cms=document.getElementById('cmsPanel');
+  if(cms)cms.classList.remove('active');
+  // Load content from content.json, then apply to page
+  fetchContent().then(function(){
+    applyAll();
+  });
 });
+// Also try immediate apply with defaults
 applyAll();
 </script>
 </body>
