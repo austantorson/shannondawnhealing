@@ -975,13 +975,7 @@ footer{background:var(--warm-black);padding:60px 2.5rem 30px;color:rgba(255,255,
       <!-- SETTINGS CMS -->
       <div class="cms-section" id="cms-settings">
         <div class="cms-section-title">Site Settings</div>
-        <div class="cms-card"><div class="cms-card-title">Change Admin Credentials</div>
-          <div class="cms-row">
-            <div class="cms-field"><label>New Username</label><input type="text" id="cms-new-user" placeholder="admin"></div>
-            <div class="cms-field"><label>New Password</label><input type="password" id="cms-new-pass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"></div>
-          </div>
-          <button class="cms-btn cms-btn-save" style="margin-top:.5rem;" onclick="updateCredentials()">Update Credentials</button>
-        </div>
+        <!-- Auth managed by Netlify Identity -->
         <div class="cms-card"><div class="cms-card-title">Brand Colors</div>
           <div class="cms-row three">
             <div class="cms-field"><label>Rose Accent</label><input type="color" value="#f4c8c8" onchange="updateColor('--rose',this.value)" style="width:40px;height:32px;border:none;border-radius:6px;cursor:pointer;"></div>
@@ -1046,13 +1040,11 @@ var CLEAN_SOURCE = document.documentElement.outerHTML;
 var STORE='sdh_v4', IMG_H='sdh_img_hero_v4', IMG_A='sdh_img_about_v4', VID_E='sdh_vid_embed_v4';
 
 var DEF={
-  creds_user:'admin', creds_pass:'healing2026',
   'hero-tag-text':'Trauma & Attachment-Focused Yoga Therapist',
   'hero-headline':'When your heart is breaking,<br><em>this is for you.</em>',
   'hero-subtext':'Feel calmer and more supported in under 10 minutes, without falling apart or forcing yourself to \u201cheal.\u201d You deserve a gentle path back to yourself.',
   'hero-cta1':'Begin Gently','hero-badge1-num':'500+','hero-badge2-text':'Trauma & Attachment-Focused Yoga Therapist',
   'videoTitle':'Begin Your Healing Journey','videoSubtitle':'Watch Shannon share her story and approach to nervous system healing',
-  'video-url-raw':'https://youtu.be/nMiqkE0ofDQ',
   'program-intro':'Heartbreak is not just emotional \u2014 it is physiological.',
   'prog-title1':'Nervous System Healing','prog-card1':'When your body feels safe enough to soften and settle, healing doesn\u2019t have to be forced.',
   'prog-title2':'Gentle Embodied Practice','prog-card2':'Soft movement, breathwork, meditation, journaling \u2014 each practice offered as an invitation, never a demand.',
@@ -1112,7 +1104,7 @@ function saveToGitHub(){
     headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
     body:JSON.stringify(data)
   })
-  .then(function(r){return r.json();})
+  .then(function(r){if(!r.ok)throw new Error('Server error: '+r.status);return r.json();})
   .then(function(result){
     if(result.success){showToast('✓ Saved & published! Site will update in ~30 seconds.');}
     else{showToast('⚠ Save failed: '+(result.message||'Unknown error'));}
@@ -1224,9 +1216,9 @@ function showSection(id,btn){document.querySelectorAll('.cms-section').forEach(f
 
 function saveAll(){
   var map={
-    'cms-hero-tag':'hero-tag-text','cms-hero-sub':'hero-subtext','cms-hero-cta':'hero-cta1',
+    'cms-hero-tag':'hero-tag-text','cms-hero-h1':'hero-headline','cms-hero-sub':'hero-subtext','cms-hero-cta':'hero-cta1',
     'cms-hero-badge1':'hero-badge1-num','cms-hero-badge2':'hero-badge2-text',
-    'cms-video-title':'videoTitle','cms-video-sub':'videoSubtitle',
+    'cms-video-title':'videoTitle','cms-video-sub':'videoSubtitle','cms-video-url':'video-url',
     'cms-prog-intro':'program-intro',
     'cms-prog-title1':'prog-title1','cms-prog-c1':'prog-card1',
     'cms-prog-title2':'prog-title2','cms-prog-c2':'prog-card2',
@@ -1522,8 +1514,7 @@ document.addEventListener('DOMContentLoaded',function(){
     applyAll();
   });
 });
-// Also try immediate apply with defaults
-applyAll();
+// Defaults will be applied after fetchContent resolves
 </script>
 </body>
 </html>
